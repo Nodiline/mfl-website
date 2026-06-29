@@ -12,81 +12,108 @@
         .pixel-font { font-family: 'Press Start 2P', monospace; }
     </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100 min-h-screen">
+<body class="bg-zinc-950 text-zinc-100">
     <!-- Navbar -->
-    <nav class="border-b border-zinc-800 bg-black/80 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center text-black font-black text-3xl pixel-font">M</div>
-                <div>
-                    <span class="text-3xl font-bold pixel-font tracking-tighter">MFL</span>
-                </div>
+    <nav class="border-b border-zinc-800 bg-black sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-green-500 rounded-2xl flex items-center justify-center text-black font-black text-3xl pixel-font">M</div>
+                <div class="text-3xl font-bold pixel-font tracking-tighter">MFL</div>
             </div>
-            <div class="flex gap-8 text-sm font-medium">
-                <a href="index.html" class="text-emerald-400 font-semibold">HOME</a>
-                <a href="#" onclick="showPage('teams')" class="hover:text-emerald-400">Teams</a>
-                <a href="#" onclick="showPage('schedule')" class="hover:text-emerald-400">Schedule</a>
+            <div class="flex gap-8 text-sm">
+                <a href="#" onclick="navigate('home')" class="hover:text-emerald-400 font-medium">HOME</a>
+                <a href="#" onclick="navigate('teams')" class="hover:text-emerald-400 font-medium">TEAMS</a>
+                <a href="#" onclick="navigate('schedule')" class="hover:text-emerald-400 font-medium">SCHEDULE</a>
             </div>
-            <button class="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-2xl text-sm font-medium">JOIN SERVER</button>
+            <button class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-2xl font-medium">JOIN SERVER</button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <div class="relative h-screen flex items-center justify-center bg-gradient-to-br from-zinc-950 via-black to-zinc-950 overflow-hidden">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,#22c55e10_0%,transparent_70%)]"></div>
-        
-        <div class="text-center z-10 px-6 max-w-4xl">
-            <div class="inline-flex items-center gap-2 bg-zinc-900 border border-emerald-500/30 rounded-full px-4 py-1 text-sm mb-6">
-                <span class="text-emerald-400">⚔️</span>
-                SEASON 1
-            </div>
-            
-            <h1 class="text-7xl md:text-8xl font-black pixel-font tracking-tighter leading-none mb-6">
-                MINECRAFT<br>FOOTBALL<br>LEAGUE
-            </h1>
-            
-            <p class="text-xl text-zinc-400 mb-10 max-w-lg mx-auto">
-                Build. Battle. Dominate.<br>
-                Welcome to the ultimate Minecraft football experience.
-            </p>
-
+    <!-- HOME PAGE -->
+    <div id="home" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-zinc-950 to-black relative">
+        <div class="text-center px-6">
+            <div class="text-emerald-400 text-sm tracking-[4px] mb-4">SEASON 1</div>
+            <h1 class="text-7xl md:text-8xl font-black pixel-font leading-none mb-6">MINECRAFT<br>FOOTBALL<br>LEAGUE</h1>
+            <p class="text-xl text-zinc-400 max-w-md mx-auto mb-10">Build your legacy. Battle in the arena. Become champion.</p>
             <div class="flex gap-4 justify-center">
-                <button onclick="showPage('teams')" 
-                        class="px-10 py-4 bg-white text-black font-bold rounded-2xl hover:bg-zinc-200 transition-all text-lg">
-                    VIEW TEAMS
-                </button>
-                <button onclick="showPage('schedule')" 
-                        class="px-10 py-4 border border-emerald-500 text-emerald-400 font-bold rounded-2xl hover:bg-emerald-500/10 transition-all text-lg">
-                    FULL SCHEDULE
-                </button>
+                <button onclick="navigate('teams')" class="px-10 py-4 bg-white text-black font-bold rounded-2xl text-lg hover:scale-105 transition">VIEW TEAMS</button>
+                <button onclick="navigate('schedule')" class="px-10 py-4 border border-emerald-500 text-emerald-400 font-bold rounded-2xl text-lg hover:bg-emerald-500/10 transition">FULL SCHEDULE</button>
             </div>
-        </div>
-
-        <div class="absolute bottom-10 text-center w-full">
-            <div class="text-emerald-400 text-sm tracking-widest">SCROLL TO EXPLORE ↓</div>
         </div>
     </div>
 
-    <!-- Quick Links -->
-    <div class="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-3 gap-8">
-        <div onclick="showPage('teams')" class="bg-zinc-900 border border-zinc-700 hover:border-emerald-500 rounded-3xl p-8 cursor-pointer transition-all">
-            <h3 class="text-2xl font-bold mb-2">Teams</h3>
-            <p class="text-zinc-400">View all teams and rosters</p>
-        </div>
-        <div onclick="showPage('schedule')" class="bg-zinc-900 border border-zinc-700 hover:border-emerald-500 rounded-3xl p-8 cursor-pointer transition-all">
-            <h3 class="text-2xl font-bold mb-2">Schedule</h3>
-            <p class="text-zinc-400">Full season match schedule</p>
-        </div>
-        <div class="bg-zinc-900 border border-zinc-700 hover:border-emerald-500 rounded-3xl p-8 cursor-pointer transition-all">
-            <h3 class="text-2xl font-bold mb-2">Join the League</h3>
-            <p class="text-zinc-400">How to join the server</p>
-        </div>
+    <!-- TEAMS PAGE -->
+    <div id="teams" class="hidden max-w-7xl mx-auto px-6 py-16">
+        <h2 class="text-5xl font-bold pixel-font text-center mb-12 text-emerald-400">TEAMS</h2>
+        <div id="team-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+
+    <!-- SCHEDULE PAGE -->
+    <div id="schedule" class="hidden max-w-5xl mx-auto px-6 py-16">
+        <h2 class="text-5xl font-bold pixel-font text-center mb-12 text-emerald-400">SEASON 1 SCHEDULE</h2>
+        <div id="schedule-content" class="space-y-10"></div>
     </div>
 
     <script>
-        function showPage(page) {
-            alert("This would open the " + page + " page in a full website.");
+        // Teams Data
+        const teams = [ /* same as before */ 
+            { name: "Dolphins", players: ["L8 Knight","Bigham","Flamefarter","robby","Deadrr","conl","ilyfade","Peng"], color: "#0ea5e9" },
+            { name: "Polar Bears", players: ["Prodigy","Lustin","Sagil","Creamv","Forestguest"], color: "#64748b" },
+            { name: "Dragons", players: ["Noodle","Botz","Visai","Vizo","Frtpear"], color: "#b91c1c" },
+            { name: "Ghasts", players: ["Coozy","Ironbug","Cozy","Avoids","Sheerpluto","Xany"], color: "#7c3aed" },
+            { name: "Pigs", players: ["Beefour","Juadeep","Chaseler","Chief","QC","Coolpersin","Fak"], color: "#f59e0b" },
+            { name: "Horsemen", players: ["Dhir","Penguin","Tracklol","MJS","Tezi"], color: "#854d0e" },
+            { name: "Glowsquids", players: ["Exabyte","Ayvvri","Phosphane","Buhg"], color: "#22d3ee" },
+            { name: "Penguins", players: ["Techhector","Lub","Shinichi","Yaxalk","Tac10k","Bleh"], color: "#1e40af" },
+            { name: "Guardians", players: ["TomNotTom","Muddydt","Slicky","LDNH","Randomhere"], color: "#14b8a6" },
+            { name: "Foxes", players: ["Foxanuka","Land","syrb","Sagil","Kdawgharden","Penley"], color: "#ea580c" },
+            { name: "Phantoms", players: ["Henryvz","Smoky","Mcnugget","Spej","zolo"], color: "#6b7280" },
+            { name: "Rams", players: ["Josh","Trigg","Ajclips","Steve","Djcrafter"], color: "#b45309" }
+        ];
+
+        const schedule = { /* same as before */ 
+            1: ["Dolphins @ Guardians","Polar Bears @ Rams","Pigs @ Foxes","Horsemen @ Dragons","Glowsquids @ Phantoms","Ghasts @ Penguins"],
+            2: ["Phantoms @ Foxes","Polar Bears @ Penguins","Rams @ Dragons","Glowsquids @ Pigs","Guardians @ Ghasts","Dolphins @ Horsemen"],
+            3: ["Phantoms @ Guardians","Foxes @ Dragons","Pigs @ Ghasts","Glowsquids @ Dolphins","Penguins @ Rams","Horsemen @ Polar Bears"],
+            4: ["Guardians @ Polar Bears","Ghasts @ Horsemen","Glowsquids @ Ghasts","Dragons @ Penguins","Rams @ Pigs","Foxes @ Dolphins"],
+            5: ["Dolphins @ Polar Bears","Guardians @ Rams","Pigs @ Phantoms","Foxes @ Ghasts","Dragons @ Glowsquids","Rams @ Penguins"],
+            6: ["Foxes @ Polar Bears","Dolphins @ Rams","Guardians @ Dragons","Dolphins @ Horsemen","Glowsquids @ Penguins","Ghasts @ Phantoms"],
+            7: ["Horsemen @ Foxes","Penguins @ Dolphins","Pigs @ Guardians","Ghasts @ Dragons","Rams @ Phantoms","Polar Bears @ Glowsquids"]
+        };
+
+        function renderTeams() {
+            const grid = document.getElementById('team-grid');
+            grid.innerHTML = teams.map(team => `
+                <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-6 hover:border-emerald-500 transition-all">
+                    <div class="h-3 rounded-t-3xl mb-4" style="background: ${team.color}"></div>
+                    <div class="text-3xl font-bold mb-1">${team.name}</div>
+                    <div class="text-emerald-400 text-sm mb-4">Roster (${team.players.length})</div>
+                    <div class="grid grid-cols-2 gap-1 text-sm text-zinc-300">${team.players.map(p => `<div>${p}</div>`).join('')}</div>
+                </div>
+            `).join('');
         }
+
+        function renderSchedule() {
+            const container = document.getElementById('schedule-content');
+            container.innerHTML = Object.keys(schedule).map(w => `
+                <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-8">
+                    <h3 class="text-2xl font-bold text-emerald-400 mb-6">WEEK ${w}</h3>
+                    <div class="space-y-4">${schedule[w].map(m => `<div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5">${m}</div>`).join('')}</div>
+                </div>
+            `).join('');
+        }
+
+        function navigate(page) {
+            document.querySelectorAll('#home, #teams, #schedule').forEach(el => el.classList.add('hidden'));
+            document.getElementById(page).classList.remove('hidden');
+        }
+
+        // Initialize
+        window.onload = () => {
+            renderTeams();
+            renderSchedule();
+            navigate('home');
+        };
     </script>
 </body>
 </html>
