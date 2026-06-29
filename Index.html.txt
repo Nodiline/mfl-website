@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Football League</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap');
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .pixel-font { font-family: 'Press Start 2P', monospace; }
+        .nav-link:hover { color: #22d3ee; transform: translateY(-1px); }
+        .team-card:hover { transform: translateY(-8px) scale(1.02); }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 min-h-screen">
+    <nav class="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-x-3">
+                    <div class="w-9 h-9 bg-green-500 rounded-xl flex items-center justify-center text-black font-black text-2xl pixel-font">M</div>
+                    <span class="font-bold text-3xl tracking-tighter pixel-font">MFL</span>
+                </div>
+                <div class="flex gap-x-8 text-sm font-medium">
+                    <a href="#" onclick="showPage('teams')" class="nav-link text-emerald-400 font-semibold">Teams</a>
+                    <a href="#" onclick="showPage('schedule')" class="nav-link text-zinc-300 hover:text-white">Schedule</a>
+                </div>
+                <button class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 rounded-2xl text-sm font-medium flex items-center gap-x-2">
+                    <i class="fas fa-cube"></i> JOIN SERVER
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- TEAMS PAGE -->
+    <div id="teams-page">
+        <div class="max-w-7xl mx-auto px-6 py-10">
+            <div class="text-center mb-12">
+                <h1 class="text-6xl font-bold tracking-tighter pixel-font text-emerald-400">TEAMS</h1>
+                <p class="text-zinc-400 mt-2">Minecraft Football League • Season 1</p>
+            </div>
+
+            <div class="flex gap-4 mb-8 justify-center">
+                <input id="search-input" type="text" placeholder="Search teams or players..." 
+                       onkeyup="filterTeams()" class="bg-zinc-900 border border-zinc-700 focus:border-emerald-500 rounded-3xl px-6 py-4 w-full max-w-md outline-none">
+            </div>
+
+            <div id="team-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+    </div>
+
+    <!-- SCHEDULE PAGE -->
+    <div id="schedule-page" class="hidden max-w-5xl mx-auto px-6 py-10">
+        <h1 class="text-5xl font-bold tracking-tighter pixel-font text-center mb-10 text-emerald-400">SEASON 1 SCHEDULE</h1>
+        
+        <div id="schedule-content" class="space-y-12"></div>
+    </div>
+
+    <script>
+        // === TEAMS DATA ===
+        const teams = [
+            { name: "Dolphins", players: ["L8 Knight", "Bigham", "Flamefarter", "robby", "Deadrr", "conl", "ilyfade", "Peng"], color: "#0ea5e9" },
+            { name: "Polar Bears", players: ["Prodigy", "Lustin", "Sagil", "Creamv", "Forestguest"], color: "#64748b" },
+            { name: "Dragons", players: ["Noodle", "Botz", "Visai", "Vizo", "Frtpear"], color: "#b91c1c" },
+            { name: "Ghasts", players: ["Coozy", "Ironbug", "Cozy", "Avoids", "Sheerpluto", "Xany"], color: "#7c3aed" },
+            { name: "Pigs", players: ["Beefour", "Juadeep", "Chaseler", "Chief", "QC", "Coolpersin", "Fak"], color: "#f59e0b" },
+            { name: "Horsemen", players: ["Dhir", "Penguin", "Tracklol", "MJS", "Tezi"], color: "#854d0e" },
+            { name: "Glowsquids", players: ["Exabyte", "Ayvvri", "Phosphane", "Buhg"], color: "#22d3ee" },
+            { name: "Penguins", players: ["Techhector", "Lub", "Shinichi", "Yaxalk", "Tac10k", "Bleh"], color: "#1e40af" },
+            { name: "Guardians", players: ["TomNotTom", "Muddydt", "Slicky", "LDNH", "Randomhere"], color: "#14b8a6" },
+            { name: "Foxes", players: ["Foxanuka", "Land", "syrb", "Sagil", "Kdawgharden", "Penley"], color: "#ea580c" },
+            { name: "Phantoms", players: ["Henryvz", "Smoky", "Mcnugget", "Spej", "zolo"], color: "#6b7280" },
+            { name: "Rams", players: ["Josh", "Trigg", "Ajclips", "Steve", "Djcrafter"], color: "#b45309" }
+        ];
+
+        // === SCHEDULE DATA ===
+        const schedule = {
+            1: [
+                "Dolphins @ Guardians",
+                "Polar Bears @ Rams",
+                "Pigs @ Foxes",
+                "Horsemen @ Dragons",
+                "Glowsquids @ Phantoms",
+                "Ghasts @ Penguins"
+            ],
+            2: [
+                "Phantoms @ Foxes",
+                "Polar Bears @ Penguins",
+                "Rams @ Dragons",
+                "Glowsquids @ Pigs",
+                "Guardians @ Ghasts",
+                "Dolphins @ Horsemen"
+            ],
+            3: [
+                "Phantoms @ Guardians",
+                "Foxes @ Dragons",
+                "Pigs @ Ghasts",
+                "Glowsquids @ Dolphins",
+                "Penguins @ Rams",
+                "Horsemen @ Polar Bears"
+            ],
+            4: [
+                "Guardians @ Polar Bears",
+                "Ghasts @ Horsemen",
+                "Glowsquids @ Ghasts",
+                "Dragons @ Penguins",
+                "Rams @ Pigs",
+                "Foxes @ Dolphins"
+            ],
+            5: [
+                "Dolphins @ Polar Bears",
+                "Guardians @ Rams",
+                "Pigs @ Phantoms",
+                "Foxes @ Ghasts",
+                "Dragons @ Glowsquids",
+                "Rams @ Penguins"
+            ],
+            6: [
+                "Foxes @ Polar Bears",
+                "Dolphins @ Rams",
+                "Guardians @ Dragons",
+                "Dolphins @ Horsemen",
+                "Glowsquids @ Penguins",
+                "Ghasts @ Phantoms"
+            ],
+            7: [
+                "Horsemen @ Foxes",
+                "Penguins @ Dolphins",
+                "Pigs @ Guardians",
+                "Ghasts @ Dragons",
+                "Rams @ Phantoms",
+                "Polar Bears @ Glowsquids"
+            ]
+        };
+
+        function renderTeams(filteredTeams) {
+            const grid = document.getElementById('team-grid');
+            grid.innerHTML = '';
+            filteredTeams.forEach(team => {
+                const card = document.createElement('div');
+                card.className = `team-card bg-zinc-900 border border-zinc-700 hover:border-emerald-500 rounded-3xl p-6`;
+                card.innerHTML = `
+                    <div class="h-2 rounded-t-3xl mb-4" style="background-color: ${team.color}"></div>
+                    <div class="text-3xl font-bold mb-1">${team.name}</div>
+                    <div class="text-xs uppercase text-emerald-400 mb-3">Roster • ${team.players.length} players</div>
+                    <div class="grid grid-cols-2 gap-1 text-sm text-zinc-300">
+                        ${team.players.map(p => `<div class="truncate">${p}</div>`).join('')}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterTeams() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            const filtered = query === '' ? teams : teams.filter(team =>
+                team.name.toLowerCase().includes(query) || 
+                team.players.some(p => p.toLowerCase().includes(query))
+            );
+            renderTeams(filtered);
+        }
+
+        function renderSchedule() {
+            const container = document.getElementById('schedule-content');
+            container.innerHTML = '';
+            
+            Object.keys(schedule).forEach(week => {
+                const weekDiv = document.createElement('div');
+                weekDiv.className = "bg-zinc-900 border border-zinc-700 rounded-3xl p-8";
+                weekDiv.innerHTML = `
+                    <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                        <span class="text-emerald-400">WEEK ${week}</span>
+                    </h2>
+                    <div class="space-y-3">
+                        ${schedule[week].map(match => `
+                            <div class="flex items-center justify-between bg-zinc-950 border border-zinc-800 hover:border-emerald-500/30 rounded-2xl px-6 py-4 text-lg">
+                                <span>${match}</span>
+                                <span class="text-xs font-mono text-emerald-400">VS</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(weekDiv);
+            });
+        }
+
+        function showPage(page) {
+            document.getElementById('teams-page').classList.toggle('hidden', page !== 'teams');
+            document.getElementById('schedule-page').classList.toggle('hidden', page !== 'schedule');
+        }
+
+        // Initialize
+        window.onload = () => {
+            renderTeams(teams);
+            renderSchedule();
+            showPage('teams');
+        };
+    </script>
+</body>
+</html>
