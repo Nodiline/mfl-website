@@ -12,51 +12,66 @@
         .pixel-font { font-family: 'Press Start 2P', monospace; }
     </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100">
+<body class="bg-zinc-950 text-zinc-100 transition-colors duration-300">
     <!-- Navbar -->
-    <nav class="border-b border-zinc-800 bg-black sticky top-0 z-50">
+    <nav class="border-b border-zinc-800 bg-black/90 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
             <div class="flex items-center gap-4">
-                <div class="w-10 h-10 bg-green-500 rounded-2xl flex items-center justify-center text-black font-black text-3xl pixel-font">M</div>
+                <img src="https://cdn.discordapp.com/emojis/1245791095019929651.webp?size=96" 
+                     alt="MFL Logo" 
+                     class="w-11 h-11">
                 <div class="text-3xl font-bold pixel-font tracking-tighter">MFL</div>
             </div>
-            <div class="flex gap-8 text-sm">
-                <a href="#" onclick="navigate('home')" class="hover:text-emerald-400 font-medium">HOME</a>
-                <a href="#" onclick="navigate('teams')" class="hover:text-emerald-400 font-medium">TEAMS</a>
-                <a href="#" onclick="navigate('schedule')" class="hover:text-emerald-400 font-medium">SCHEDULE</a>
+            
+            <div class="flex gap-8 text-sm font-medium">
+                <a href="#" onclick="navigate('home')" class="hover:text-emerald-400">HOME</a>
+                <a href="#" onclick="navigate('teams')" class="hover:text-emerald-400">TEAMS</a>
+                <a href="#" onclick="navigate('schedule')" class="hover:text-emerald-400">SCHEDULE</a>
             </div>
-            <button class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-2xl font-medium">JOIN SERVER</button>
+
+            <!-- Theme Toggle -->
+            <button onclick="toggleTheme()" 
+                    id="theme-toggle"
+                    class="w-11 h-11 flex items-center justify-center rounded-2xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 transition-all">
+                <i class="fas fa-moon text-lg"></i>
+            </button>
         </div>
     </nav>
 
     <!-- HOME PAGE -->
     <div id="home" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-zinc-950 to-black relative">
         <div class="text-center px-6">
-            <div class="text-emerald-400 text-sm tracking-[4px] mb-4">SEASON 1</div>
+            <div class="text-emerald-400 text-sm tracking-[4px] mb-4">SEASON 1 • OFFICIAL LEAGUE</div>
             <h1 class="text-7xl md:text-8xl font-black pixel-font leading-none mb-6">MINECRAFT<br>FOOTBALL<br>LEAGUE</h1>
-            <p class="text-xl text-zinc-400 max-w-md mx-auto mb-10">Build your legacy. Battle in the arena. Become champion.</p>
+            <p class="text-xl text-zinc-400 max-w-md mx-auto mb-10">Build. Battle. Dominate.</p>
+            
             <div class="flex gap-4 justify-center">
-                <button onclick="navigate('teams')" class="px-10 py-4 bg-white text-black font-bold rounded-2xl text-lg hover:scale-105 transition">VIEW TEAMS</button>
-                <button onclick="navigate('schedule')" class="px-10 py-4 border border-emerald-500 text-emerald-400 font-bold rounded-2xl text-lg hover:bg-emerald-500/10 transition">FULL SCHEDULE</button>
+                <button onclick="navigate('teams')" 
+                        class="px-10 py-4 bg-emerald-600 hover:bg-emerald-500 font-bold rounded-2xl text-lg transition">
+                    VIEW TEAMS
+                </button>
+                <button onclick="navigate('schedule')" 
+                        class="px-10 py-4 border border-emerald-500 hover:bg-emerald-500/10 font-bold rounded-2xl text-lg transition">
+                    FULL SCHEDULE
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- TEAMS PAGE -->
+    <!-- TEAMS & SCHEDULE pages (same as before) -->
     <div id="teams" class="hidden max-w-7xl mx-auto px-6 py-16">
         <h2 class="text-5xl font-bold pixel-font text-center mb-12 text-emerald-400">TEAMS</h2>
         <div id="team-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </div>
 
-    <!-- SCHEDULE PAGE -->
     <div id="schedule" class="hidden max-w-5xl mx-auto px-6 py-16">
         <h2 class="text-5xl font-bold pixel-font text-center mb-12 text-emerald-400">SEASON 1 SCHEDULE</h2>
         <div id="schedule-content" class="space-y-10"></div>
     </div>
 
     <script>
-        // Teams Data
-        const teams = [ /* same as before */ 
+        // Teams & Schedule Data (same)
+        const teams = [
             { name: "Dolphins", players: ["L8 Knight","Bigham","Flamefarter","robby","Deadrr","conl","ilyfade","Peng"], color: "#0ea5e9" },
             { name: "Polar Bears", players: ["Prodigy","Lustin","Sagil","Creamv","Forestguest"], color: "#64748b" },
             { name: "Dragons", players: ["Noodle","Botz","Visai","Vizo","Frtpear"], color: "#b91c1c" },
@@ -71,7 +86,7 @@
             { name: "Rams", players: ["Josh","Trigg","Ajclips","Steve","Djcrafter"], color: "#b45309" }
         ];
 
-        const schedule = { /* same as before */ 
+        const schedule = {
             1: ["Dolphins @ Guardians","Polar Bears @ Rams","Pigs @ Foxes","Horsemen @ Dragons","Glowsquids @ Phantoms","Ghasts @ Penguins"],
             2: ["Phantoms @ Foxes","Polar Bears @ Penguins","Rams @ Dragons","Glowsquids @ Pigs","Guardians @ Ghasts","Dolphins @ Horsemen"],
             3: ["Phantoms @ Guardians","Foxes @ Dragons","Pigs @ Ghasts","Glowsquids @ Dolphins","Penguins @ Rams","Horsemen @ Polar Bears"],
@@ -88,7 +103,7 @@
                     <div class="h-3 rounded-t-3xl mb-4" style="background: ${team.color}"></div>
                     <div class="text-3xl font-bold mb-1">${team.name}</div>
                     <div class="text-emerald-400 text-sm mb-4">Roster (${team.players.length})</div>
-                    <div class="grid grid-cols-2 gap-1 text-sm text-zinc-300">${team.players.map(p => `<div>${p}</div>`).join('')}</div>
+                    <div class="grid grid-cols-2 gap-1 text-sm">${team.players.map(p => `<div>${p}</div>`).join('')}</div>
                 </div>
             `).join('');
         }
@@ -98,7 +113,7 @@
             container.innerHTML = Object.keys(schedule).map(w => `
                 <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-8">
                     <h3 class="text-2xl font-bold text-emerald-400 mb-6">WEEK ${w}</h3>
-                    <div class="space-y-4">${schedule[w].map(m => `<div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5">${m}</div>`).join('')}</div>
+                    ${schedule[w].map(match => `<div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5 mb-3">${match}</div>`).join('')}
                 </div>
             `).join('');
         }
@@ -108,11 +123,28 @@
             document.getElementById(page).classList.remove('hidden');
         }
 
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+                document.getElementById('theme-toggle').innerHTML = `<i class="fas fa-sun text-lg"></i>`;
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+                document.getElementById('theme-toggle').innerHTML = `<i class="fas fa-moon text-lg"></i>`;
+            }
+        }
+
         // Initialize
         window.onload = () => {
             renderTeams();
             renderSchedule();
             navigate('home');
+            
+            // Load saved theme
+            if (localStorage.theme === 'light') {
+                document.getElementById('theme-toggle').innerHTML = `<i class="fas fa-sun text-lg"></i>`;
+            }
         };
     </script>
 </body>
