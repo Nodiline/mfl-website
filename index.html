@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,81 +12,74 @@
         .pixel-font { font-family: 'Press Start 2P', monospace; }
     </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100 transition-colors duration-300">
+<body class="bg-zinc-950 text-zinc-100 min-h-screen">
     <!-- Navbar -->
-    <nav class="border-b border-zinc-800 bg-black/90 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+    <nav class="bg-black border-b border-zinc-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center gap-4">
-                <img src="https://cdn.discordapp.com/emojis/1245791095019929651.webp?size=96" 
-                     alt="MFL Logo" 
-                     class="w-11 h-11">
-                <div class="text-3xl font-bold pixel-font tracking-tighter">MFL</div>
-            </div>
-            
-            <div class="flex gap-8 text-sm font-medium">
-                <a href="#" onclick="navigate('home')" class="hover:text-emerald-400">HOME</a>
-                <a href="#" onclick="navigate('teams')" class="hover:text-emerald-400">TEAMS</a>
-                <a href="#" onclick="navigate('schedule')" class="hover:text-emerald-400">SCHEDULE</a>
+                <img src="https://cdn.discordapp.com/emojis/1245791095019929651.webp?size=96" alt="MFL" class="w-10 h-10">
+                <div>
+                    <span class="text-3xl font-bold pixel-font tracking-tighter">MFL</span>
+                </div>
             </div>
 
-            <!-- Theme Toggle -->
-            <button onclick="toggleTheme()" 
-                    id="theme-toggle"
-                    class="w-11 h-11 flex items-center justify-center rounded-2xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 transition-all">
-                <i class="fas fa-moon text-lg"></i>
+            <div class="flex items-center gap-8 text-sm font-medium">
+                <a href="#" onclick="navigate('home')" class="hover:text-emerald-400">Home</a>
+                <a href="#" onclick="navigate('teams')" class="hover:text-emerald-400">Teams</a>
+                <a href="#" onclick="navigate('schedule')" class="hover:text-emerald-400">Schedule</a>
+            </div>
+
+            <button onclick="toggleTheme()" id="theme-toggle"
+                    class="px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 rounded-xl flex items-center gap-2">
+                <i class="fas fa-moon"></i>
             </button>
         </div>
     </nav>
 
     <!-- HOME PAGE -->
-    <div id="home" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-zinc-950 to-black relative">
-        <div class="text-center px-6">
-            <div class="text-emerald-400 text-sm tracking-[4px] mb-4">SEASON 1 • OFFICIAL LEAGUE</div>
-            <h1 class="text-7xl md:text-8xl font-black pixel-font leading-none mb-6">MINECRAFT<br>FOOTBALL<br>LEAGUE</h1>
-            <p class="text-xl text-zinc-400 max-w-md mx-auto mb-10">Build. Battle. Dominate.</p>
-            
-            <div class="flex gap-4 justify-center">
-                <button onclick="navigate('teams')" 
-                        class="px-10 py-4 bg-emerald-600 hover:bg-emerald-500 font-bold rounded-2xl text-lg transition">
-                    VIEW TEAMS
-                </button>
-                <button onclick="navigate('schedule')" 
-                        class="px-10 py-4 border border-emerald-500 hover:bg-emerald-500/10 font-bold rounded-2xl text-lg transition">
-                    FULL SCHEDULE
-                </button>
+    <div id="home" class="relative">
+        <div class="max-w-7xl mx-auto px-6 py-20 flex flex-col md:flex-row items-center gap-12">
+            <div class="flex-1">
+                <div class="uppercase tracking-widest text-emerald-400 text-sm mb-3">MINECRAFT FOOTBALL LEAGUE</div>
+                <h1 class="text-6xl md:text-7xl font-bold pixel-font leading-none mb-6">WELCOME TO THE LEAGUE</h1>
+                <p class="text-xl text-zinc-400 max-w-lg">Season 1 is here. Build your team. Battle in the arena. Claim glory.</p>
+            </div>
+            <div class="flex-1 flex justify-center">
+                <img src="https://cdn.discordapp.com/emojis/1245791095019929651.webp?size=256" alt="MFL Logo" class="w-64 opacity-90">
             </div>
         </div>
     </div>
 
-    <!-- TEAMS & SCHEDULE pages (same as before) -->
+    <!-- TEAMS PAGE -->
     <div id="teams" class="hidden max-w-7xl mx-auto px-6 py-16">
-        <h2 class="text-5xl font-bold pixel-font text-center mb-12 text-emerald-400">TEAMS</h2>
-        <div id="team-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        <h1 class="text-5xl font-bold pixel-font text-center mb-4">TEAMS</h1>
+        <p class="text-center text-zinc-400 mb-12">Season 1 Rosters</p>
+        <div id="team-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
     </div>
 
+    <!-- SCHEDULE PAGE -->
     <div id="schedule" class="hidden max-w-5xl mx-auto px-6 py-16">
-        <h2 class="text-5xl font-bold pixel-font text-center mb-12 text-emerald-400">SEASON 1 SCHEDULE</h2>
-        <div id="schedule-content" class="space-y-10"></div>
+        <h1 class="text-5xl font-bold pixel-font text-center mb-12">SEASON 1 SCHEDULE</h1>
+        <div id="schedule-content" class="space-y-12"></div>
     </div>
 
     <script>
-        // Teams & Schedule Data (same)
         const teams = [
-            { name: "Dolphins", players: ["L8 Knight","Bigham","Flamefarter","robby","Deadrr","conl","ilyfade","Peng"], color: "#0ea5e9" },
-            { name: "Polar Bears", players: ["Prodigy","Lustin","Sagil","Creamv","Forestguest"], color: "#64748b" },
-            { name: "Dragons", players: ["Noodle","Botz","Visai","Vizo","Frtpear"], color: "#b91c1c" },
-            { name: "Ghasts", players: ["Coozy","Ironbug","Cozy","Avoids","Sheerpluto","Xany"], color: "#7c3aed" },
-            { name: "Pigs", players: ["Beefour","Juadeep","Chaseler","Chief","QC","Coolpersin","Fak"], color: "#f59e0b" },
-            { name: "Horsemen", players: ["Dhir","Penguin","Tracklol","MJS","Tezi"], color: "#854d0e" },
-            { name: "Glowsquids", players: ["Exabyte","Ayvvri","Phosphane","Buhg"], color: "#22d3ee" },
-            { name: "Penguins", players: ["Techhector","Lub","Shinichi","Yaxalk","Tac10k","Bleh"], color: "#1e40af" },
-            { name: "Guardians", players: ["TomNotTom","Muddydt","Slicky","LDNH","Randomhere"], color: "#14b8a6" },
-            { name: "Foxes", players: ["Foxanuka","Land","syrb","Sagil","Kdawgharden","Penley"], color: "#ea580c" },
-            { name: "Phantoms", players: ["Henryvz","Smoky","Mcnugget","Spej","zolo"], color: "#6b7280" },
-            { name: "Rams", players: ["Josh","Trigg","Ajclips","Steve","Djcrafter"], color: "#b45309" }
+            { name: "Dolphins", logo: "https://cdn.discordapp.com/emojis/985605150548832337.webp?size=96", players: ["L8 Knight", "Bigham", "Flamefarter", "robby", "Deadrr", "conl", "ilyfade", "Peng"], color: "#0ea5e9" },
+            { name: "Guardians", logo: "https://cdn.discordapp.com/emojis/991822157258698862.webp?size=96", players: ["TomNotTom", "Muddydt", "Slicky", "LDNH", "Randomhere"], color: "#14b8a6" },
+            { name: "Polar Bears", logo: "https://cdn.discordapp.com/emojis/1058837067343335594.webp?size=96", players: ["Prodigy", "Lustin", "Sagil", "Creamv", "Forestguest"], color: "#64748b" },
+            { name: "Rams", logo: "https://cdn.discordapp.com/emojis/985068684148109362.webp?size=96", players: ["Josh", "Trigg", "Ajclips", "Steve", "Djcrafter"], color: "#b45309" },
+            { name: "Pigs", logo: "https://cdn.discordapp.com/emojis/985273710405632010.webp?size=96", players: ["Beefour", "Juadeep", "Chaseler", "Chief", "QC", "Coolpersin", "Fak"], color: "#f59e0b" },
+            { name: "Foxes", logo: "https://cdn.discordapp.com/emojis/951695996004466728.webp?size=96", players: ["Foxanuka", "Land", "syrb", "Sagil", "Kdawgharden", "Penley"], color: "#ea580c" },
+            { name: "Horsemen", logo: "https://cdn.discordapp.com/emojis/1442651969704558602.webp?size=96", players: ["Dhir", "Penguin", "Tracklol", "MJS", "Tezi"], color: "#854d0e" },
+            { name: "Dragons", logo: "https://cdn.discordapp.com/emojis/942504840821633104.webp?size=96", players: ["Noodle", "Botz", "Visai", "Vizo", "Frtpear"], color: "#b91c1c" },
+            { name: "Glowsquids", logo: "https://cdn.discordapp.com/emojis/1404571807939432468.webp?size=96", players: ["Exabyte", "Ayvvri", "Phosphane", "Buhg"], color: "#22d3ee" },
+            { name: "Phantoms", logo: "https://cdn.discordapp.com/emojis/985319259565609020.webp?size=96", players: ["Henryvz", "Smoky", "Mcnugget", "Spej", "zolo"], color: "#6b7280" },
+            { name: "Ghasts", logo: "https://cdn.discordapp.com/emojis/1062965414319116370.webp?size=96", players: ["Coozy", "Ironbug", "Cozy", "Avoids", "Sheerpluto", "Xany"], color: "#7c3aed" },
+            { name: "Penguins", logo: "https://cdn.discordapp.com/emojis/1405341961732493383.webp?size=96", players: ["Techhector", "Lub", "Shinichi", "Yaxalk", "Tac10k", "Bleh"], color: "#1e40af" }
         ];
 
-        const schedule = {
+        const schedule = { /* same as before */ 
             1: ["Dolphins @ Guardians","Polar Bears @ Rams","Pigs @ Foxes","Horsemen @ Dragons","Glowsquids @ Phantoms","Ghasts @ Penguins"],
             2: ["Phantoms @ Foxes","Polar Bears @ Penguins","Rams @ Dragons","Glowsquids @ Pigs","Guardians @ Ghasts","Dolphins @ Horsemen"],
             3: ["Phantoms @ Guardians","Foxes @ Dragons","Pigs @ Ghasts","Glowsquids @ Dolphins","Penguins @ Rams","Horsemen @ Polar Bears"],
@@ -99,21 +92,23 @@
         function renderTeams() {
             const grid = document.getElementById('team-grid');
             grid.innerHTML = teams.map(team => `
-                <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-6 hover:border-emerald-500 transition-all">
-                    <div class="h-3 rounded-t-3xl mb-4" style="background: ${team.color}"></div>
-                    <div class="text-3xl font-bold mb-1">${team.name}</div>
-                    <div class="text-emerald-400 text-sm mb-4">Roster (${team.players.length})</div>
-                    <div class="grid grid-cols-2 gap-1 text-sm">${team.players.map(p => `<div>${p}</div>`).join('')}</div>
+                <div class="bg-zinc-900 border border-zinc-800 hover:border-emerald-500 rounded-3xl p-6 transition-all group">
+                    <div class="flex items-center gap-4 mb-6">
+                        <img src="${team.logo}" class="w-16 h-16 rounded-2xl" alt="${team.name}">
+                        <div class="text-2xl font-bold">${team.name}</div>
+                    </div>
+                    <div class="text-xs uppercase text-emerald-400 mb-3">Roster (${team.players.length})</div>
+                    <div class="grid grid-cols-2 gap-1 text-sm text-zinc-300">${team.players.map(p => `<div>${p}</div>`).join('')}</div>
                 </div>
             `).join('');
         }
 
         function renderSchedule() {
             const container = document.getElementById('schedule-content');
-            container.innerHTML = Object.keys(schedule).map(w => `
-                <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-8">
-                    <h3 class="text-2xl font-bold text-emerald-400 mb-6">WEEK ${w}</h3>
-                    ${schedule[w].map(match => `<div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5 mb-3">${match}</div>`).join('')}
+            container.innerHTML = Object.keys(schedule).map(week => `
+                <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
+                    <h2 class="text-2xl font-bold text-emerald-400 mb-6">WEEK ${week}</h2>
+                    <div class="space-y-3">${schedule[week].map(m => `<div class="bg-zinc-950 border border-zinc-800 rounded-2xl px-6 py-4">${m}</div>`).join('')}</div>
                 </div>
             `).join('');
         }
@@ -124,27 +119,22 @@
         }
 
         function toggleTheme() {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
                 localStorage.theme = 'light';
-                document.getElementById('theme-toggle').innerHTML = `<i class="fas fa-sun text-lg"></i>`;
+                document.getElementById('theme-toggle').innerHTML = `<i class="fas fa-sun"></i>`;
             } else {
-                document.documentElement.classList.add('dark');
+                html.classList.add('dark');
                 localStorage.theme = 'dark';
-                document.getElementById('theme-toggle').innerHTML = `<i class="fas fa-moon text-lg"></i>`;
+                document.getElementById('theme-toggle').innerHTML = `<i class="fas fa-moon"></i>`;
             }
         }
 
-        // Initialize
         window.onload = () => {
             renderTeams();
             renderSchedule();
             navigate('home');
-            
-            // Load saved theme
-            if (localStorage.theme === 'light') {
-                document.getElementById('theme-toggle').innerHTML = `<i class="fas fa-sun text-lg"></i>`;
-            }
         };
     </script>
 </body>
