@@ -49,7 +49,7 @@
         .btn-primary:hover{opacity:.85;}
         .btn-ghost{display:inline-flex;align-items:center;gap:7px;background:transparent;color:var(--muted);font-weight:600;font-size:13px;padding:11px 22px;border-radius:8px;border:1px solid var(--border);cursor:pointer;text-decoration:none;transition:color .15s,border-color .15s;}
         .btn-ghost:hover{color:var(--text);border-color:var(--text);}
-        .hero-right{width:220px;height:220px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+        .hero-right{width:260px;height:260px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
         .stat-row{max-width:1160px;margin:0 auto 56px;padding:0 24px;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--border);gap:1px;}
         .stat-cell{background:var(--surface);padding:20px 24px;display:flex;flex-direction:column;gap:2px;}
         .stat-num{font-size:42px;font-weight:800;letter-spacing:-1px;}
@@ -177,11 +177,12 @@
       <p class="hero-sub">Twelve teams. Two conferences. One champion.<br>Follow every matchup across Season 5 of the MFL.</p>
       <div class="hero-actions">
         <a href="#" class="btn-primary" onclick="return navigate('standings')">Standings <i class="fas fa-arrow-right" style="font-size:11px"></i></a>
+        <a href="#" class="btn-ghost" onclick="return navigate('stats')">Stats</a>
         <a href="#" class="btn-ghost"   onclick="return navigate('schedule')">Schedule</a>
       </div>
     </div>
     <div class="hero-right">
-      <div class="team-logo" id="hero-logo" style="width:300px;height:300px;border-radius:36px;font-size:80px"></div>
+      <div class="team-logo" id="hero-logo" style="width:240px;height:240px;border-radius:28px;font-size:64px"></div>
     </div>
   </div>
   <div class="stat-row">
@@ -288,7 +289,7 @@
           <tr><td><strong>Season 1</strong> <span style="color:var(--muted);font-size:12px">Legacy</span></td><td>Ice Spike Polar Bears</td><td>36 – 6</td></tr>
           <tr><td><strong>Season 2</strong> <span style="color:var(--muted);font-size:12px">Modern</span></td><td>Ice Spike Polar Bears</td><td>28 – 21</td></tr>
           <tr><td><strong>Season 3</strong> <span style="color:var(--muted);font-size:12px">Modern</span></td><td>Deep Sea Dolphins</td><td>20 – 14</td></tr>
-          <tr><td><strong>Season 4</strong> <span style="color:var(--muted);font-size:12px">Modern</span></td><td>Glowsquids</td><td>54 – 47</td></tr>
+          <tr><td><strong>Season 4</strong> <span style="color:var(--muted);font-size:12px">Modern</span></td><td>Rams</td><td>54 – 47</td></tr>
         </tbody>
       </table>
     </div>
@@ -375,7 +376,7 @@ const seasonHistory = {
   },
   4:{
     label:"Season 4 (Modern)",
-    sb:{champ:"Glowsquids",score:"54 – 47",mvp:"Phosphorus"},
+    sb:{champ:"Rams",score:"54 – 47",mvp:"Phosphorus"},
     awards:[
       {name:"MVP",winner:"Pearledd"},{name:"GameChanger",winner:"L8"},{name:"OPOY",winner:"Beefour"},
       {name:"DPOY",winner:"Visai"},{name:"OROY",winner:"Noodle"},{name:"DROY",winner:"Noodle"},
