@@ -21,7 +21,7 @@
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
         body{font-family:"Inter",system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .2s,color .2s;}
         nav{position:sticky;top:0;z-index:100;background:var(--nav-bg);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
-        .nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:82px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+        .nav-inner{max-width:1160px;margin:0 auto;padding:0 24px;height:82px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
         .nav-brand{display:flex;align-items:center;gap:10px;cursor:pointer;}
         .nav-brand .logo-wrap{width:40px;height:40px;}
         .nav-brand-name{font-size:24px;font-weight:800;letter-spacing:-.5px;color:var(--text);}
@@ -38,7 +38,7 @@
         .team-logo.md{width:70px;height:70px;font-size:22px;border-radius:14px;}
         .team-logo.lg{width:100px;height:100px;font-size:32px;border-radius:18px;}
         .team-logo.xl{width:100%;height:100%;font-size:140px;border-radius:56px;}
-        .hero{max-width:1200px;margin:0 auto;padding:40px 24px;display:flex;align-items:center;justify-content:space-between;gap:40px;}
+        .hero{max-width:1160px;margin:0 auto;padding:40px 24px;display:flex;align-items:center;justify-content:space-between;gap:40px;}
         .hero-left{max-width:480px;}
         .hero-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);padding:4px 10px;border-radius:100px;margin-bottom:20px;}
         .hero-tag .dot{width:6px;height:6px;background:var(--accent);border-radius:50%;}
@@ -50,24 +50,24 @@
         .btn-primary:hover{opacity:.85;}
         .btn-ghost{display:inline-flex;align-items:center;gap:7px;background:transparent;color:var(--muted);font-weight:600;font-size:13px;padding:11px 22px;border-radius:8px;border:1px solid var(--border);cursor:pointer;text-decoration:none;transition:color .15s,border-color .15s;}
         .btn-ghost:hover{color:var(--text);border-color:var(--text);}
-        .hero-right{width:760px;height:760px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
-        .stat-row{max-width:1200px;margin:0 auto 56px;padding:0 24px;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--border);gap:1px;}
+        .hero-right{width:640px;height:640px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+        .stat-row{max-width:1160px;margin:0 auto 56px;padding:0 24px;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--border);gap:1px;}
         .stat-cell{background:var(--surface);padding:20px 24px;display:flex;flex-direction:column;gap:2px;}
         .stat-num{font-size:42px;font-weight:800;letter-spacing:-1px;}
         .stat-label{font-size:15px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;}
-        .sec-hdr{max-width:1200px;margin:0 auto 16px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;}
+        .sec-hdr{max-width:1160px;margin:0 auto 16px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;}
         .sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted);}
         .sec-link{font-size:13px;color:var(--accent);text-decoration:none;font-weight:500;}
         .sec-link:hover{text-decoration:underline;}
-        .matchup-grid{max-width:1200px;margin:0 auto 72px;padding:0 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+        .matchup-grid{max-width:1160px;margin:0 auto 72px;padding:0 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
         .matchup-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;transition:border-color .15s;}
         .matchup-card:hover{border-color:color-mix(in srgb,var(--accent) 50%,transparent);}
         .mc-team{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:600;}
         .mc-sep{font-size:10px;color:var(--muted);letter-spacing:1px;padding:6px 0 6px 38px;text-transform:uppercase;}
-        .page-hdr{max-width:1200px;margin:0 auto;padding:52px 24px 36px;border-bottom:1px solid var(--border);margin-bottom:40px;}
+        .page-hdr{max-width:1160px;margin:0 auto;padding:52px 24px 36px;border-bottom:1px solid var(--border);margin-bottom:40px;}
         .page-hdr h1{font-size:clamp(42px,5vw,64px);font-weight:900;letter-spacing:-1.5px;margin-bottom:6px;}
         .page-hdr p{color:var(--muted);font-size:20px;}
-        .teams-grid{max-width:1200px;margin:0 auto 72px;padding:0 24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;}
+        .teams-grid{max-width:1160px;margin:0 auto 72px;padding:0 24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;}
         .team-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;transition:border-color .15s,transform .15s;}
         .team-card:hover{border-color:color-mix(in srgb,var(--accent) 50%,transparent);transform:translateY(-2px);}
         .tc-header{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
@@ -76,7 +76,7 @@
         .tc-roster-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-bottom:8px;}
         .tc-roster{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px;}
         .tc-player{font-size:16px;color:var(--muted);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-        .sched-weeks{max-width:1200px;margin:0 auto 72px;padding:0 24px;display:flex;flex-direction:column;gap:28px;}
+        .sched-weeks{max-width:1160px;margin:0 auto 72px;padding:0 24px;display:flex;flex-direction:column;gap:28px;}
         .week-hdr{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
         .week-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--accent);white-space:nowrap;}
         .week-rule{flex:1;height:1px;background:var(--border);}
@@ -86,7 +86,7 @@
         .game-teams{display:flex;align-items:center;gap:8px;}
         .game-at{font-size:11px;color:var(--muted);}
         .game-badge{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);border:1px solid var(--border);padding:3px 8px;border-radius:4px;white-space:nowrap;}
-        .standings-wrap{max-width:1200px;margin:0 auto 72px;padding:0 24px;display:flex;flex-direction:column;gap:32px;}
+        .standings-wrap{max-width:1160px;margin:0 auto 72px;padding:0 24px;display:flex;flex-direction:column;gap:32px;}
         .conf-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:10px;}
         .conf-title::after{content:"";flex:1;height:1px;background:var(--border);}
         .standings-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
@@ -104,9 +104,9 @@
         .seed-badge.x{background:color-mix(in srgb,#60a5fa 15%,transparent);color:#60a5fa;}
         .seed-badge.e{background:color-mix(in srgb,#f87171 15%,transparent);color:#f87171;}
         .pd-pos{color:var(--accent)!important;} .pd-neg{color:#f87171!important;}
-        .legend{max-width:1200px;margin:-16px auto 40px;padding:0 24px;display:flex;gap:20px;flex-wrap:wrap;}
+        .legend{max-width:1160px;margin:-16px auto 40px;padding:0 24px;display:flex;gap:20px;flex-wrap:wrap;}
         .legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);}
-        .stats-wrap{max-width:1200px;margin:0 auto 72px;padding:0 24px;}
+        .stats-wrap{max-width:1160px;margin:0 auto 72px;padding:0 24px;}
         .stats-tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:0;}
         .stats-tab{padding:8px 16px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s;}
         .stats-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
@@ -114,7 +114,7 @@
         .stats-panel{display:none;} .stats-panel.active{display:block;}
         .stats-coming{text-align:center;padding:48px 24px;color:var(--muted);}
         .stats-coming i{font-size:32px;margin-bottom:12px;display:block;opacity:.4;}
-        .history-wrap{max-width:1200px;margin:0 auto 72px;padding:0 24px;}
+        .history-wrap{max-width:1160px;margin:0 auto 72px;padding:0 24px;}
         .history-tabs{display:flex;gap:4px;margin-bottom:28px;border-bottom:1px solid var(--border);}
         .history-tab{padding:8px 16px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s;}
         .history-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
@@ -272,16 +272,16 @@
         <thead><tr><th>Award</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th></tr></thead>
         <tbody>
           <tr><td><strong>MVP</strong></td><td>HenryVZ</td><td>Ayvvri</td><td>Dhir</td><td>Pearledd</td></tr>
-          <tr><td><strong>OPOY</strong></td><td>L8 Knight</td><td>L8 Knight</td><td>L8 Knight</td><td>Beefour</td></tr>
+          <tr><td><strong>OPOY</strong></td><td>L8 Knight</td><td>1of1</td><td>1of1</td><td>Beefour</td></tr>
           <tr><td><strong>DPOY</strong></td><td>Spej</td><td>Aaden</td><td>Ari</td><td>Visai</td></tr>
           <tr><td><strong>OROY</strong></td><td>Conl</td><td>Mablez</td><td>Beefour</td><td>Noodle</td></tr>
           <tr><td><strong>DROY</strong></td><td>HenryVZ</td><td>Paprisun</td><td>Fish</td><td>Noodle</td></tr>
           <tr><td><strong>LMOTY</strong></td><td>Yaxal</td><td>Ari</td><td>Ari</td><td>Ari</td></tr>
           <tr><td><strong>MIP</strong></td><td>Ayvvri</td><td>FlameFarter</td><td>Mablez</td><td>Beefour</td></tr>
           <tr><td><strong>CBPOTY</strong></td><td>Vizo</td><td>TomNotTom</td><td>Dhir</td><td>Dil</td></tr>
-          <tr><td><strong>TCOTY</strong></td><td>Bigham</td><td>L8 Knight</td><td>—</td><td>Mablez</td></tr>
+          <tr><td><strong>TCOTY</strong></td><td>Bigham</td><td>1of1</td><td>—</td><td>Mablez</td></tr>
           <tr><td><strong>Sportsmanship</strong></td><td>—</td><td>—</td><td>—</td><td>Visai</td></tr>
-          <tr><td><strong>SB MVP</strong></td><td>Ari</td><td>Juadeep</td><td>Ari</td><td>Phosphane</td></tr>
+          <tr><td><strong>SB MVP</strong></td><td>Ari</td><td>Juadeep</td><td>Ari</td><td>Phosphorus</td></tr>
         </tbody>
       </table>
       <table class="alltime-table">
@@ -359,9 +359,9 @@ const seasonHistory = {
     label:"Season 2 (Modern)",
     sb:{champ:"Ice Spike Polar Bears",score:"28 – 21",mvp:"Juadeep"},
     awards:[
-      {name:"MVP",winner:"Ayvvri"},{name:"OPOY",winner:"L8 Knight"},{name:"DPOY",winner:"Aaden"},
+      {name:"MVP",winner:"Ayvvri"},{name:"OPOY",winner:"1of1"},{name:"DPOY",winner:"Aaden"},
       {name:"OROY",winner:"Mablez"},{name:"DROY",winner:"Paprisun"},{name:"LMOTY",winner:"Ari"},
-      {name:"MIP",winner:"FlameFarter"},{name:"CBPOTY",winner:"TomNotTom"},{name:"TCOTY",winner:"L8 Knight"},
+      {name:"MIP",winner:"FlameFarter"},{name:"CBPOTY",winner:"TomNotTom"},{name:"TCOTY",winner:"1of1"},
       {name:"Super Bowl MVP",winner:"Juadeep"},
     ]
   },
@@ -369,7 +369,7 @@ const seasonHistory = {
     label:"Season 3 (Modern)",
     sb:{champ:"Deep Sea Dolphins",score:"20 – 14",mvp:"Ari"},
     awards:[
-      {name:"MVP",winner:"Dhir"},{name:"OPOY",winner:"L8 Knight"},{name:"DPOY",winner:"Ari"},
+      {name:"MVP",winner:"Dhir"},{name:"OPOY",winner:"1of1"},{name:"DPOY",winner:"Ari"},
       {name:"OROY",winner:"Beefour"},{name:"DROY",winner:"Fish"},{name:"LMOTY",winner:"Ari"},
       {name:"MIP",winner:"Mablez"},{name:"CBPOTY",winner:"Dhir"},
       {name:"Super Bowl MVP",winner:"Ari"},
@@ -377,13 +377,13 @@ const seasonHistory = {
   },
   4:{
     label:"Season 4 (Modern)",
-    sb:{champ:"Ancient City Rams",score:"54 – 47",mvp:"Phosphane"},
+    sb:{champ:"Ancient City Rams",score:"54 – 47",mvp:"Phosphorus"},
     awards:[
       {name:"MVP",winner:"Pearledd"},{name:"GameChanger",winner:"L8"},{name:"OPOY",winner:"Beefour"},
       {name:"DPOY",winner:"Visai"},{name:"OROY",winner:"Noodle"},{name:"DROY",winner:"Noodle"},
       {name:"LMOTY",winner:"Ari"},{name:"MIP",winner:"Beefour"},{name:"CBPOTY",winner:"Dil"},
       {name:"TCOTY",winner:"Mablez"},{name:"Sportsmanship",winner:"Visai"},
-      {name:"Super Bowl MVP",winner:"Phosphane"},
+      {name:"Super Bowl MVP",winner:"Phosphorus"},
     ]
   }
 };
