@@ -1,141 +1,560 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minecraft Football League</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap');
-        body { font-family: 'Inter', system_ui, sans-serif; }
-        .pixel-font { font-family: 'Press Start 2P', monospace; }
+        :root {
+            --bg:#0c0c0c; --surface:#131313; --surface2:#1a1a1a; --border:#252525;
+            --text:#efefef; --muted:#777; --accent:#4ade80; --accent-dim:#166534;
+            --nav-bg:rgba(10,10,10,0.9);
+        }
+        html.light {
+            --bg:#f4f4f3; --surface:#ffffff; --surface2:#eaeae8; --border:#d8d8d4;
+            --text:#111; --muted:#666; --accent:#16a34a; --accent-dim:#bbf7d0;
+            --nav-bg:rgba(244,244,243,0.9);
+        }
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+        body{font-family:"Inter",system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .2s,color .2s;}
+        nav{position:sticky;top:0;z-index:100;background:var(--nav-bg);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+        .nav-inner{max-width:1160px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+        .nav-brand{display:flex;align-items:center;gap:10px;cursor:pointer;}
+        .nav-brand .logo-wrap{width:32px;height:32px;}
+        .nav-brand-name{font-size:15px;font-weight:800;letter-spacing:-.5px;color:var(--text);}
+        .nav-links{display:flex;gap:2px;list-style:none;}
+        .nav-links a{display:block;padding:7px 11px;color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;border-radius:7px;transition:color .15s,background .15s;}
+        .nav-links a:hover,.nav-links a.active{color:var(--text);background:var(--surface2);}
+        .theme-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:color .15s,background .15s;flex-shrink:0;}
+        .theme-btn:hover{color:var(--text);background:var(--border);}
+        .page{display:none;} .page.active{display:block;}
+        .team-logo{display:inline-flex;align-items:center;justify-content:center;border-radius:8px;overflow:hidden;flex-shrink:0;background:var(--surface2);font-weight:800;color:#fff;text-transform:uppercase;}
+        .team-logo img{width:100%;height:100%;object-fit:contain;display:block;}
+        .team-logo.xs{width:22px;height:22px;font-size:8px;border-radius:5px;}
+        .team-logo.sm{width:28px;height:28px;font-size:10px;border-radius:6px;}
+        .team-logo.md{width:44px;height:44px;font-size:14px;border-radius:9px;}
+        .team-logo.lg{width:56px;height:56px;font-size:18px;border-radius:11px;}
+        .hero{max-width:1160px;margin:0 auto;padding:64px 24px 56px;display:flex;align-items:center;justify-content:space-between;gap:40px;}
+        .hero-left{max-width:500px;}
+        .hero-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);padding:4px 10px;border-radius:100px;margin-bottom:20px;}
+        .hero-tag .dot{width:6px;height:6px;background:var(--accent);border-radius:50%;}
+        .hero-title{font-size:clamp(30px,4.5vw,52px);font-weight:900;letter-spacing:-2px;line-height:1.05;margin-bottom:16px;}
+        .hero-title em{font-style:italic;color:var(--accent);}
+        .hero-sub{font-size:15px;color:var(--muted);line-height:1.65;margin-bottom:28px;}
+        .hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+        .btn-primary{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#000;font-weight:700;font-size:13px;padding:11px 22px;border-radius:8px;border:none;cursor:pointer;text-decoration:none;transition:opacity .15s;}
+        .btn-primary:hover{opacity:.85;}
+        .btn-ghost{display:inline-flex;align-items:center;gap:7px;background:transparent;color:var(--muted);font-weight:600;font-size:13px;padding:11px 22px;border-radius:8px;border:1px solid var(--border);cursor:pointer;text-decoration:none;transition:color .15s,border-color .15s;}
+        .btn-ghost:hover{color:var(--text);border-color:var(--text);}
+        .hero-right{width:220px;height:220px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+        .stat-row{max-width:1160px;margin:0 auto 56px;padding:0 24px;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--border);gap:1px;}
+        .stat-cell{background:var(--surface);padding:20px 24px;display:flex;flex-direction:column;gap:2px;}
+        .stat-num{font-size:26px;font-weight:800;letter-spacing:-1px;}
+        .stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;}
+        .sec-hdr{max-width:1160px;margin:0 auto 16px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;}
+        .sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted);}
+        .sec-link{font-size:13px;color:var(--accent);text-decoration:none;font-weight:500;}
+        .sec-link:hover{text-decoration:underline;}
+        .matchup-grid{max-width:1160px;margin:0 auto 72px;padding:0 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+        .matchup-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;transition:border-color .15s;}
+        .matchup-card:hover{border-color:color-mix(in srgb,var(--accent) 50%,transparent);}
+        .mc-team{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;}
+        .mc-sep{font-size:10px;color:var(--muted);letter-spacing:1px;padding:6px 0 6px 38px;text-transform:uppercase;}
+        .page-hdr{max-width:1160px;margin:0 auto;padding:52px 24px 36px;border-bottom:1px solid var(--border);margin-bottom:40px;}
+        .page-hdr h1{font-size:clamp(22px,4vw,38px);font-weight:900;letter-spacing:-1.5px;margin-bottom:6px;}
+        .page-hdr p{color:var(--muted);font-size:14px;}
+        .teams-grid{max-width:1160px;margin:0 auto 72px;padding:0 24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;}
+        .team-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;transition:border-color .15s,transform .15s;}
+        .team-card:hover{border-color:color-mix(in srgb,var(--accent) 50%,transparent);transform:translateY(-2px);}
+        .tc-header{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+        .tc-name{font-size:16px;font-weight:700;}
+        .tc-size{font-size:12px;color:var(--muted);margin-top:2px;}
+        .tc-roster-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-bottom:8px;}
+        .tc-roster{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px;}
+        .tc-player{font-size:12px;color:var(--muted);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+        .sched-weeks{max-width:1160px;margin:0 auto 72px;padding:0 24px;display:flex;flex-direction:column;gap:28px;}
+        .week-hdr{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+        .week-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--accent);white-space:nowrap;}
+        .week-rule{flex:1;height:1px;background:var(--border);}
+        .game-list{display:flex;flex-direction:column;gap:4px;}
+        .game-row{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:500;gap:12px;transition:border-color .15s;}
+        .game-row:hover{border-color:color-mix(in srgb,var(--accent) 40%,transparent);}
+        .game-teams{display:flex;align-items:center;gap:8px;}
+        .game-at{font-size:11px;color:var(--muted);}
+        .game-badge{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);border:1px solid var(--border);padding:3px 8px;border-radius:4px;white-space:nowrap;}
+        .standings-wrap{max-width:1160px;margin:0 auto 72px;padding:0 24px;display:flex;flex-direction:column;gap:32px;}
+        .conf-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+        .conf-title::after{content:"";flex:1;height:1px;background:var(--border);}
+        .standings-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+        .standings-table thead tr{border-bottom:1px solid var(--border);}
+        .standings-table th{padding:10px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);text-align:left;}
+        .standings-table th:not(:first-child){text-align:center;}
+        .standings-table td{padding:11px 14px;font-size:14px;border-bottom:1px solid var(--border);}
+        .standings-table tbody tr:last-child td{border-bottom:none;}
+        .standings-table tbody tr:hover{background:var(--surface2);}
+        .standings-table td:not(:first-child){text-align:center;color:var(--muted);font-size:13px;}
+        .standings-table td.wins{color:var(--text);font-weight:700;}
+        .td-team{display:flex;align-items:center;gap:10px;font-weight:600;}
+        .seed-badge{width:18px;height:18px;border-radius:4px;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--surface2);color:var(--muted);}
+        .seed-badge.z{background:color-mix(in srgb,var(--accent) 20%,transparent);color:var(--accent);}
+        .seed-badge.x{background:color-mix(in srgb,#60a5fa 15%,transparent);color:#60a5fa;}
+        .seed-badge.e{background:color-mix(in srgb,#f87171 15%,transparent);color:#f87171;}
+        .pd-pos{color:var(--accent)!important;} .pd-neg{color:#f87171!important;}
+        .legend{max-width:1160px;margin:-16px auto 40px;padding:0 24px;display:flex;gap:20px;flex-wrap:wrap;}
+        .legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);}
+        .stats-wrap{max-width:1160px;margin:0 auto 72px;padding:0 24px;}
+        .stats-tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:0;}
+        .stats-tab{padding:8px 16px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s;}
+        .stats-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+        .stats-tab:hover{color:var(--text);}
+        .stats-panel{display:none;} .stats-panel.active{display:block;}
+        .stats-coming{text-align:center;padding:48px 24px;color:var(--muted);}
+        .stats-coming i{font-size:32px;margin-bottom:12px;display:block;opacity:.4;}
+        .history-wrap{max-width:1160px;margin:0 auto 72px;padding:0 24px;}
+        .history-tabs{display:flex;gap:4px;margin-bottom:28px;border-bottom:1px solid var(--border);}
+        .history-tab{padding:8px 16px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s;}
+        .history-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+        .history-tab:hover{color:var(--text);}
+        .history-panel{display:none;} .history-panel.active{display:block;}
+        .season-select{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+        .season-btn{padding:6px 14px;font-size:12px;font-weight:600;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;}
+        .season-btn.active,.season-btn:hover{background:var(--surface2);color:var(--text);border-color:var(--text);}
+        .season-btn.active{border-color:var(--accent);color:var(--accent);}
+        .awards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;}
+        .award-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 20px;}
+        .award-name{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-bottom:6px;}
+        .award-winner{font-size:15px;font-weight:700;}
+        .sb-banner{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px 24px;margin-bottom:20px;display:flex;align-items:center;gap:20px;}
+        .sb-trophy{font-size:40px;}
+        .sb-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:4px;}
+        .sb-champ{font-size:22px;font-weight:900;letter-spacing:-.5px;}
+        .sb-score{font-size:14px;color:var(--muted);margin-top:4px;}
+        .sb-mvp{font-size:13px;color:var(--muted);margin-top:4px;}
+        .alltime-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:24px;}
+        .alltime-table th{padding:10px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);text-align:left;border-bottom:1px solid var(--border);}
+        .alltime-table td{padding:11px 14px;font-size:13px;border-bottom:1px solid var(--border);}
+        .alltime-table tbody tr:last-child td{border-bottom:none;}
+        .alltime-table tbody tr:hover{background:var(--surface2);}
+        footer{border-top:1px solid var(--border);padding:20px 24px;text-align:center;font-size:12px;color:var(--muted);}
+        @media(max-width:720px){
+            .hero{flex-direction:column;gap:28px;} .hero-right{display:none;}
+            .stat-row{grid-template-columns:1fr 1fr;} .matchup-grid{grid-template-columns:1fr;}
+            .nav-links a{padding:7px 8px;font-size:12px;}
+        }
     </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100 min-h-screen">
-    <!-- Navbar -->
-    <nav class="bg-black border-b border-zinc-800 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <img src="https://cdn.discordapp.com/emojis/1245791095019929651.webp?size=96" alt="MFL" class="w-10 h-10">
-                <div>
-                    <span class="text-3xl font-bold pixel-font tracking-tighter">MFL</span>
-                </div>
-            </div>
+<body>
 
-            <div class="flex items-center gap-8 text-sm font-medium">
-                <a href="#" onclick="navigate('home')" class="hover:text-emerald-400">Home</a>
-                <a href="#" onclick="navigate('teams')" class="hover:text-emerald-400">Teams</a>
-                <a href="#" onclick="navigate('schedule')" class="hover:text-emerald-400">Schedule</a>
-            </div>
-
-            <button onclick="toggleTheme()" id="theme-toggle"
-                    class="px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 rounded-xl flex items-center gap-2">
-                <i class="fas fa-moon"></i>
-            </button>
-        </div>
-    </nav>
-
-    <!-- HOME PAGE -->
-    <div id="home" class="relative">
-        <div class="max-w-7xl mx-auto px-6 py-20 flex flex-col md:flex-row items-center gap-12">
-            <div class="flex-1">
-                <div class="uppercase tracking-widest text-emerald-400 text-sm mb-3">MINECRAFT FOOTBALL LEAGUE</div>
-                <h1 class="text-6xl md:text-7xl font-bold pixel-font leading-none mb-6">WELCOME TO THE LEAGUE</h1>
-                <p class="text-xl text-zinc-400 max-w-lg">Season 1 is here. Build your team. Battle in the arena. Claim glory.</p>
-            </div>
-            <div class="flex-1 flex justify-center">
-                <img src="https://cdn.discordapp.com/emojis/1245791095019929651.webp?size=256" alt="MFL Logo" class="w-64 opacity-90">
-            </div>
-        </div>
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand" onclick="navigate('home')">
+      <div class="logo-wrap" id="nav-logo"></div>
+      <span class="nav-brand-name">MFL</span>
     </div>
+    <ul class="nav-links">
+      <li><a href="#" id="nav-home"      onclick="return navigate('home')"      class="active">Home</a></li>
+      <li><a href="#" id="nav-standings" onclick="return navigate('standings')" >Standings</a></li>
+      <li><a href="#" id="nav-stats"     onclick="return navigate('stats')"     >Stats</a></li>
+      <li><a href="#" id="nav-teams"     onclick="return navigate('teams')"     >Teams</a></li>
+      <li><a href="#" id="nav-schedule"  onclick="return navigate('schedule')"  >Schedule</a></li>
+      <li><a href="#" id="nav-history"   onclick="return navigate('history')"   >League History</a></li>
+    </ul>
+    <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme">
+      <i class="fas fa-moon" id="theme-icon"></i>
+    </button>
+  </div>
+</nav>
 
-    <!-- TEAMS PAGE -->
-    <div id="teams" class="hidden max-w-7xl mx-auto px-6 py-16">
-        <h1 class="text-5xl font-bold pixel-font text-center mb-4">TEAMS</h1>
-        <p class="text-center text-zinc-400 mb-12">Season 1 Rosters</p>
-        <div id="team-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-tag"><span class="dot"></span> Season 5 · Week 4</div>
+      <h1 class="hero-title">Minecraft<br><em>Football</em><br>League</h1>
+      <p class="hero-sub">Twelve teams. Two conferences. One champion.<br>Follow every matchup across Season 5 of the MFL.</p>
+      <div class="hero-actions">
+        <a href="#" class="btn-primary" onclick="return navigate('standings')">Standings <i class="fas fa-arrow-right" style="font-size:11px"></i></a>
+        <a href="#" class="btn-ghost"   onclick="return navigate('schedule')">Schedule</a>
+      </div>
     </div>
-
-    <!-- SCHEDULE PAGE -->
-    <div id="schedule" class="hidden max-w-5xl mx-auto px-6 py-16">
-        <h1 class="text-5xl font-bold pixel-font text-center mb-12">SEASON 1 SCHEDULE</h1>
-        <div id="schedule-content" class="space-y-12"></div>
+    <div class="hero-right">
+      <div class="team-logo" id="hero-logo" style="width:180px;height:180px;border-radius:24px;font-size:48px"></div>
     </div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-cell"><div class="stat-num">12</div><div class="stat-label">Teams</div></div>
+    <div class="stat-cell"><div class="stat-num">5</div><div class="stat-label">Season</div></div>
+    <div class="stat-cell"><div class="stat-num">4</div><div class="stat-label">Weeks Played</div></div>
+    <div class="stat-cell"><div class="stat-num">2</div><div class="stat-label">Conferences</div></div>
+  </div>
+  <div class="sec-hdr">
+    <span class="sec-title">Week 1 Matchups</span>
+    <a href="#" class="sec-link" onclick="return navigate('schedule')">Full schedule →</a>
+  </div>
+  <div class="matchup-grid" id="home-matchups"></div>
+</div>
 
-    <script>
-        const teams = [
-            { name: "Dolphins", logo: "https://cdn.discordapp.com/emojis/985605150548832337.webp?size=96", players: ["L8 Knight", "Bigham", "Flamefarter", "robby", "Deadrr", "conl", "ilyfade", "Peng"], color: "#0ea5e9" },
-            { name: "Guardians", logo: "https://cdn.discordapp.com/emojis/991822157258698862.webp?size=96", players: ["TomNotTom", "Muddydt", "Slicky", "LDNH", "Randomhere"], color: "#14b8a6" },
-            { name: "Polar Bears", logo: "https://cdn.discordapp.com/emojis/1058837067343335594.webp?size=96", players: ["Prodigy", "Lustin", "Sagil", "Creamv", "Forestguest"], color: "#64748b" },
-            { name: "Rams", logo: "https://cdn.discordapp.com/emojis/985068684148109362.webp?size=96", players: ["Josh", "Trigg", "Ajclips", "Steve", "Djcrafter"], color: "#b45309" },
-            { name: "Pigs", logo: "https://cdn.discordapp.com/emojis/985273710405632010.webp?size=96", players: ["Beefour", "Juadeep", "Chaseler", "Chief", "QC", "Coolpersin", "Fak"], color: "#f59e0b" },
-            { name: "Foxes", logo: "https://cdn.discordapp.com/emojis/951695996004466728.webp?size=96", players: ["Foxanuka", "Land", "syrb", "Sagil", "Kdawgharden", "Penley"], color: "#ea580c" },
-            { name: "Horsemen", logo: "https://cdn.discordapp.com/emojis/1442651969704558602.webp?size=96", players: ["Dhir", "Penguin", "Tracklol", "MJS", "Tezi"], color: "#854d0e" },
-            { name: "Dragons", logo: "https://cdn.discordapp.com/emojis/942504840821633104.webp?size=96", players: ["Noodle", "Botz", "Visai", "Vizo", "Frtpear"], color: "#b91c1c" },
-            { name: "Glowsquids", logo: "https://cdn.discordapp.com/emojis/1404571807939432468.webp?size=96", players: ["Exabyte", "Ayvvri", "Phosphane", "Buhg"], color: "#22d3ee" },
-            { name: "Phantoms", logo: "https://cdn.discordapp.com/emojis/985319259565609020.webp?size=96", players: ["Henryvz", "Smoky", "Mcnugget", "Spej", "zolo"], color: "#6b7280" },
-            { name: "Ghasts", logo: "https://cdn.discordapp.com/emojis/1062965414319116370.webp?size=96", players: ["Coozy", "Ironbug", "Cozy", "Avoids", "Sheerpluto", "Xany"], color: "#7c3aed" },
-            { name: "Penguins", logo: "https://cdn.discordapp.com/emojis/1405341961732493383.webp?size=96", players: ["Techhector", "Lub", "Shinichi", "Yaxalk", "Tac10k", "Bleh"], color: "#1e40af" }
-        ];
+<!-- STANDINGS -->
+<div id="page-standings" class="page">
+  <div class="page-hdr">
+    <h1>Standings</h1>
+    <p>Season 5 — Week 4 standings. Record | Conference Record | Point Differential</p>
+  </div>
+  <div class="standings-wrap" id="standings-content"></div>
+  <div class="legend">
+    <div class="legend-item"><div class="seed-badge z">Z</div> Clinched #1 Seed</div>
+    <div class="legend-item"><div class="seed-badge x">X</div> Clinched Playoffs</div>
+    <div class="legend-item"><div class="seed-badge e">E</div> Eliminated</div>
+  </div>
+</div>
 
-        const schedule = { /* same as before */ 
-            1: ["Dolphins @ Guardians","Polar Bears @ Rams","Pigs @ Foxes","Horsemen @ Dragons","Glowsquids @ Phantoms","Ghasts @ Penguins"],
-            2: ["Phantoms @ Foxes","Polar Bears @ Penguins","Rams @ Dragons","Glowsquids @ Pigs","Guardians @ Ghasts","Dolphins @ Horsemen"],
-            3: ["Phantoms @ Guardians","Foxes @ Dragons","Pigs @ Ghasts","Glowsquids @ Dolphins","Penguins @ Rams","Horsemen @ Polar Bears"],
-            4: ["Guardians @ Polar Bears","Ghasts @ Horsemen","Glowsquids @ Ghasts","Dragons @ Penguins","Rams @ Pigs","Foxes @ Dolphins"],
-            5: ["Dolphins @ Polar Bears","Guardians @ Rams","Pigs @ Phantoms","Foxes @ Ghasts","Dragons @ Glowsquids","Rams @ Penguins"],
-            6: ["Foxes @ Polar Bears","Dolphins @ Rams","Guardians @ Dragons","Dolphins @ Horsemen","Glowsquids @ Penguins","Ghasts @ Phantoms"],
-            7: ["Horsemen @ Foxes","Penguins @ Dolphins","Pigs @ Guardians","Ghasts @ Dragons","Rams @ Phantoms","Polar Bears @ Glowsquids"]
-        };
+<!-- STATS -->
+<div id="page-stats" class="page">
+  <div class="page-hdr">
+    <h1>Stats</h1>
+    <p>Season 5 player statistics — updated weekly.</p>
+  </div>
+  <div class="stats-wrap">
+    <div class="stats-tabs">
+      <button class="stats-tab active" onclick="switchStatsTab('passing')">Passing</button>
+      <button class="stats-tab" onclick="switchStatsTab('rushing')">Rushing</button>
+      <button class="stats-tab" onclick="switchStatsTab('receiving')">Receiving</button>
+      <button class="stats-tab" onclick="switchStatsTab('defense')">Defense</button>
+    </div>
+    <div id="stats-passing"   class="stats-panel active"><div class="stats-coming"><i class="fas fa-chart-bar"></i>Stats will be added as the season progresses.</div></div>
+    <div id="stats-rushing"   class="stats-panel"><div class="stats-coming"><i class="fas fa-chart-bar"></i>Stats will be added as the season progresses.</div></div>
+    <div id="stats-receiving" class="stats-panel"><div class="stats-coming"><i class="fas fa-chart-bar"></i>Stats will be added as the season progresses.</div></div>
+    <div id="stats-defense"   class="stats-panel"><div class="stats-coming"><i class="fas fa-chart-bar"></i>Stats will be added as the season progresses.</div></div>
+  </div>
+</div>
 
-        function renderTeams() {
-            const grid = document.getElementById('team-grid');
-            grid.innerHTML = teams.map(team => `
-                <div class="bg-zinc-900 border border-zinc-800 hover:border-emerald-500 rounded-3xl p-6 transition-all group">
-                    <div class="flex items-center gap-4 mb-6">
-                        <img src="${team.logo}" class="w-16 h-16 rounded-2xl" alt="${team.name}">
-                        <div class="text-2xl font-bold">${team.name}</div>
-                    </div>
-                    <div class="text-xs uppercase text-emerald-400 mb-3">Roster (${team.players.length})</div>
-                    <div class="grid grid-cols-2 gap-1 text-sm text-zinc-300">${team.players.map(p => `<div>${p}</div>`).join('')}</div>
-                </div>
-            `).join('');
-        }
+<!-- TEAMS -->
+<div id="page-teams" class="page">
+  <div class="page-hdr">
+    <h1>Teams</h1>
+    <p>Season 5 rosters — 12 franchises across two conferences.</p>
+  </div>
+  <div class="teams-grid" id="team-grid"></div>
+</div>
 
-        function renderSchedule() {
-            const container = document.getElementById('schedule-content');
-            container.innerHTML = Object.keys(schedule).map(week => `
-                <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
-                    <h2 class="text-2xl font-bold text-emerald-400 mb-6">WEEK ${week}</h2>
-                    <div class="space-y-3">${schedule[week].map(m => `<div class="bg-zinc-950 border border-zinc-800 rounded-2xl px-6 py-4">${m}</div>`).join('')}</div>
-                </div>
-            `).join('');
-        }
+<!-- SCHEDULE -->
+<div id="page-schedule" class="page">
+  <div class="page-hdr">
+    <h1>Schedule</h1>
+    <p>Season 5 — 7 weeks of regular season play.</p>
+  </div>
+  <div class="sched-weeks" id="schedule-content"></div>
+</div>
 
-        function navigate(page) {
-            document.querySelectorAll('#home, #teams, #schedule').forEach(el => el.classList.add('hidden'));
-            document.getElementById(page).classList.remove('hidden');
-        }
+<!-- LEAGUE HISTORY -->
+<div id="page-history" class="page">
+  <div class="page-hdr">
+    <h1>League History</h1>
+    <p>Season awards, Super Bowl results, and all-time records.</p>
+  </div>
+  <div class="history-wrap">
+    <div class="history-tabs">
+      <button class="history-tab active" onclick="switchHistoryTab('seasonal')">Seasonal Awards</button>
+      <button class="history-tab" onclick="switchHistoryTab('alltime')">All-Time</button>
+    </div>
+    <div id="hist-seasonal" class="history-panel active">
+      <div class="season-select" id="season-select"></div>
+      <div id="season-awards-content"></div>
+    </div>
+    <div id="hist-alltime" class="history-panel">
+      <p style="color:var(--muted);font-size:14px;margin-bottom:20px;">Award winners across all MFL seasons.</p>
+      <table class="alltime-table">
+        <thead><tr><th>Award</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th></tr></thead>
+        <tbody>
+          <tr><td><strong>MVP</strong></td><td>HenryVZ</td><td>Ayvvri</td><td>Dhir</td><td>Pearledd</td></tr>
+          <tr><td><strong>OPOY</strong></td><td>L8 Knight</td><td>1of1</td><td>1of1</td><td>Beefour</td></tr>
+          <tr><td><strong>DPOY</strong></td><td>Spej</td><td>Aaden</td><td>Ari</td><td>Visai</td></tr>
+          <tr><td><strong>OROY</strong></td><td>Conl</td><td>Mablez</td><td>Beefour</td><td>Noodle</td></tr>
+          <tr><td><strong>DROY</strong></td><td>HenryVZ</td><td>Paprisun</td><td>Fish</td><td>Noodle</td></tr>
+          <tr><td><strong>LMOTY</strong></td><td>Yaxal</td><td>Ari</td><td>Ari</td><td>Ari</td></tr>
+          <tr><td><strong>MIP</strong></td><td>Ayvvri</td><td>FlameFarter</td><td>Mablez</td><td>Beefour</td></tr>
+          <tr><td><strong>CBPOTY</strong></td><td>Vizo</td><td>TomNotTom</td><td>Dhir</td><td>Dil</td></tr>
+          <tr><td><strong>TCOTY</strong></td><td>Bigham</td><td>1of1</td><td>—</td><td>Mablez</td></tr>
+          <tr><td><strong>Sportsmanship</strong></td><td>—</td><td>—</td><td>—</td><td>Visai</td></tr>
+          <tr><td><strong>SB MVP</strong></td><td>Ari</td><td>Juadeep</td><td>Ari</td><td>Phosphorus</td></tr>
+        </tbody>
+      </table>
+      <table class="alltime-table">
+        <thead><tr><th>Season</th><th>Super Bowl Champions</th><th>Score</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Season 1</strong> <span style="color:var(--muted);font-size:12px">Legacy</span></td><td>Ice Spike Polar Bears</td><td>36 – 6</td></tr>
+          <tr><td><strong>Season 2</strong> <span style="color:var(--muted);font-size:12px">Modern</span></td><td>Ice Spike Polar Bears</td><td>28 – 21</td></tr>
+          <tr><td><strong>Season 3</strong> <span style="color:var(--muted);font-size:12px">Modern</span></td><td>Deep Sea Dolphins</td><td>20 – 14</td></tr>
+          <tr><td><strong>Season 4</strong> <span style="color:var(--muted);font-size:12px">Modern</span></td><td>Glowsquids</td><td>54 – 47</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
-        function toggleTheme() {
-            const html = document.documentElement;
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                localStorage.theme = 'light';
-                document.getElementById('theme-toggle').innerHTML = `<i class="fas fa-sun"></i>`;
-            } else {
-                html.classList.add('dark');
-                localStorage.theme = 'dark';
-                document.getElementById('theme-toggle').innerHTML = `<i class="fas fa-moon"></i>`;
-            }
-        }
+<footer>MFL &nbsp;·&nbsp; Minecraft Football League &nbsp;·&nbsp; Season 5</footer>
 
-        window.onload = () => {
-            renderTeams();
-            renderSchedule();
-            navigate('home');
-        };
-    </script>
+<script>
+const teams = [
+  { name:"Dolphins",   eid:"985605150548832337",  conf:"Overworld", players:["L8 Knight","Bigham","Flamefarter","robby","Deadrr","conl","ilyfade","Peng"] },
+  { name:"Guardians",  eid:"991822157258698862",  conf:"Overworld", players:["TomNotTom","Muddydt","Slicky","LDNH","Randomhere"] },
+  { name:"Polar Bears",eid:"1058837067343335594", conf:"Overworld", players:["Prodigy","Lustin","Sagil","Creamv","Forestguest"] },
+  { name:"Pigs",       eid:"985273710405632010",  conf:"Overworld", players:["Beefour","Juadeep","Chaseler","Chief","QC","Coolpersin","Fak"] },
+  { name:"Foxes",      eid:"951695996004466728",  conf:"Overworld", players:["Foxanuka","Land","syrb","Sagil","Kdawgharden","Penley"] },
+  { name:"Penguins",   eid:"1405341961732493383", conf:"Overworld", players:["Techhector","Lub","Shinichi","Yaxalk","Tac10k","Bleh"] },
+  { name:"Rams",       eid:"985068684148109362",  conf:"Underworld",players:["Josh","Trigg","Ajclips","Steve","Djcrafter"] },
+  { name:"Horsemen",   eid:"1442651969704558602", conf:"Underworld",players:["Dhir","Penguin","Tracklol","MJS","Tezi"] },
+  { name:"Dragons",    eid:"942504840821633104",  conf:"Underworld",players:["Noodle","Botz","Visai","Vizo","Frtpear"] },
+  { name:"Glowsquids", eid:"1404571807939432468", conf:"Underworld",players:["Exabyte","Ayvvri","Phosphane","Buhg"] },
+  { name:"Phantoms",   eid:"985319259565609020",  conf:"Underworld",players:["Henryvz","Smoky","Mcnugget","Spej","zolo"] },
+  { name:"Ghasts",     eid:"1062965414319116370", conf:"Underworld",players:["Coozy","Ironbug","Cozy","Avoids","Sheerpluto","Xany"] },
+];
+
+const standings = {
+  Overworld:[
+    {name:"Pigs",       w:4,l:0,cw:1,cl:0,pd:+57, badge:"z"},
+    {name:"Guardians",  w:2,l:1,cw:1,cl:0,pd:+27, badge:""},
+    {name:"Polar Bears",w:1,l:2,cw:1,cl:0,pd:-33, badge:""},
+    {name:"Dolphins",   w:1,l:3,cw:1,cl:1,pd:-41, badge:""},
+    {name:"Foxes",      w:0,l:4,cw:0,cl:2,pd:-61, badge:"e"},
+    {name:"Penguins",   w:0,l:4,cw:0,cl:1,pd:-127,badge:"e"},
+  ],
+  Underworld:[
+    {name:"Horsemen",   w:3,l:0,cw:1,cl:0,pd:+53, badge:"z"},
+    {name:"Phantoms",   w:3,l:0,cw:1,cl:0,pd:+33, badge:"x"},
+    {name:"Dragons",    w:3,l:1,cw:1,cl:1,pd:+61, badge:"x", note:"H2H over Rams"},
+    {name:"Rams",       w:2,l:2,cw:0,cl:1,pd:+17, badge:""},
+    {name:"Ghasts",     w:1,l:2,cw:0,cl:0,pd:+13, badge:""},
+    {name:"Glowsquids", w:1,l:2,cw:0,cl:1,pd:-9,  badge:""},
+  ]
+};
+
+const schedule = {
+  1:["Dolphins @ Guardians","Polar Bears @ Rams","Pigs @ Foxes","Horsemen @ Dragons","Glowsquids @ Phantoms","Ghasts @ Penguins"],
+  2:["Phantoms @ Foxes","Polar Bears @ Penguins","Rams @ Dragons","Glowsquids @ Pigs","Guardians @ Ghasts","Dolphins @ Horsemen"],
+  3:["Phantoms @ Guardians","Foxes @ Dragons","Pigs @ Ghasts","Glowsquids @ Dolphins","Penguins @ Rams","Horsemen @ Polar Bears"],
+  4:["Guardians @ Polar Bears","Ghasts @ Horsemen","Glowsquids @ Ghasts","Dragons @ Penguins","Rams @ Pigs","Foxes @ Dolphins"],
+  5:["Dolphins @ Polar Bears","Guardians @ Rams","Pigs @ Phantoms","Foxes @ Ghasts","Dragons @ Glowsquids","Rams @ Penguins"],
+  6:["Foxes @ Polar Bears","Dolphins @ Rams","Guardians @ Dragons","Dolphins @ Horsemen","Glowsquids @ Penguins","Ghasts @ Phantoms"],
+  7:["Horsemen @ Foxes","Penguins @ Dolphins","Pigs @ Guardians","Ghasts @ Dragons","Rams @ Phantoms","Polar Bears @ Glowsquids"]
+};
+
+const seasonHistory = {
+  1:{
+    label:"Season 1 (Legacy)",
+    sb:{champ:"Ice Spike Polar Bears",score:"36 – 6",mvp:"Ari"},
+    awards:[
+      {name:"MVP",winner:"HenryVZ"},{name:"OPOY",winner:"L8 Knight"},{name:"DPOY",winner:"Spej"},
+      {name:"OROY",winner:"Conl"},{name:"DROY",winner:"HenryVZ"},{name:"LMOTY",winner:"Yaxal"},
+      {name:"MIP",winner:"Ayvvri"},{name:"CBPOTY",winner:"Vizo"},{name:"TCOTY",winner:"Bigham"},
+      {name:"Super Bowl MVP",winner:"Ari"},
+    ]
+  },
+  2:{
+    label:"Season 2 (Modern)",
+    sb:{champ:"Ice Spike Polar Bears",score:"28 – 21",mvp:"Juadeep"},
+    awards:[
+      {name:"MVP",winner:"Ayvvri"},{name:"OPOY",winner:"1of1"},{name:"DPOY",winner:"Aaden"},
+      {name:"OROY",winner:"Mablez"},{name:"DROY",winner:"Paprisun"},{name:"LMOTY",winner:"Ari"},
+      {name:"MIP",winner:"FlameFarter"},{name:"CBPOTY",winner:"TomNotTom"},{name:"TCOTY",winner:"1of1"},
+      {name:"Super Bowl MVP",winner:"Juadeep"},
+    ]
+  },
+  3:{
+    label:"Season 3 (Modern)",
+    sb:{champ:"Deep Sea Dolphins",score:"20 – 14",mvp:"Ari"},
+    awards:[
+      {name:"MVP",winner:"Dhir"},{name:"OPOY",winner:"1of1"},{name:"DPOY",winner:"Ari"},
+      {name:"OROY",winner:"Beefour"},{name:"DROY",winner:"Fish"},{name:"LMOTY",winner:"Ari"},
+      {name:"MIP",winner:"Mablez"},{name:"CBPOTY",winner:"Dhir"},
+      {name:"Super Bowl MVP",winner:"Ari"},
+    ]
+  },
+  4:{
+    label:"Season 4 (Modern)",
+    sb:{champ:"Glowsquids",score:"54 – 47",mvp:"Phosphorus"},
+    awards:[
+      {name:"MVP",winner:"Pearledd"},{name:"GameChanger",winner:"L8"},{name:"OPOY",winner:"Beefour"},
+      {name:"DPOY",winner:"Visai"},{name:"OROY",winner:"Noodle"},{name:"DROY",winner:"Noodle"},
+      {name:"LMOTY",winner:"Ari"},{name:"MIP",winner:"Beefour"},{name:"CBPOTY",winner:"Dil"},
+      {name:"TCOTY",winner:"Mablez"},{name:"Sportsmanship",winner:"Visai"},
+      {name:"Super Bowl MVP",winner:"Phosphorus"},
+    ]
+  }
+};
+
+const palette = ["#166534","#1e40af","#7c3aed","#9a3412","#064e3b","#1e3a5f","#5b21b6","#78350f","#134e4a","#1e3a8a","#6b21a8","#92400e"];
+function getTeam(name){return teams.find(t=>t.name===name);}
+function parseGame(s){const[a,h]=s.split(" @ ");return{away:a.trim(),home:h.trim()};}
+
+function logoEl(name,eid,sizeClass){
+  const idx=(name||"?").charCodeAt(0)%palette.length;
+  const el=document.createElement("div");
+  el.className="team-logo "+(sizeClass||"sm");
+  el.style.background=palette[idx];
+  el.textContent=(name||"?").charAt(0).toUpperCase();
+  if(eid){
+    const img=new Image();
+    img.crossOrigin="anonymous";
+    img.src=`https://wsrv.nl/?url=cdn.discordapp.com/emojis/${eid}.webp%3Fsize%3D96&output=png&w=96&h=96`;
+    img.alt=name;
+    img.style.cssText="width:100%;height:100%;object-fit:contain;border-radius:inherit;display:block";
+    img.onload=()=>{el.textContent="";el.appendChild(img);};
+  }
+  return el;
+}
+
+function renderHomeMatchups(){
+  const el=document.getElementById("home-matchups");
+  schedule[1].forEach(m=>{
+    const{away,home}=parseGame(m);
+    const awayT=getTeam(away),homeT=getTeam(home);
+    const card=document.createElement("div"); card.className="matchup-card";
+    const ar=document.createElement("div"); ar.className="mc-team";
+    ar.appendChild(logoEl(away,awayT?.eid,"sm"));
+    ar.appendChild(Object.assign(document.createElement("span"),{textContent:away}));
+    const sep=document.createElement("div"); sep.className="mc-sep"; sep.textContent="at";
+    const hr=document.createElement("div"); hr.className="mc-team";
+    hr.appendChild(logoEl(home,homeT?.eid,"sm"));
+    hr.appendChild(Object.assign(document.createElement("span"),{textContent:home}));
+    card.append(ar,sep,hr); el.appendChild(card);
+  });
+}
+
+function renderStandings(){
+  const wrap=document.getElementById("standings-content");
+  ["Overworld","Underworld"].forEach(conf=>{
+    const block=document.createElement("div"); block.className="conf-block";
+    const title=document.createElement("div"); title.className="conf-title"; title.textContent=conf+" Conference";
+    const table=document.createElement("table"); table.className="standings-table";
+    table.innerHTML=`<thead><tr><th style="width:36px"></th><th>Team</th><th>W</th><th>L</th><th>Conf</th><th>PD</th></tr></thead>`;
+    const tbody=document.createElement("tbody");
+    standings[conf].forEach((row,i)=>{
+      const t=getTeam(row.name);
+      const pdStr=(row.pd>0?"+":"")+row.pd;
+      const pdClass=row.pd>0?"pd-pos":row.pd<0?"pd-neg":"";
+      const tr=document.createElement("tr");
+      const badgeHtml=row.badge?`<div class="seed-badge ${row.badge}">${row.badge.toUpperCase()}</div>`:`<div class="seed-badge">${i+1}</div>`;
+      tr.innerHTML=`
+        <td>${badgeHtml}</td>
+        <td><div class="td-team"><span style="display:inline-flex"></span><span>${row.name}</span>${row.note?`<span style="font-size:10px;color:var(--muted);margin-left:4px">${row.note}</span>`:""}</div></td>
+        <td class="wins">${row.w}</td><td>${row.l}</td>
+        <td>${row.cw}-${row.cl}</td>
+        <td class="${pdClass}">${pdStr}</td>`;
+      tr.querySelector(".td-team span").appendChild(logoEl(row.name,t?.eid,"xs"));
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    block.append(title,table);
+    wrap.appendChild(block);
+  });
+}
+
+function renderTeams(){
+  const grid=document.getElementById("team-grid");
+  teams.forEach(t=>{
+    const card=document.createElement("div"); card.className="team-card";
+    const hdr=document.createElement("div"); hdr.className="tc-header";
+    hdr.appendChild(logoEl(t.name,t.eid,"lg"));
+    const info=document.createElement("div");
+    info.innerHTML=`<div class="tc-name">${t.name}</div><div class="tc-size">${t.conf} · ${t.players.length} players</div>`;
+    hdr.appendChild(info);
+    const rl=document.createElement("div"); rl.className="tc-roster-label"; rl.textContent="Roster";
+    const roster=document.createElement("div"); roster.className="tc-roster";
+    t.players.forEach(p=>{const d=document.createElement("div");d.className="tc-player";d.textContent=p;roster.appendChild(d);});
+    card.append(hdr,rl,roster); grid.appendChild(card);
+  });
+}
+
+function renderSchedule(){
+  const container=document.getElementById("schedule-content");
+  Object.keys(schedule).forEach(week=>{
+    const block=document.createElement("div");
+    const hdr=document.createElement("div"); hdr.className="week-hdr";
+    hdr.innerHTML=`<span class="week-lbl">Week ${week}</span><div class="week-rule"></div>`;
+    const list=document.createElement("div"); list.className="game-list";
+    schedule[week].forEach(m=>{
+      const{away,home}=parseGame(m);
+      const awayT=getTeam(away),homeT=getTeam(home);
+      const row=document.createElement("div"); row.className="game-row";
+      const td=document.createElement("div"); td.className="game-teams";
+      td.appendChild(logoEl(away,awayT?.eid,"sm"));
+      td.appendChild(Object.assign(document.createElement("strong"),{textContent:away}));
+      const at=document.createElement("span"); at.className="game-at"; at.textContent="@";
+      td.appendChild(at);
+      td.appendChild(logoEl(home,homeT?.eid,"sm"));
+      td.appendChild(Object.assign(document.createElement("strong"),{textContent:home}));
+      const badge=document.createElement("span"); badge.className="game-badge";
+      badge.textContent=parseInt(week)<=4?"Final":"Upcoming";
+      row.append(td,badge); list.appendChild(row);
+    });
+    block.append(hdr,list); container.appendChild(block);
+  });
+}
+
+let activeSeason=4;
+function renderSeasonSelect(){
+  const wrap=document.getElementById("season-select"); wrap.innerHTML="";
+  [1,2,3,4].forEach(s=>{
+    const btn=document.createElement("button");
+    btn.className="season-btn"+(s===activeSeason?" active":"");
+    btn.textContent=seasonHistory[s].label;
+    btn.onclick=()=>{activeSeason=s;renderSeasonSelect();renderSeasonAwards();};
+    wrap.appendChild(btn);
+  });
+}
+function renderSeasonAwards(){
+  const wrap=document.getElementById("season-awards-content"); wrap.innerHTML="";
+  const h=seasonHistory[activeSeason];
+  const sb=document.createElement("div"); sb.className="sb-banner";
+  sb.innerHTML=`<div class="sb-trophy">🏆</div><div class="sb-info">
+    <div class="sb-label">Super Bowl Champions</div>
+    <div class="sb-champ">${h.sb.champ}</div>
+    <div class="sb-score">Final: ${h.sb.score}</div>
+    <div class="sb-mvp">Super Bowl MVP: ${h.sb.mvp}</div>
+  </div>`;
+  const grid=document.createElement("div"); grid.className="awards-grid";
+  h.awards.filter(a=>a.name!=="Super Bowl MVP").forEach(a=>{
+    const card=document.createElement("div"); card.className="award-card";
+    card.innerHTML=`<div class="award-name">${a.name}</div><div class="award-winner">${a.winner}</div>`;
+    grid.appendChild(card);
+  });
+  wrap.append(sb,grid);
+}
+
+function switchStatsTab(id){
+  document.querySelectorAll(".stats-tab").forEach((t,i)=>{t.classList.toggle("active",["passing","rushing","receiving","defense"][i]===id);});
+  document.querySelectorAll(".stats-panel").forEach(p=>{p.classList.toggle("active",p.id==="stats-"+id);});
+}
+function switchHistoryTab(id){
+  document.querySelectorAll(".history-tab").forEach((t,i)=>{t.classList.toggle("active",["seasonal","alltime"][i]===id);});
+  document.querySelectorAll(".history-panel").forEach(p=>{p.classList.toggle("active",p.id==="hist-"+id);});
+}
+
+function navigate(page){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".nav-links a").forEach(a=>a.classList.remove("active"));
+  document.getElementById("page-"+page).classList.add("active");
+  const l=document.getElementById("nav-"+page); if(l)l.classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+  return false;
+}
+function toggleTheme(){
+  const light=document.documentElement.classList.toggle("light");
+  document.getElementById("theme-icon").className=light?"fas fa-sun":"fas fa-moon";
+}
+
+renderHomeMatchups();
+renderStandings();
+renderTeams();
+renderSchedule();
+renderSeasonSelect();
+renderSeasonAwards();
+document.getElementById("nav-logo").appendChild(logoEl("MFL","1245791095019929651","md"));
+document.getElementById("hero-logo").appendChild(logoEl("MFL","1245791095019929651","lg"));
+</script>
 </body>
 </html>
