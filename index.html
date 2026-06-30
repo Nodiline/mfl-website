@@ -9,13 +9,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
-            --bg-home-image: linear-gradient(rgba(12, 12, 12, 0.88), rgba(12, 12, 12, 0.88)), url('image_9351da.jpg');
+            --bg-home-raw: url('image_9351da.jpg');
+            --bg-home-opacity: 0.08;
             --bg:#0c0c0c; --surface:rgba(19,19,19,0.75); --surface2:rgba(26,26,26,0.85); --border:#252525;
             --text:#efefef; --muted:#a3a3a3; --accent:#4ade80; --accent-dim:#166534;
             --nav-bg:rgba(10,10,10,0.8);
         }
         html.light {
-            --bg-home-image: linear-gradient(rgba(244, 244, 243, 0.9), rgba(244, 244, 243, 0.9)), url('image_9351da.jpg');
+            --bg-home-opacity: 0.05;
             --bg:#f4f4f3; --surface:rgba(255,255,255,0.8); --surface2:rgba(234,234,232,0.9); --border:#d8d8d4;
             --text:#111; --muted:#555; --accent:#16a34a; --accent-dim:#bbf7d0;
             --nav-bg:rgba(244,244,243,0.8);
@@ -33,17 +34,30 @@
         .theme-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:color .15s,background .15s;flex-shrink:0;}
         .theme-btn:hover{color:var(--text);background:var(--border);}
         
-        /* Homepage specific container styling */
+        /* Homepage container with isolated faded background */
+        #page-home {
+            position: relative;
+            z-index: 1;
+        }
         #page-home.active {
             display: block;
             max-width: 1248px;
             margin: 24px auto;
-            background: var(--bg-home-image) no-repeat center center;
-            background-size: cover;
+            background: var(--bg);
             border-radius: 16px;
             border: 1px solid var(--border);
-            box-shadow: inset 0 0 40px rgba(0,0,0,0.5);
             padding-bottom: 40px;
+            overflow: hidden;
+        }
+        #page-home.active::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg-home-raw) no-repeat center center;
+            background-size: cover;
+            opacity: var(--bg-home-opacity);
+            z-index: -1;
+            pointer-events: none;
         }
         .page{display:none;} .page.active{display:block;}
         
@@ -178,7 +192,7 @@
       <li><a href="#" id="nav-stats"     onclick="return navigate('stats')"     >Stats</a></li>
       <li><a href="#" id="nav-teams"     onclick="return navigate('teams')"     >Teams</a></li>
       <li><a href="#" id="nav-schedule"  onclick="return navigate('schedule')"  >Schedule</a></li>
-      <li><a href="#" id="nav-history"   onclick="return navigate('history')"   >League History</a></li>
+      <li><a href="#" id="nav-history"   onclick="return navigate('history')"      >League History</a></li>
     </ul>
     <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme">
       <i class="fas fa-moon" id="theme-icon"></i>
