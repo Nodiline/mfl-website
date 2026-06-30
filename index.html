@@ -8,9 +8,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root { --bg-home-opacity: 0.1; --bg:#0c0c0c; --surface:rgba(19,19,19,0.75); --surface2:rgba(26,26,26,0.85); --border:#252525; --text:#efefef; --muted:#a3a3a3; --accent:#4ade80; --accent-dim:#166534; --nav-bg:rgba(10,10,10,0.8); }
-        html.light { --bg-home-opacity: 0.07; --bg:#f4f4f3; --surface:rgba(255,255,255,0.8); --surface2:rgba(234,234,232,0.9); --border:#d8d8d4; --text:#111; --muted:#555; --accent:#16a34a; --accent-dim:#bbf7d0; --nav-bg:rgba(244,244,243,0.8); }
-        *{box-sizing:border-box;margin:0;padding:0;} html{scroll-behavior:smooth;}
+        :root {
+            --bg-home-opacity: 0.1;
+            --bg:#0c0c0c; --surface:rgba(19,19,19,0.75); --surface2:rgba(26,26,26,0.85); --border:#252525;
+            --text:#efefef; --muted:#a3a3a3; --accent:#4ade80; --accent-dim:#166534;
+            --nav-bg:rgba(10,10,10,0.8);
+        }
+        html.light {
+            --bg-home-opacity: 0.07;
+            --bg:#f4f4f3; --surface:rgba(255,255,255,0.8); --surface2:rgba(234,234,232,0.9); --border:#d8d8d4;
+            --text:#111; --muted:#555; --accent:#16a34a; --accent-dim:#bbf7d0;
+            --nav-bg:rgba(244,244,243,0.8);
+        }
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+        html{scroll-behavior:smooth;}
         body{font-family:"Inter",system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .2s,color .2s;}
         nav{position:sticky;top:0;z-index:100;background:var(--nav-bg);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
         .nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:82px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
@@ -23,11 +34,15 @@
         .theme-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:color .15s,background .15s;flex-shrink:0;}
         .theme-btn:hover{color:var(--text);background:var(--border);}
 
+        /* PAGE TRANSITIONS */
         .page {display:none;opacity:0;transform:translateY(10px);}
         .page.active {display:block;animation:pageIn .38s cubic-bezier(.22,.61,.36,1) forwards;}
         .page.leaving {display:block;animation:pageOut .22s cubic-bezier(.4,0,1,1) forwards;}
         @keyframes pageIn {from {opacity:0;transform:translateY(10px);} to {opacity:1;transform:translateY(0);}}
         @keyframes pageOut {from {opacity:1;transform:translateY(0);} to {opacity:0;transform:translateY(-6px);}}
+        @media (prefers-reduced-motion: reduce) {
+            .page.active, .page.leaving { animation: none; opacity: 1; transform: none; }
+        }
 
         #page-home.active,#page-home.leaving{max-width:1248px;margin:24px auto;background:var(--bg);border-radius:16px;border:1px solid var(--border);padding-bottom:40px;overflow:hidden;}
         .team-logo{display:inline-flex;align-items:center;justify-content:center;border-radius:8px;overflow:hidden;flex-shrink:0;background:var(--surface2);font-weight:800;color:#fff;}
@@ -68,8 +83,143 @@
   </div>
 </nav>
 
-<!-- HOME, STANDINGS, STATS, TEAMS, SCHEDULE, HISTORY pages (original content) -->
-<!-- Players page added -->
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-tag"><span class="dot"></span> Season 5 · Week 4</div>
+      <h1 class="hero-title">Minecraft<br><em>Football</em><br>League</h1>
+      <p class="hero-sub">Twelve teams. Two conferences. One champion.<br>Follow every matchup across Season 5 of the MFL.</p>
+      <div class="hero-actions">
+        <a href="#" class="btn-primary" onclick="return navigate('standings')">Standings <i class="fas fa-arrow-right" style="font-size:11px"></i></a>
+        <a href="#" class="btn-ghost" onclick="return navigate('stats')">Stats</a>
+        <a href="#" class="btn-ghost"   onclick="return navigate('schedule')">Schedule</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div id="hero-logo"></div>
+    </div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-cell"><div class="stat-num">12</div><div class="stat-label">Teams</div></div>
+    <div class="stat-cell"><div class="stat-num">5</div><div class="stat-label">Season</div></div>
+    <div class="stat-cell"><div class="stat-num">4</div><div class="stat-label">Weeks Played</div></div>
+    <div class="stat-cell"><div class="stat-num">2</div><div class="stat-label">Conferences</div></div>
+  </div>
+  <div class="sec-hdr">
+    <span class="sec-title">Week 1 Matchups</span>
+    <a href="#" class="sec-link" onclick="return navigate('schedule')">Full schedule →</a>
+  </div>
+  <div class="matchup-grid" id="home-matchups"></div>
+</div>
+
+<!-- STANDINGS -->
+<div id="page-standings" class="page">
+  <div class="page-hdr">
+    <h1>Standings</h1>
+    <p>Season 5 — Week 4 standings. Record | Conference Record | Point Differential</p>
+  </div>
+  <div class="standings-wrap" id="standings-content"></div>
+  <div class="legend">
+    <div class="legend-item"><div class="seed-badge z">Z</div> Clinched #1 Seed</div>
+    <div class="legend-item"><div class="seed-badge x">X</div> Clinched Playoffs</div>
+    <div class="legend-item"><div class="seed-badge e">E</div> Eliminated</div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div id="page-stats" class="page">
+  <div class="page-hdr">
+    <h1>Stats</h1>
+    <p>Season 5 player statistics — Weeks 1–3 totals.</p>
+  </div>
+  <div class="stats-wrap">
+    <div class="stats-tabs">
+      <button class="stats-tab active" onclick="switchStatsTab('passing')">Passing</button>
+      <button class="stats-tab" onclick="switchStatsTab('rushing')">Rushing</button>
+      <button class="stats-tab" onclick="switchStatsTab('receiving')">Receiving</button>
+      <button class="stats-tab" onclick="switchStatsTab('defense')">Defense</button>
+      <button class="stats-tab" onclick="switchStatsTab('fantasy')">Fantasy</button>
+    </div>
+
+    <div id="stats-passing" class="stats-panel active">
+      <table class="data-table" id="table-passing">
+        <thead><tr><th class="rank">#</th><th>Player</th><th>Comp%</th><th>Pass YD</th><th>Pass TD</th><th>INT</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div id="stats-rushing" class="stats-panel">
+      <table class="data-table" id="table-rushing">
+        <thead><tr><th class="rank">#</th><th>Player</th><th>Carries</th><th>Rush YD</th><th>Rush TD</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div id="stats-receiving" class="stats-panel">
+      <table class="data-table" id="table-receiving">
+        <thead><tr><th class="rank">#</th><th>Player</th><th>Rec</th><th>Rec YD</th><th>Rec TD</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div id="stats-defense" class="stats-panel">
+      <div class="stats-tabs" style="margin-bottom:16px">
+        <button class="stats-tab active" onclick="switchDefenseTab('tackles')">Tackles</button>
+        <button class="stats-tab" onclick="switchDefenseTab('interceptions')">Interceptions</button>
+        <button class="stats-tab" onclick="switchDefenseTab('pressures')">Pressures</button>
+        <button class="stats-tab" onclick="switchDefenseTab('swats')">Swats</button>
+        <button class="stats-tab" onclick="switchDefenseTab('sacks')">Sacks</button>
+        <button class="stats-tab" onclick="switchDefenseTab('safeties')">Safeties</button>
+      </div>
+      <div id="def-tackles" class="stats-panel active">
+        <table class="data-table"><thead><tr><th class="rank">#</th><th>Player</th><th>Tackles</th></tr></thead><tbody></tbody></table>
+      </div>
+      <div id="def-interceptions" class="stats-panel">
+        <table class="data-table"><thead><tr><th class="rank">#</th><th>Player</th><th>Interceptions</th></tr></thead><tbody></tbody></table>
+      </div>
+      <div id="def-pressures" class="stats-panel">
+        <table class="data-table"><thead><tr><th class="rank">#</th><th>Player</th><th>Pressures</th></tr></thead><tbody></tbody></table>
+      </div>
+      <div id="def-swats" class="stats-panel">
+        <table class="data-table"><thead><tr><th class="rank">#</th><th>Player</th><th>Swats</th></tr></thead><tbody></tbody></table>
+      </div>
+      <div id="def-sacks" class="stats-panel">
+        <table class="data-table"><thead><tr><th class="rank">#</th><th>Player</th><th>Sacks</th></tr></thead><tbody></tbody></table>
+      </div>
+      <div id="def-safeties" class="stats-panel">
+        <table class="data-table"><thead><tr><th class="rank">#</th><th>Player</th><th>Safeties</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+
+    <div id="stats-fantasy" class="stats-panel">
+      <table class="data-table" id="table-fantasy">
+        <thead><tr><th class="rank">#</th><th>Player</th><th>Fantasy Points</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- TEAMS -->
+<div id="page-teams" class="page">
+  <div class="page-hdr">
+    <h1>Teams</h1>
+    <p>Season 5 rosters — 12 franchises across two conferences.</p>
+  </div>
+  <div class="teams-grid" id="team-grid"></div>
+</div>
+
+<!-- SCHEDULE -->
+<div id="page-schedule" class="page">
+  <div class="page-hdr">
+    <h1>Schedule</h1>
+    <p>Season 5 — 7 weeks of regular season play.</p>
+  </div>
+  <div class="sched-weeks" id="schedule-content"></div>
+</div>
+
+<!-- PLAYERS -->
 <div id="page-players" class="page">
   <div class="page-hdr">
     <h1>Players</h1>
@@ -78,30 +228,645 @@
   <div class="stats-wrap" id="players-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;padding:0 24px;"></div>
 </div>
 
-<!-- Modal for player details -->
-<div id="player-modal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2 id="modal-name"></h2>
-      <span class="modal-close" onclick="closeModal()">×</span>
+<!-- LEAGUE HISTORY -->
+<div id="page-history" class="page">
+  <div class="page-hdr">
+    <h1>League History</h1>
+    <p>Season awards, Super Bowl results, and all-time records.</p>
+  </div>
+  <div class="history-wrap">
+    <div class="history-tabs">
+      <button class="history-tab active" onclick="switchHistoryTab('seasonal')">Seasonal Awards</button>
+      <button class="history-tab" onclick="switchHistoryTab('alltime')">All-Time</button>
     </div>
-    <div class="modal-body" id="modal-body"></div>
+    <div id="hist-seasonal" class="history-panel active">
+      <div class="season-select" id="season-select"></div>
+      <div id="season-awards-content"></div>
+    </div>
+    <div id="hist-alltime" class="history-panel">
+      <p style="color:var(--muted);font-size:14px;margin-bottom:20px;">Award winners across all MFL seasons.</p>
+      <table class="alltime-table">
+        <thead><tr><th>Award</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th></tr></thead>
+        <tbody>
+          <tr><td><strong>MVP</strong></td><td>HenryVZ</td><td>Ayvvri</td><td>Dhir</td><td>Pearledd</td></tr>
+          <tr><td><strong>OPOY</strong></td><td>L8 Knight</td><td>L8 Knight</td><td>L8 Knight</td><td>Beefour</td></tr>
+          <tr><td><strong>DPOY</strong></td><td>Spej</td><td>Aaden</td><td>Ari</td><td>Visai</td></tr>
+          <tr><td><strong>OROY</strong></td><td>Conl</td><td>Mablez</td><td>Beefour</td><td>Noodle</td></tr>
+          <tr><td><strong>DROY</strong></td><td>HenryVZ</td><td>Paprisun</td><td>Fish</td><td>Noodle</td></tr>
+          <tr><td><strong>LMOTY</strong></td><td>Yaxal</td><td>Ari</td><td>Ari</td><td>Ari</td></tr>
+          <tr><td><strong>MIP</strong></td><td>Ayvvri</td><td>FlameFarter</td><td>Mablez</td><td>Beefour</td></tr>
+          <tr><td><strong>CBPOTY</strong></td><td>Vizo</td><td>TomNotTom</td><td>Dhir</td><td>Dil</td></tr>
+          <tr><td><strong>TCOTY</strong></td><td>Bigham</td><td>L8 Knight</td><td>—</td><td>Mablez</td></tr>
+          <tr><td><strong>Sportsmanship</strong></td><td>—</td><td>—</td><td>—</td><td>Visai</td></tr>
+          <tr><td><strong>SB MVP</strong></td><td>Ari</td><td>Juadeep</td><td>Ari</td><td>Phosphane</td></tr>
+        </tbody>
+      </table>
+      <table class="alltime-table">
+        <thead><tr><th>Season</th><th>Super Bowl Champions</th><th>Score</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Season 1</strong> <span style="color:var(--muted);font-size:12px">Legacy</span></td><td>Ice Spike Polar Bears</td><td>36 – 6</td></tr>
+          <tr><td><strong>Season 2</strong> <span style="color:var(--muted);font-size:12px">Modern</span></td><td>Ice Spike Polar Bears</td><td>28 – 21</td></tr>
+          <tr><td><strong>Season 3</strong> <span style="color:var(--muted);font-size:12px">Modern</span></td><td>Deep Sea Dolphins</td><td>20 – 14</td></tr>
+          <tr><td><strong>Season 4</strong> <span style="color:var(--muted);font-size:12px">Modern</span></td><td>Ancient City Rams</td><td>54 – 47</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
 <footer>MFL · Minecraft Football League · Season 5</footer>
 
 <script>
-// Full JS with all original data + new features (sorting, modals, owner badges, dropdowns)
-const statsPassing = [ /* your original passing data */ ];
-// ... (all other data arrays)
-function navigate(page) { /* navigation */ }
-function switchStatsTab(id) { /* tab switching */ }
-function sortTable(tableId, colIndex) { /* sorting logic */ }
-function showPlayerModal(name) { /* modal */ }
-function closeModal() { document.getElementById('player-modal').style.display = 'none'; }
-// ... (render functions)
-renderPlayers(); // calls the new Players page
+// Full JS with all original data + new features
+const statsPassing = [
+  {name:"beefourr",comp:68,att:127,pct:53.5,yds:1888,td:21,int:12},
+  {name:"ayvvri",comp:105,att:171,pct:61.4,yds:1784,td:16,int:9},
+  {name:"nood",comp:62,att:121,pct:51.2,yds:1518,td:18,int:6},
+  {name:"Arxtlc",comp:52,att:92,pct:56.5,yds:1289,td:19,int:4},
+  {name:"Henryvz",comp:52,att:88,pct:59.1,yds:1082,td:11,int:6},
+  {name:"Pengu1na",comp:57,att:93,pct:61.3,yds:1074,td:9,int:1},
+  {name:"Dead_Rr",comp:52,att:101,pct:51.5,yds:967,td:12,int:3},
+  {name:"LittleBigBigham",comp:40,att:75,pct:53.3,yds:800,td:8,int:7},
+  {name:"TECHhector",comp:30,att:75,pct:40.0,yds:710,td:5,int:6},
+  {name:"FoxAnuka",comp:38,att:104,pct:36.5,yds:699,td:6,int:9},
+  {name:"Kanagawwa",comp:31,att:47,pct:66.0,yds:624,td:6,int:1},
+  {name:"TheRealSlimSh8y",comp:26,att:60,pct:43.3,yds:493,td:8,int:4},
+  {name:"Avoidss",comp:19,att:37,pct:51.4,yds:390,td:1,int:2},
+  {name:"tufwa",comp:14,att:30,pct:46.7,yds:241,td:2,int:6},
+  {name:"LubWicc",comp:5,att:14,pct:35.7,yds:118,td:0,int:5},
+  {name:"chaseler",comp:6,att:8,pct:75.0,yds:97,td:1,int:0},
+  {name:"michaelbackshots",comp:2,att:3,pct:66.7,yds:83,td:1,int:0},
+  {name:"JusBleh",comp:1,att:1,pct:100.0,yds:81,td:1,int:0},
+  {name:"Visai",comp:2,att:4,pct:50.0,yds:58,td:1,int:1},
+  {name:"AjClipss",comp:2,att:2,pct:100.0,yds:50,td:1,int:0},
+  {name:"ironbvg",comp:2,att:6,pct:33.3,yds:35,td:0,int:0},
+  {name:"N2LOSE",comp:1,att:4,pct:25.0,yds:24,td:0,int:1},
+  {name:"dylxnd",comp:1,att:4,pct:25.0,yds:18,td:0,int:0},
+  {name:"Buhgor",comp:0,att:3,pct:0.0,yds:0,td:0,int:2},
+  {name:"DragonBallZ",comp:1,att:3,pct:33.3,yds:0,td:0,int:1},
+  {name:"B0TZ_",comp:1,att:1,pct:100.0,yds:0,td:0,int:0},
+  {name:"shoulderxd",comp:0,att:3,pct:0.0,yds:0,td:0,int:0},
+  {name:"lustinn",comp:0,att:2,pct:0.0,yds:0,td:0,int:2},
+  {name:"Cxozy",comp:0,att:2,pct:0.0,yds:0,td:0,int:1},
+  {name:"toelicker92",comp:0,att:2,pct:0.0,yds:0,td:0,int:0},
+  {name:"JigglyUranus",comp:1,att:1,pct:100.0,yds:0,td:0,int:0},
+  {name:"GartSlinginShart",comp:0,att:1,pct:0.0,yds:0,td:0,int:0},
+  {name:"Disforms",comp:0,att:1,pct:0.0,yds:0,td:0,int:1}
+];
+
+const statsRushing = [
+  {name:"TheRealSlimSh8y",car:26,yds:169,td:1},
+  {name:"nood",car:17,yds:65,td:0},
+  {name:"FoxAnuka",car:7,yds:15,td:0},
+  {name:"ironbvg",car:1,yds:7,td:0},
+  {name:"McNugget7779",car:1,yds:4,td:1},
+  {name:"JigglyUranus",car:1,yds:4,td:1},
+  {name:"syrb",car:4,yds:3,td:0},
+  {name:"zo1o",car:2,yds:3,td:1},
+  {name:"LubWicc",car:2,yds:2,td:0},
+  {name:"B0TZ_",car:1,yds:0,td:0},
+  {name:"DevontaSmith",car:1,yds:-1,td:0},
+  {name:"Arxtlc",car:7,yds:-4,td:0},
+  {name:"tufwa",car:4,yds:-13,td:0},
+  {name:"michaelbackshots",car:3,yds:-14,td:1},
+  {name:"xHqlo",car:4,yds:-14,td:1},
+  {name:"beefourr",car:8,yds:-15,td:0},
+  {name:"LittleBigBigham",car:8,yds:-31,td:0},
+  {name:"Pengu1na",car:6,yds:-36,td:0},
+  {name:"Kanagawwa",car:6,yds:-41,td:0},
+  {name:"Avoidss",car:11,yds:-52,td:0},
+  {name:"Dead_Rr",car:5,yds:-59,td:0},
+  {name:"Henryvz",car:6,yds:-96,td:0},
+  {name:"ayvvri",car:25,yds:-118,td:0},
+  {name:"TECHhector",car:15,yds:-263,td:0}
+];
+
+const statsReceiving = [
+  {name:"Prodxgy",rec:46,yds:1232,td:13},
+  {name:"NotQC1",rec:24,yds:993,td:12},
+  {name:"phosphane",rec:50,yds:823,td:5},
+  {name:"shoulderxd",rec:36,yds:715,td:6},
+  {name:"AjClipss",rec:28,yds:613,td:6},
+  {name:"L8_Knight",rec:22,yds:533,td:8},
+  {name:"McNugget7779",rec:25,yds:494,td:3},
+  {name:"syrb",rec:17,yds:468,td:6},
+  {name:"xHqlo",rec:19,yds:468,td:3},
+  {name:"zo1o",rec:20,yds:467,td:8},
+  {name:"chaseler",rec:15,yds:460,td:4},
+  {name:"B0TZ_",rec:12,yds:457,td:8},
+  {name:"michaelbackshots",rec:20,yds:428,td:4},
+  {name:"FlameFarter_",rec:22,yds:413,td:3},
+  {name:"ItsJustShin",rec:13,yds:396,td:4},
+  {name:"GartSlinginShart",rec:14,yds:390,td:5},
+  {name:"FRTpear",rec:21,yds:348,td:6},
+  {name:"slicksters",rec:20,yds:342,td:5},
+  {name:"SheerPluto",rec:12,yds:325,td:1},
+  {name:"Triggxrd",rec:11,yds:320,td:3},
+  {name:"JigglyUranus",rec:11,yds:302,td:5},
+  {name:"2XXS",rec:17,yds:283,td:4},
+  {name:"DevontaSmith",rec:13,yds:281,td:3},
+  {name:"ironbvg",rec:8,yds:242,td:3},
+  {name:"LubWicc",rec:9,yds:193,td:1},
+  {name:"Haimiyaholic",rec:13,yds:185,td:0},
+  {name:"TheForest_Guest",rec:9,yds:173,td:1},
+  {name:"silencer805805",rec:5,yds:172,td:1},
+  {name:"Avoidss",rec:6,yds:143,td:3},
+  {name:"Mbz_",rec:8,yds:133,td:2},
+  {name:"Proffic",rec:7,yds:129,td:1},
+  {name:"KDawgHarden",rec:6,yds:126,td:3},
+  {name:"tufwa",rec:10,yds:124,td:4},
+  {name:"Lngr",rec:6,yds:108,td:0},
+  {name:"beefourr",rec:5,yds:97,td:1},
+  {name:"toelicker92",rec:7,yds:88,td:0},
+  {name:"lustinn",rec:3,yds:77,td:1},
+  {name:"JusBleh",rec:4,yds:76,td:0},
+  {name:"Visai",rec:4,yds:70,td:0},
+  {name:"Choco_milk67",rec:6,yds:69,td:0},
+  {name:"dylxnd",rec:4,yds:63,td:0},
+  {name:"Cxozy",rec:6,yds:59,td:0},
+  {name:"TECHhector",rec:2,yds:58,td:0},
+  {name:"Its_Iron",rec:4,yds:57,td:0},
+  {name:"nood",rec:1,yds:47,td:1},
+  {name:"Yaxal",rec:2,yds:38,td:0},
+  {name:"Dead_Rr",rec:2,yds:35,td:0},
+  {name:"Pengu1na",rec:1,yds:25,td:0},
+  {name:"x4nv",rec:1,yds:10,td:0},
+  {name:"ayyexabyte",rec:1,yds:1,td:0},
+  {name:"CDG18",rec:1,yds:0,td:0},
+  {name:"Robby",rec:1,yds:0,td:0},
+  {name:"Dhir",rec:1,yds:0,td:0},
+  {name:"kwot",rec:1,yds:0,td:0}
+];
+
+const statsDefense = [
+  {name:"L8_Knight",tkl:34,int:2,prs:2,swt:4,sck:2,sfty:0},
+  {name:"beefourr",tkl:31,int:7,prs:5,swt:3,sck:3,sfty:0},
+  {name:"NotQC1",tkl:30,int:1,prs:0,swt:6,sck:0,sfty:0},
+  {name:"phosphane",tkl:30,int:3,prs:1,swt:2,sck:0,sfty:0},
+  {name:"Prodxgy",tkl:26,int:3,prs:2,swt:0,sck:2,sfty:0},
+  {name:"slicksters",tkl:20,int:3,prs:4,swt:0,sck:0,sfty:0},
+  {name:"ayvvri",tkl:19,int:3,prs:0,swt:0,sck:0,sfty:0},
+  {name:"chaseler",tkl:19,int:1,prs:2,swt:1,sck:2,sfty:0},
+  {name:"FlameFarter_",tkl:17,int:1,prs:0,swt:0,sck:0,sfty:0},
+  {name:"McNugget7779",tkl:17,int:0,prs:1,swt:0,sck:1,sfty:0},
+  {name:"zo1o",tkl:16,int:5,prs:2,swt:0,sck:2,sfty:0},
+  {name:"Dead_Rr",tkl:15,int:3,prs:0,swt:0,sck:0,sfty:0},
+  {name:"silencer805805",tkl:15,int:0,prs:1,swt:1,sck:1,sfty:0},
+  {name:"2XXS",tkl:15,int:4,prs:3,swt:0,sck:0,sfty:0},
+  {name:"Henryvz",tkl:14,int:0,prs:1,swt:3,sck:1,sfty:0},
+  {name:"FoxAnuka",tkl:13,int:3,prs:0,swt:1,sck:0,sfty:0},
+  {name:"TECHhector",tkl:13,int:1,prs:2,swt:5,sck:1,sfty:0},
+  {name:"Pengu1na",tkl:13,int:0,prs:1,swt:0,sck:1,sfty:0},
+  {name:"Arxtlc",tkl:12,int:2,prs:1,swt:1,sck:1,sfty:0},
+  {name:"KDawgHarden",tkl:11,int:2,prs:1,swt:0,sck:1,sfty:0},
+  {name:"LittleBigBigham",tkl:10,int:0,prs:0,swt:0,sck:0,sfty:0},
+  {name:"Haimiyaholic",tkl:10,int:1,prs:2,swt:0,sck:2,sfty:0},
+  {name:"ItsJustShin",tkl:10,int:0,prs:0,swt:0,sck:0,sfty:0},
+  {name:"GartSlinginShart",tkl:9,int:2,prs:0,swt:5,sck:0,sfty:0},
+  {name:"AjClipss",tkl:9,int:2,prs:3,swt:5,sck:1,sfty:0},
+  {name:"Proffic",tkl:9,int:0,prs:1,swt:0,sck:1,sfty:0},
+  {name:"shoulderxd",tkl:9,int:2,prs:1,swt:1,sck:1,sfty:0},
+  {name:"LubWicc",tkl:8,int:1,prs:0,swt:0,sck:0,sfty:0},
+  {name:"Avoidss",tkl:8,int:2,prs:3,swt:0,sck:2,sfty:0},
+  {name:"Lngr",tkl:8,int:0,prs:0,swt:0,sck:0,sfty:0},
+  {name:"tufwa",tkl:8,int:1,prs:1,swt:0,sck:1,sfty:0},
+  {name:"nood",tkl:8,int:6,prs:0,swt:0,sck:0,sfty:0},
+  {name:"xHqlo",tkl:8,int:2,prs:0,swt:1,sck:0,sfty:0},
+  {name:"syrb",tkl:7,int:5,prs:1,swt:0,sck:1,sfty:0},
+  {name:"FRTpear",tkl:7,int:3,prs:2,swt:0,sck:1,sfty:1},
+  {name:"B0TZ_",tkl:7,int:0,prs:0,swt:2,sck:0,sfty:0},
+  {name:"dylxnd",tkl:7,int:0,prs:6,swt:2,sck:3,sfty:0},
+  {name:"DevontaSmith",tkl:6,int:1,prs:1,swt:1,sck:1,sfty:0},
+  {name:"Triggxrd",tkl:6,int:2,prs:1,swt:0,sck:1,sfty:0},
+  {name:"JusBleh",tkl:6,int:1,prs:0,swt:0,sck:0,sfty:0},
+  {name:"toelicker92",tkl:6,int:0,prs:0,swt:5,sck:0,sfty:0},
+  {name:"DragonBallZ",tkl:5,int:0,prs:25,swt:2,sck:9,sfty:1},
+  {name:"ironbvg",tkl:5,int:3,prs:1,swt:0,sck:0,sfty:0},
+  {name:"Yaxal",tkl:5,int:0,prs:15,swt:0,sck:1,sfty:0},
+  {name:"SteveBouc",tkl:5,int:1,prs:0,swt:0,sck:0,sfty:0},
+  {name:"michaelbackshots",tkl:5,int:4,prs:0,swt:0,sck:0,sfty:0},
+  {name:"Someb0ddy",tkl:5,int:0,prs:7,swt:0,sck:1,sfty:0},
+  {name:"CDG18",tkl:4,int:0,prs:10,swt:0,sck:2,sfty:0},
+  {name:"Choco_milk67",tkl:4,int:0,prs:0,swt:0,sck:0,sfty:0},
+  {name:"Kanagawwa",tkl:4,int:0,prs:1,swt:0,sck:1,sfty:0},
+  {name:"Its_Iron",tkl:4,int:0,prs:0,swt:0,sck:0,sfty:0},
+  {name:"JigglyUranus",tkl:4,int:1,prs:0,swt:2,sck:0,sfty:0},
+  {name:"TheRealSlimSh8y",tkl:3,int:0,prs:0,swt:0,sck:0,sfty:0},
+  {name:"Robby",tkl:3,int:0,prs:24,swt:0,sck:4,sfty:1},
+  {name:"SheerPluto",tkl:3,int:0,prs:0,swt:0,sck:0,sfty:0},
+  {name:"RandomHere",tkl:2,int:1,prs:12,swt:1,sck:6,sfty:0},
+  {name:"Smzky",tkl:2,int:1,prs:9,swt:0,sck:5,sfty:0},
+  {name:"N2LOSE",tkl:2,int:0,prs:4,swt:0,sck:1,sfty:0},
+  {name:"kwot",tkl:2,int:0,prs:0,swt:0,sck:0,sfty:0},
+  {name:"TheForest_Guest",tkl:2,int:0,prs:0,swt:0,sck:0,sfty:0},
+  {name:"Disforms",tkl:2,int:0,prs:0,swt:0,sck:0,sfty:0},
+  {name:"ayyexabyte",tkl:1,int:0,prs:19,swt:1,sck:4,sfty:0},
+  {name:"Visai",tkl:1,int:1,prs:12,swt:0,sck:5,sfty:1},
+  {name:"Buhgor",tkl:1,int:1,prs:12,swt:0,sck:3,sfty:0},
+  {name:"Mbz_",tkl:1,int:1,prs:0,swt:1,sck:0,sfty:0},
+  {name:"lustinn",tkl:1,int:0,prs:19,swt:2,sck:7,sfty:3},
+  {name:"1e36",tkl:1,int:0,prs:1,swt:0,sck:0,sfty:0},
+  {name:"Dhir",tkl:0,int:0,prs:13,swt:0,sck:3,sfty:2},
+  {name:"Cxozy",tkl:0,int:1,prs:1,swt:1,sck:1,sfty:0}
+];
+
+const statsFantasy = [
+  {name:"beefourr",fp:495.0},
+  {name:"Prodxgy",fp:383.8},
+  {name:"nood",fp:347.8},
+  {name:"ayvvri",fp:340.1},
+  {name:"Arxtlc",fp:335.9},
+  {name:"NotQC1",fp:300.6},
+  {name:"phosphane",fp:282.5},
+  {name:"L8_Knight",fp:269.4},
+  {name:"Dead_Rr",fp:241.6},
+  {name:"Henryvz",fp:235.8},
+  {name:"zo1o",fp:227.7},
+  {name:"Pengu1na",fp:226.4},
+  {name:"AjClipss",fp:217.8},
+  {name:"DragonBallZ",fp:211.4},
+  {name:"shoulderxd",fp:211.4},
+  {name:"chaseler",fp:192.0},
+  {name:"lustinn",fp:187.9},
+  {name:"syrb",fp:176.6},
+  {name:"michaelbackshots",fp:173.1},
+  {name:"slicksters",fp:170.0},
+  {name:"FRTpear",fp:165.7},
+  {name:"McNugget7779",fp:161.8},
+  {name:"Avoidss",fp:155.3},
+  {name:"Visai",fp:155.2},
+  {name:"Robby",fp:154.1},
+  {name:"2XXS",fp:145.8},
+  {name:"FoxAnuka",fp:140.8},
+  {name:"LittleBigBigham",fp:140.0},
+  {name:"B0TZ_",fp:137.0},
+  {name:"TheRealSlimSh8y",fp:134.3},
+  {name:"FlameFarter_",fp:134.2},
+  {name:"TECHhector",fp:133.8},
+  {name:"GartSlinginShart",fp:133.1},
+  {name:"Kanagawwa",fp:130.1},
+  {name:"xHqlo",fp:128.9},
+  {name:"DevontaSmith",fp:121.6},
+  {name:"ayyexabyte",fp:120.6},
+  {name:"RandomHere",fp:112.0},
+  {name:"Triggxrd",fp:109.6},
+  {name:"ItsJustShin",fp:108.5},
+  {name:"ironbvg",fp:107.4},
+  {name:"tufwa",fp:107.2},
+  {name:"Dhir",fp:105.6},
+  {name:"JigglyUranus",fp:104.8},
+  {name:"Smzky",fp:96.5},
+  {name:"Haimiyaholic",fp:91.6},
+  {name:"KDawgHarden",fp:89.4},
+  {name:"Yaxal",fp:86.9},
+  {name:"dylxnd",fp:85.0},
+  {name:"silencer805805",fp:78.9},
+  {name:"Buhgor",fp:78.4},
+  {name:"CDG18",fp:66.8},
+  {name:"SheerPluto",fp:66.3},
+  {name:"Proffic",fp:61.8},
+  {name:"LubWicc",fp:54.5},
+  {name:"Someb0ddy",fp:48.0},
+  {name:"JusBleh",fp:47.9},
+  {name:"Mbz_",fp:47.3},
+  {name:"Cxozy",fp:43.6},
+  {name:"TheForest_Guest",fp:41.5},
+  {name:"toelicker92",fp:37.8},
+  {name:"Lngr",fp:36.0},
+  {name:"N2LOSE",fp:28.3},
+  {name:"Choco_milk67",fp:23.0},
+  {name:"Its_Iron",fp:19.4},
+  {name:"SteveBouc",fp:16.5},
+  {name:"1e36",fp:6.0},
+  {name:"kwot",fp:4.5},
+  {name:"x4nv",fp:2.3},
+  {name:"Disforms",fp:0.0}
+];
+
+const teams = [
+  { name:"Dolphins",   eid:"985605150548832337",  conf:"Overworld", players:["L8 Knight (Owner)","Bigham","Flamefarter","robby","Deadrr","Sagil", "conl","ilyfade","Peng"] },
+  { name:"Guardians",  eid:"991822157258698862",  conf:"Overworld", players:["TomNotTom (Owner)","Muddydt","Slicky","LDNH","Randomhere"] },
+  { name:"Polar Bears",eid:"1058837067343335594", conf:"Overworld", players:["No? (Owner)","Prodigy","Lustin","Creamv","Forestguest"] },
+  { name:"Pigs",       eid:"985273710405632010",  conf:"Overworld", players:["Beefour (Owner)","Juadeep","Chaseler","Chief","QC","Coolpersin","Fak"] },
+  { name:"Foxes",      eid:"951695996004466728",  conf:"Overworld", players:["Foxanuka (Owner)","Land","syrb","Kdawgharden","Penley"] },
+  { name:"Penguins",   eid:"1405341961732493383", conf:"Overworld", players:["Techhector (Owner)","Lub","Shinichi","Yaxalk","Tac10k","Bleh"] },
+  { name:"Rams",       eid:"985068684148109362",  conf:"Underworld",players:["Josh (Owner)","Trigg","Ajclips","Steve","Djcrafter"] },
+  { name:"Horsemen",   eid:"1442651969704558602", conf:"Underworld",players:["Dhir (Owner)","Penguin","Tracklol","MJS","Tezi"] },
+  { name:"Dragons",    eid:"942504840821633104",  conf:"Underworld",players:["Noodle (Owner)","Botz","Visai","Vizo","Frtpear"] },
+  { name:"Glowsquids", eid:"1404571807939432468", conf:"Underworld",players:["Exabyte (Owner)","Ayvvri","Phosphane","Buhg"] },
+  { name:"Phantoms",   eid:"985319259565609020",  conf:"Underworld",players:["Henryvz (Owner)","Smoky","Mcnugget","Spej","zolo"] },
+  { name:"Ghasts",     eid:"1062965414319116370", conf:"Underworld",players:["Coozy (Owner)","Ironbug","Cozy","Avoids","Sheerpluto","Xany"] },
+];
+
+const standings = {
+  Overworld:[
+    {name:"Pigs",       w:4,l:0,cw:1,cl:0,pd:+57, badge:"z"},
+    {name:"Guardians",  w:2,l:1,cw:1,cl:0,pd:+27, badge:""},
+    {name:"Polar Bears",w:1,l:2,cw:1,cl:0,pd:-33, badge:""},
+    {name:"Dolphins",   w:1,l:3,cw:1,cl:1,pd:-41, badge:""},
+    {name:"Foxes",      w:0,l:4,cw:0,cl:2,pd:-61, badge:"e"},
+    {name:"Penguins",   w:0,l:4,cw:0,cl:1,pd:-127,badge:"e"},
+  ],
+  Underworld:[
+    {name:"Horsemen",   w:3,l:0,cw:1,cl:0,pd:+53, badge:"z"},
+    {name:"Phantoms",   w:3,l:0,cw:1,cl:0,pd:+33, badge:"x"},
+    {name:"Dragons",    w:3,l:1,cw:1,cl:1,pd:+61, badge:"x", note:"H2H over Rams"},
+    {name:"Rams",       w:2,l:2,cw:0,cl:1,pd:+17, badge:""},
+    {name:"Ghasts",     w:1,l:2,cw:0,cl:0,pd:+13, badge:""},
+    {name:"Glowsquids", w:1,l:2,cw:0,cl:1,pd:-9,  badge:""},
+  ]
+};
+
+const schedule = {
+  1:["Dolphins @ Guardians","Polar Bears @ Rams","Pigs @ Foxes","Horsemen @ Dragons","Glowsquids @ Phantoms","Ghasts @ Penguins"],
+  2:["Phantoms @ Foxes","Polar Bears @ Penguins","Rams @ Dragons","Glowsquids @ Pigs","Guardians @ Ghasts","Dolphins @ Horsemen"],
+  3:["Phantoms @ Guardians","Foxes @ Dragons","Pigs @ Ghasts","Glowsquids @ Dolphins","Penguins @ Rams","Horsemen @ Polar Bears"],
+  4:["Guardians @ Polar Bears","Ghasts @ Horsemen","Glowsquids @ Ghasts","Dragons @ Penguins","Rams @ Pigs","Foxes @ Dolphins"],
+  5:["Dolphins @ Polar Bears","Guardians @ Rams","Pigs @ Phantoms","Foxes @ Ghasts","Dragons @ Glowsquids","Rams @ Penguins"],
+  6:["Foxes @ Polar Bears","Dolphins @ Rams","Guardians @ Dragons","Dolphins @ Horsemen","Glowsquids @ Penguins","Ghasts @ Phantoms"],
+  7:["Horsemen @ Foxes","Penguins @ Dolphins","Pigs @ Guardians","Ghasts @ Dragons","Rams @ Phantoms","Polar Bears @ Glowsquids"]
+};
+
+const seasonHistory = {
+  1: {label:"Season 1 (Legacy)",sb:{champ:"Ice Spike Polar Bears",score:"36 – 6",mvp:"Ari"},awards:[{name:"MVP",winner:"HenryVZ"},{name:"OPOY",winner:"L8 Knight"},{name:"DPOY",winner:"Spej"},{name:"OROY",winner:"Conl"},{name:"DROY",winner:"HenryVZ"},{name:"LMOTY",winner:"Yaxal"},{name:"MIP",winner:"Ayvvri"},{name:"CBPOTY",winner:"Vizo"},{name:"TCOTY",winner:"Bigham"},{name:"Super Bowl MVP",winner:"Ari"}]},
+  2: {label:"Season 2 (Modern)",sb:{champ:"Ice Spike Polar Bears",score:"28 – 21",mvp:"Juadeep"},awards:[{name:"MVP",winner:"Ayvvri"},{name:"OPOY",winner:"L8 Knight"},{name:"DPOY",winner:"Aaden"},{name:"OROY",winner:"Mablez"},{name:"DROY",winner:"Paprisun"},{name:"LMOTY",winner:"Ari"},{name:"MIP",winner:"FlameFarter"},{name:"CBPOTY",winner:"TomNotTom"},{name:"TCOTY",winner:"L8 Knight"},{name:"Super Bowl MVP",winner:"Juadeep"}]},
+  3: {label:"Season 3 (Modern)",sb:{champ:"Deep Sea Dolphins",score:"20 – 14",mvp:"Ari"},awards:[{name:"MVP",winner:"Dhir"},{name:"OPOY",winner:"L8 Knight"},{name:"DPOY",winner:"Ari"},{name:"OROY",winner:"Beefour"},{name:"DROY",winner:"Fish"},{name:"LMOTY",winner:"Ari"},{name:"MIP",winner:"Mablez"},{name:"CBPOTY",winner:"Dhir"},{name:"Super Bowl MVP",winner:"Ari"}]},
+  4: {label:"Season 4 (Modern)",sb:{champ:"Ancient City Rams",score:"54 – 47",mvp:"Phosphane"},awards:[{name:"MVP",winner:"Pearledd"},{name:"GameChanger",winner:"L8"},{name:"OPOY",winner:"Beefour"},{name:"DPOY",winner:"Visai"},{name:"OROY",winner:"Noodle"},{name:"DROY",winner:"Noodle"},{name:"LMOTY",winner:"Ari"},{name:"MIP",winner:"Beefour"},{name:"CBPOTY",winner:"Dil"},{name:"TCOTY",winner:"Mablez"},{name:"Sportsmanship",winner:"Visai"},{name:"Super Bowl MVP",winner:"Phosphane"}]}
+};
+
+const palette = ["#166534","#1e40af","#7c3aed","#9a3412","#064e3b","#1e3a5f","#5b21b6","#78350f","#134e4a","#1e3a8a","#6b21a8","#92400e"];
+
+function getTeam(name){return teams.find(t=>t.name===name);}
+function parseGame(s){const[a,h]=s.split(" @ ");return{away:a.trim(),home:h.trim()};}
+
+function logoEl(name,eid,sizeClass){
+  const idx=(name||"?").charCodeAt(0)%palette.length;
+  const el=document.createElement("div");
+  el.className="team-logo "+(sizeClass||"sm");
+  el.style.background=palette[idx];
+  el.textContent=(name||"?").charAt(0).toUpperCase();
+  if(eid){
+    const img=new Image();
+    img.crossOrigin="anonymous";
+    img.src=`https://wsrv.nl/?url=cdn.discordapp.com/emojis/${eid}.webp%3Fsize%3D96&output=png&w=96&h=96`;
+    img.alt=name;
+    img.style.cssText="width:100%;height:100%;object-fit:contain;border-radius:inherit;display:block";
+    img.onload=()=>{el.textContent="";el.appendChild(img);};
+  }
+  return el;
+}
+
+function renderHomeMatchups(){
+  const el=document.getElementById("home-matchups");
+  schedule[1].forEach(m=>{
+    const{away,home}=parseGame(m);
+    const awayT=getTeam(away),homeT=getTeam(home);
+    const card=document.createElement("div"); card.className="matchup-card";
+    const ar=document.createElement("div"); ar.className="mc-team";
+    ar.appendChild(logoEl(away,awayT?.eid,"sm"));
+    ar.appendChild(Object.assign(document.createElement("span"),{textContent:away}));
+    const sep=document.createElement("div"); sep.className="mc-sep"; sep.textContent="at";
+    const hr=document.createElement("div"); hr.className="mc-team";
+    hr.appendChild(logoEl(home,homeT?.eid,"sm"));
+    hr.appendChild(Object.assign(document.createElement("span"),{textContent:home}));
+    card.append(ar,sep,hr); el.appendChild(card);
+  });
+}
+
+function renderStandings(){
+  const wrap=document.getElementById("standings-content");
+  ["Overworld","Underworld"].forEach(conf=>{
+    const block=document.createElement("div"); block.className="conf-block";
+    const title=document.createElement("div"); title.className="conf-title"; title.textContent=conf+" Conference";
+    const table=document.createElement("table"); table.className="standings-table";
+    table.innerHTML=`<thead><tr><th style="width:36px"></th><th>Team</th><th>W</th><th>L</th><th>Conf</th><th>PD</th></tr></thead>`;
+    const tbody=document.createElement("tbody");
+    standings[conf].forEach((row,i)=>{
+      const t=getTeam(row.name);
+      const pdStr=(row.pd>0?"+":"")+row.pd;
+      const pdClass=row.pd>0?"pd-pos":row.pd<0?"pd-neg":"";
+      const tr=document.createElement("tr");
+      const badgeHtml=row.badge?`<div class="seed-badge ${row.badge}">${row.badge.toUpperCase()}</div>`:`<div class="seed-badge">${i+1}</div>`;
+      tr.innerHTML=`
+        <td>${badgeHtml}</td>
+        <td><div class="td-team"><span style="display:inline-flex"></span><span>${row.name}</span>${row.note?`<span style="font-size:10px;color:var(--muted);margin-left:4px">${row.note}</span>`:""}</div></td>
+        <td class="wins">${row.w}</td><td>${row.l}</td>
+        <td>${row.cw}-${row.cl}</td>
+        <td class="${pdClass}">${pdStr}</td>`;
+      tr.querySelector(".td-team span").appendChild(logoEl(row.name,t?.eid,"xs"));
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    block.append(title,table);
+    wrap.appendChild(block);
+  });
+}
+
+function renderTeams(){
+  const grid=document.getElementById("team-grid");
+  teams.forEach(t=>{
+    const card=document.createElement("div"); card.className="team-card";
+    const hdr=document.createElement("div"); hdr.className="tc-header";
+    hdr.appendChild(logoEl(t.name,t.eid,"lg"));
+    const info=document.createElement("div");
+    info.innerHTML=`<div class="tc-name">${t.name}</div><div class="tc-size">${t.conf} · ${t.players.length} players</div>`;
+    hdr.appendChild(info);
+    const rl=document.createElement("div"); rl.className="tc-roster-label"; rl.textContent="Roster";
+    const roster=document.createElement("div"); roster.className="tc-roster";
+    t.players.forEach(p=>{const d=document.createElement("div");d.className="tc-player";d.textContent=p;roster.appendChild(d);});
+    card.append(hdr,rl,roster); grid.appendChild(card);
+  });
+}
+
+function renderSchedule(){
+  const container=document.getElementById("schedule-content");
+  Object.keys(schedule).forEach(week=>{
+    const block=document.createElement("div");
+    const hdr=document.createElement("div"); hdr.className="week-hdr";
+    hdr.innerHTML=`<span class="week-lbl">Week ${week}</span><div class="week-rule"></div>`;
+    const list=document.createElement("div"); list.className="game-list";
+    schedule[week].forEach(m=>{
+      const{away,home}=parseGame(m);
+      const awayT=getTeam(away),homeT=getTeam(home);
+      const row=document.createElement("div"); row.className="game-row";
+      const td=document.createElement("div"); td.className="game-teams";
+      td.appendChild(logoEl(away,awayT?.eid,"sm"));
+      td.appendChild(Object.assign(document.createElement("strong"),{textContent:away}));
+      const at=document.createElement("span"); at.className="game-at"; at.textContent="@";
+      td.appendChild(at);
+      td.appendChild(logoEl(home,homeT?.eid,"sm"));
+      td.appendChild(Object.assign(document.createElement("strong"),{textContent:home}));
+      const badge=document.createElement("span"); badge.className="game-badge";
+      badge.textContent=parseInt(week)<=4?"Final":"Upcoming";
+      row.append(td,badge); list.appendChild(row);
+    });
+    block.append(hdr,list); container.appendChild(block);
+  });
+}
+
+let activeSeason=4;
+function renderSeasonSelect(){
+  const wrap=document.getElementById("season-select"); wrap.innerHTML="";
+  [1,2,3,4].forEach(s=>{
+    const btn=document.createElement("button");
+    btn.className="season-btn"+(s===activeSeason?" active":"");
+    btn.textContent=seasonHistory[s].label;
+    btn.onclick=()=>{activeSeason=s;renderSeasonSelect();renderSeasonAwards();};
+    wrap.appendChild(btn);
+  });
+}
+function renderSeasonAwards(){
+  const wrap=document.getElementById("season-awards-content"); wrap.innerHTML="";
+  const h=seasonHistory[activeSeason];
+  const sb=document.createElement("div"); sb.className="sb-banner";
+  sb.innerHTML=`<div class="sb-trophy">🏆</div><div class="sb-info">
+    <div class="sb-label">Super Bowl Champions</div>
+    <div class="sb-champ">${h.sb.champ}</div>
+    <div class="sb-score">Final: ${h.sb.score}</div>
+    <div class="sb-mvp">Super Bowl MVP: ${h.sb.mvp}</div>
+  </div>`;
+  const grid=document.createElement("div"); grid.className="awards-grid";
+  h.awards.filter(a=>a.name!=="Super Bowl MVP").forEach(a=>{
+    const card=document.createElement("div"); card.className="award-card";
+    card.innerHTML=`<div class="award-name">${a.name}</div><div class="award-winner">${a.winner}</div>`;
+    grid.appendChild(card);
+  });
+  wrap.append(sb,grid);
+}
+
+function switchStatsTab(id){
+  const topTabs = document.querySelectorAll(".stats-wrap > .stats-tabs > .stats-tab");
+  topTabs.forEach((t,i)=>{t.classList.toggle("active",["passing","rushing","receiving","defense","fantasy"][i]===id);});
+  document.querySelectorAll(".stats-wrap > .stats-panel").forEach(p=>{p.classList.toggle("active",p.id==="stats-"+id);});
+}
+function switchDefenseTab(id){
+  const defTabs = document.querySelectorAll("#stats-defense > .stats-tabs > .stats-tab");
+  defTabs.forEach((t,i)=>{t.classList.toggle("active",["tackles","interceptions","pressures","swats","sacks","safeties"][i]===id);});
+  document.querySelectorAll("#stats-defense > .stats-panel").forEach(p=>{p.classList.toggle("active",p.id==="def-"+id);});
+}
+function switchHistoryTab(id){
+  document.querySelectorAll(".history-tab").forEach((t,i)=>{t.classList.toggle("active",["seasonal","alltime"][i]===id);});
+  document.querySelectorAll(".history-panel").forEach(p=>{p.classList.toggle("active",p.id==="hist-"+id);});
+}
+
+let isTransitioning = false;
+function navigate(page){
+  if (isTransitioning) return false;
+  const current = document.querySelector(".page.active");
+  const next = document.getElementById("page-"+page);
+  if (!next || next === current) return false;
+
+  document.querySelectorAll(".nav-links a").forEach(a=>a.classList.remove("active"));
+  const l=document.getElementById("nav-"+page); if(l)l.classList.add("active");
+
+  if (!current) {
+    next.classList.add("active");
+    window.scrollTo({top:0,behavior:"smooth"});
+    return false;
+  }
+
+  isTransitioning = true;
+  current.classList.remove("active");
+  current.classList.add("leaving");
+
+  const finishOut = () => {
+    current.classList.remove("leaving");
+    next.classList.add("active");
+    window.scrollTo({top:0,behavior:"smooth"});
+    const finishIn = () => {
+      isTransitioning = false;
+      next.removeEventListener("animationend", finishIn);
+    };
+    next.addEventListener("animationend", finishIn);
+  };
+  current.addEventListener("animationend", finishOut, { once: true });
+
+  return false;
+}
+
+function toggleTheme(){
+  const light=document.documentElement.classList.toggle("light");
+  document.getElementById("theme-icon").className=light?"fas fa-sun":"fas fa-moon";
+}
+
+function fillTable(tableId, rows, rowFn){
+  const tbody = document.querySelector("#"+tableId+" tbody");
+  if(!tbody) return;
+  tbody.innerHTML = rows.map((r,i)=>`<tr><td class="rank">${i+1}</td><td class="player-name${i===0?' lead':''}">${r.name}</td>${rowFn(r)}</tr>`).join("");
+}
+
+function renderStatsTables(){
+  fillTable("table-passing", [...statsPassing].sort((a,b)=>b.yds-a.yds),
+    r=>`<td>${r.pct}%</td><td>${r.yds}</td><td>${r.td}</td><td>${r.int}</td>`);
+
+  fillTable("table-rushing", [...statsRushing].sort((a,b)=>b.yds-a.yds),
+    r=>`<td>${r.car}</td><td>${r.yds}</td><td>${r.td}</td>`);
+
+  fillTable("table-receiving", [...statsReceiving].sort((a,b)=>b.yds-a.yds),
+    r=>`<td>${r.rec}</td><td>${r.yds}</td><td>${r.td}</td>`);
+
+  fillTable("table-fantasy", [...statsFantasy].sort((a,b)=>b.fp-a.fp),
+    r=>`<td>${r.fp}</td>`);
+
+  const defByTkl = statsDefense.filter(r=>r.tkl>0).sort((a,b)=>b.tkl-a.tkl);
+  const tklTbody = document.querySelector("#def-tackles table tbody");
+  tklTbody.innerHTML = defByTkl.map((r,i)=>`<tr><td class="rank">${i+1}</td><td class="player-name${i===0?' lead':''}">${r.name}</td><td>${r.tkl}</td></tr>`).join("");
+
+  const defByInt = statsDefense.filter(r=>r.int>0).sort((a,b)=>b.int-a.int);
+  document.querySelector("#def-interceptions table tbody").innerHTML = defByInt.map((r,i)=>`<tr><td class="rank">${i+1}</td><td class="player-name${i===0?' lead':''}">${r.name}</td><td>${r.int}</td></tr>`).join("");
+
+  const defByPrs = statsDefense.filter(r=>r.prs>0).sort((a,b)=>b.prs-a.prs);
+  document.querySelector("#def-pressures table tbody").innerHTML = defByPrs.map((r,i)=>`<tr><td class="rank">${i+1}</td><td class="player-name${i===0?' lead':''}">${r.name}</td><td>${r.prs}</td></tr>`).join("");
+
+  const defBySwt = statsDefense.filter(r=>r.swt>0).sort((a,b)=>b.swt-a.swt);
+  document.querySelector("#def-swats table tbody").innerHTML = defBySwt.map((r,i)=>`<tr><td class="rank">${i+1}</td><td class="player-name${i===0?' lead':''}">${r.name}</td><td>${r.swt}</td></tr>`).join("");
+
+  const defBySck = statsDefense.filter(r=>r.sck>0).sort((a,b)=>b.sck-a.sck);
+  document.querySelector("#def-sacks table tbody").innerHTML = defBySck.map((r,i)=>`<tr><td class="rank">${i+1}</td><td class="player-name${i===0?' lead':''}">${r.name}</td><td>${r.sck}</td></tr>`).join("");
+
+  const defBySfty = statsDefense.filter(r=>r.sfty>0).sort((a,b)=>b.sfty-a.sfty);
+  document.querySelector("#def-safeties table tbody").innerHTML = defBySfty.map((r,i)=>`<tr><td class="rank">${i+1}</td><td class="player-name${i===0?' lead':''}">${r.name}</td><td>${r.sfty}</td></tr>`).join("");
+}
+
+function renderPlayers(){
+  const grid = document.getElementById("players-grid");
+  const allPlayers = new Set();
+  statsPassing.forEach(p=>allPlayers.add(p.name));
+  statsRushing.forEach(p=>allPlayers.add(p.name));
+  statsReceiving.forEach(p=>allPlayers.add(p.name));
+  statsDefense.forEach(p=>allPlayers.add(p.name));
+  statsFantasy.forEach(p=>allPlayers.add(p.name));
+  Array.from(allPlayers).sort().forEach(name=>{
+    const card = document.createElement("div");
+    card.className = "player-card";
+    card.innerHTML = `<div class="player-name">${name}</div>`;
+    if (name.toLowerCase().includes("owner")) card.innerHTML += `<div class="owner-badge">👑 Owner</div>`;
+    card.onclick = () => showPlayerModal(name);
+    grid.appendChild(card);
+  });
+}
+
+function showPlayerModal(name){
+  const modal = document.getElementById("player-modal");
+  document.getElementById("modal-name").textContent = name;
+  const body = document.getElementById("modal-body");
+  body.innerHTML = `<p style="color:var(--muted);">Full stats for ${name} will be shown here (aggregated from all categories).</p>`;
+  modal.style.display = "flex";
+}
+
+function closeModal(){ document.getElementById("player-modal").style.display = "none"; }
+
+// Initialize
+renderHomeMatchups();
+renderStandings();
+renderTeams();
+renderSchedule();
+renderSeasonSelect();
+renderSeasonAwards();
+renderStatsTables();
+renderPlayers();
+document.getElementById("nav-logo").appendChild(logoEl("MFL","1245791095019929651","sm"));
+document.getElementById("hero-logo").appendChild(logoEl("MFL","1245791095019929651","xl"));
 </script>
 </body>
 </html>
