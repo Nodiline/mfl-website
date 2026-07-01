@@ -551,7 +551,13 @@
 <div id="page-admin" class="page">
   <div class="page-hdr">
     <h1>Staff Admin</h1>
-    <p>Manage rosters, schedule, stats, standings &amp; league history. Changes apply instantly to the live pages.</p>
+    <p>Manage rosters, schedule, stats, standings &amp; league history. Changes apply instantly to the live pages and are saved automatically in this browser.</p>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;">
+      <button class="admin-btn-sm" onclick="mflExportData()"><i class="fas fa-download" style="width:14px"></i> Export Backup (JSON)</button>
+      <button class="admin-btn-sm" onclick="document.getElementById('admin-import-file').click()"><i class="fas fa-upload" style="width:14px"></i> Import Backup (JSON)</button>
+      <input type="file" id="admin-import-file" accept="application/json" style="display:none" onchange="mflImportFile(this)">
+      <span class="admin-help" style="margin:0;">Data auto-saves to this browser only. Export a backup regularly, and use Import to restore it or bring it to another device/browser.</span>
+    </div>
   </div>
   <div class="admin-wrap">
     <div class="admin-sidebar">
@@ -664,7 +670,59 @@
 <footer>MFL &nbsp;·&nbsp; Minecraft Football League &nbsp;·&nbsp; Season 5</footer>
 
 <script>
-const boxscores = {
+// ── PERSISTENCE (saves admin edits into this browser so they survive reloads) ──
+const MFL_STORAGE_PREFIX = "mfl_data_";
+const MFL_DATA_KEYS = ["boxscores","statsPassing","statsRushing","statsReceiving","statsDefense","statsFantasy","teams","standings","schedule","seasonHistory","allTimeAwards","allTimeChampions"];
+function mflLoad(key, fallback){
+  try {
+    const raw = localStorage.getItem(MFL_STORAGE_PREFIX + key);
+    if (raw !== null) return JSON.parse(raw);
+  } catch(e) { console.warn("MFL: couldn't load saved data for", key, e); }
+  return fallback;
+}
+function saveAllData(){
+  try {
+    MFL_DATA_KEYS.forEach(key => {
+      localStorage.setItem(MFL_STORAGE_PREFIX + key, JSON.stringify(window[key]));
+    });
+  } catch(e) { console.warn("MFL: couldn't save data", e); }
+}
+function mflExportData(){
+  const out = {};
+  MFL_DATA_KEYS.forEach(key => out[key] = window[key]);
+  const blob = new Blob([JSON.stringify(out, null, 2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "mfl-data-backup.json";
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+}
+function mflImportFile(input){
+  const file = input.files && input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => { mflImportData(reader.result); input.value = ""; };
+  reader.onerror = () => { alert("Couldn't read that file."); input.value = ""; };
+  reader.readAsText(file);
+}
+function mflImportData(jsonText){
+  let parsed;
+  try { parsed = JSON.parse(jsonText); }
+  catch(e) { alert("Invalid JSON: " + e.message); return; }
+  MFL_DATA_KEYS.forEach(key => {
+    if (parsed[key] !== undefined) {
+      if (Array.isArray(window[key])) { window[key].length = 0; window[key].push(...parsed[key]); }
+      else if (typeof window[key] === "object") { Object.keys(window[key]).forEach(k=>delete window[key][k]); Object.assign(window[key], parsed[key]); }
+    }
+  });
+  sortAllStandings();
+  saveAllData();
+  adminRenderAll();
+  refreshPublicPages();
+  alert("Data imported.");
+}
+
+var boxscores = mflLoad("boxscores", {
   1: [
   {away:"Dolphins",awayScore:28,home:"Guardians",homeScore:44,players:[
     {team:"Guardians",name:"TheRealSlimSh8y",line:"15/33 (45%), 5 Passing TD, 301 Passing YD, 2 INT (O), 13 Rush, 111 Rushing YD, 1 Rushing TD, 2 Tackles",fp:87.6},
@@ -854,9 +912,9 @@ const boxscores = {
     {team:"Guardians",name:"RandomHere",line:"2 Tackles, 1 Sacks, 3 Pressures, 1 INT (D)",fp:32.5}
   ]},
   ],
-};
+});
 
-const statsPassing = [
+var statsPassing = mflLoad("statsPassing", [
   {name:"beefourr",comp:68,att:127,pct:53.5,yds:1888,td:21,int:12},
   {name:"ayvvri",comp:105,att:171,pct:61.4,yds:1784,td:16,int:9},
   {name:"nood",comp:62,att:121,pct:51.2,yds:1518,td:18,int:6},
@@ -890,9 +948,9 @@ const statsPassing = [
   {name:"JigglyUranus",comp:1,att:1,pct:100.0,yds:0,td:0,int:0},
   {name:"GartSlinginShart",comp:0,att:1,pct:0.0,yds:0,td:0,int:0},
   {name:"Disforms",comp:0,att:1,pct:0.0,yds:0,td:0,int:1}
-];
+]);
 
-const statsRushing = [
+var statsRushing = mflLoad("statsRushing", [
   {name:"TheRealSlimSh8y",car:26,yds:169,td:1},
   {name:"nood",car:17,yds:65,td:0},
   {name:"FoxAnuka",car:7,yds:15,td:0},
@@ -917,9 +975,9 @@ const statsRushing = [
   {name:"Henryvz",car:6,yds:-96,td:0},
   {name:"ayvvri",car:25,yds:-118,td:0},
   {name:"TECHhector",car:15,yds:-263,td:0}
-];
+]);
 
-const statsReceiving = [
+var statsReceiving = mflLoad("statsReceiving", [
   {name:"Prodxgy",rec:46,yds:1232,td:13},
   {name:"NotQC1",rec:24,yds:993,td:12},
   {name:"phosphane",rec:50,yds:823,td:5},
@@ -974,9 +1032,9 @@ const statsReceiving = [
   {name:"Robby",rec:1,yds:0,td:0},
   {name:"Dhir",rec:1,yds:0,td:0},
   {name:"kwot",rec:1,yds:0,td:0}
-];
+]);
 
-const statsDefense = [
+var statsDefense = mflLoad("statsDefense", [
   {name:"L8_Knight",tkl:34,int:2,prs:2,swt:4,sck:2,sfty:0},
   {name:"beefourr",tkl:31,int:7,prs:5,swt:3,sck:3,sfty:0},
   {name:"NotQC1",tkl:30,int:1,prs:0,swt:6,sck:0,sfty:0},
@@ -1046,9 +1104,9 @@ const statsDefense = [
   {name:"1e36",tkl:1,int:0,prs:1,swt:0,sck:0,sfty:0},
   {name:"Dhir",tkl:0,int:0,prs:13,swt:0,sck:3,sfty:2},
   {name:"Cxozy",tkl:0,int:1,prs:1,swt:1,sck:1,sfty:0}
-];
+]);
 
-const statsFantasy = [
+var statsFantasy = mflLoad("statsFantasy", [
   {name:"beefourr",fp:495.0},
   {name:"Prodxgy",fp:383.8},
   {name:"nood",fp:347.8},
@@ -1119,9 +1177,9 @@ const statsFantasy = [
   {name:"kwot",fp:4.5},
   {name:"x4nv",fp:2.3},
   {name:"Disforms",fp:0.0}
-];
+]);
 
-const teams = [
+var teams = mflLoad("teams", [
   { name:"Dolphins",   eid:"985605150548832337",  conf:"Overworld", players:["L8 Knight","Bigham","Flamefarter","robby","Deadrr","conl","ilyfade","Peng"] },
   { name:"Guardians",  eid:"991822157258698862",  conf:"Overworld", players:["TomNotTom","Muddydt","Slicky","LDNH","Randomhere"] },
   { name:"Polar Bears",eid:"1058837067343335594", conf:"Overworld", players:["Prodigy","Lustin","Sagil","Creamv","Forestguest"] },
@@ -1134,9 +1192,9 @@ const teams = [
   { name:"Glowsquids", eid:"1404571807939432468", conf:"Underworld",players:["Exabyte","Ayvvri","Phosphane","Buhg"] },
   { name:"Phantoms",   eid:"985319259565609020",  conf:"Underworld",players:["Henryvz","Smoky","Mcnugget","Spej","zolo"] },
   { name:"Ghasts",     eid:"1062965414319116370", conf:"Underworld",players:["Coozy","Ironbug","Cozy","Avoids","Sheerpluto","Xany"] },
-];
+]);
 
-const standings = {
+var standings = mflLoad("standings", {
   Overworld:[
     {name:"Pigs",       w:4,l:0,cw:1,cl:0,pd:+57, badge:"z"},
     {name:"Guardians",  w:2,l:1,cw:1,cl:0,pd:+27, badge:""},
@@ -1153,9 +1211,9 @@ const standings = {
     {name:"Ghasts",     w:1,l:2,cw:0,cl:0,pd:+13, badge:""},
     {name:"Glowsquids", w:1,l:2,cw:0,cl:1,pd:-9,  badge:""},
   ]
-};
+});
 
-const schedule = {
+var schedule = mflLoad("schedule", {
   1:["Dolphins @ Guardians","Polar Bears @ Rams","Pigs @ Foxes","Horsemen @ Dragons","Glowsquids @ Phantoms","Ghasts @ Penguins"],
   2:["Phantoms @ Foxes","Polar Bears @ Penguins","Rams @ Dragons","Glowsquids @ Pigs","Guardians @ Ghasts","Dolphins @ Horsemen"],
   3:["Phantoms @ Guardians","Foxes @ Dragons","Pigs @ Ghasts","Glowsquids @ Dolphins","Penguins @ Rams","Horsemen @ Polar Bears"],
@@ -1163,9 +1221,9 @@ const schedule = {
   5:["Dolphins @ Polar Bears","Guardians @ Rams","Pigs @ Phantoms","Foxes @ Ghasts","Dragons @ Glowsquids","Rams @ Penguins"],
   6:["Foxes @ Polar Bears","Dolphins @ Rams","Guardians @ Dragons","Dolphins @ Horsemen","Glowsquids @ Penguins","Ghasts @ Phantoms"],
   7:["Horsemen @ Foxes","Penguins @ Dolphins","Pigs @ Guardians","Ghasts @ Dragons","Rams @ Phantoms","Polar Bears @ Glowsquids"]
-};
+});
 
-const seasonHistory = {
+var seasonHistory = mflLoad("seasonHistory", {
   1:{
     label:"Season 1 (Legacy)",
     sb:{champ:"Ice Spike Polar Bears",score:"36 – 6",mvp:"Ari"},
@@ -1207,9 +1265,9 @@ const seasonHistory = {
       {name:"Super Bowl MVP",winner:"Phosphane"},
     ]
   }
-};
+});
 
-const allTimeAwards = [
+var allTimeAwards = mflLoad("allTimeAwards", [
   {award:"MVP",          values:["HenryVZ","Ayvvri","Dhir","Pearledd"]},
   {award:"OPOY",         values:["L8 Knight","L8 Knight","L8 Knight","Beefour"]},
   {award:"DPOY",         values:["Spej","Aaden","Ari","Visai"]},
@@ -1221,13 +1279,13 @@ const allTimeAwards = [
   {award:"TCOTY",        values:["Bigham","L8 Knight","—","Mablez"]},
   {award:"Sportsmanship",values:["—","—","—","Visai"]},
   {award:"SB MVP",       values:["Ari","Juadeep","Ari","Phosphane"]},
-];
-const allTimeChampions = [
+]);
+var allTimeChampions = mflLoad("allTimeChampions", [
   {season:"Season 1", tag:"Legacy", champ:"Ice Spike Polar Bears", score:"36 – 6"},
   {season:"Season 2", tag:"Modern", champ:"Ice Spike Polar Bears", score:"28 – 21"},
   {season:"Season 3", tag:"Modern", champ:"Deep Sea Dolphins",     score:"20 – 14"},
   {season:"Season 4", tag:"Modern", champ:"Ancient City Rams",     score:"54 – 47"},
-];
+]);
 
 const palette = ["#166534","#1e40af","#7c3aed","#9a3412","#064e3b","#1e3a5f","#5b21b6","#78350f","#134e4a","#1e3a8a","#6b21a8","#92400e"];
 function getTeam(name){return teams.find(t=>t.name===name);}
@@ -1265,6 +1323,39 @@ function renderHomeMatchups(){
     hr.appendChild(Object.assign(document.createElement("span"),{textContent:home}));
     card.append(ar,sep,hr); el.appendChild(card);
   });
+}
+
+// ── STANDINGS AUTO-SORT: Record → Conference Record → Head-to-Head → Point Differential ──
+function computeHeadToHead(teamA, teamB){
+  let aWins = 0, bWins = 0;
+  Object.values(boxscores).forEach(games => {
+    (games||[]).forEach(g => {
+      const involvesBoth = (g.away===teamA && g.home===teamB) || (g.away===teamB && g.home===teamA);
+      if (!involvesBoth) return;
+      if (g.awayScore === g.homeScore) return;
+      const winner = g.awayScore > g.homeScore ? g.away : g.home;
+      if (winner === teamA) aWins++;
+      else if (winner === teamB) bWins++;
+    });
+  });
+  return aWins - bWins; // positive = teamA better head-to-head
+}
+function compareStandingsRows(a, b){
+  const aPct = (a.w+a.l) ? a.w/(a.w+a.l) : 0;
+  const bPct = (b.w+b.l) ? b.w/(b.w+b.l) : 0;
+  if (bPct !== aPct) return bPct - aPct;
+  const aCPct = (a.cw+a.cl) ? a.cw/(a.cw+a.cl) : 0;
+  const bCPct = (b.cw+b.cl) ? b.cw/(b.cw+b.cl) : 0;
+  if (bCPct !== aCPct) return bCPct - aCPct;
+  const h2h = computeHeadToHead(a.name, b.name);
+  if (h2h !== 0) return -h2h;
+  return (b.pd||0) - (a.pd||0);
+}
+function sortStandings(conf){
+  if (standings[conf]) standings[conf].sort(compareStandingsRows);
+}
+function sortAllStandings(){
+  Object.keys(standings).forEach(sortStandings);
 }
 
 function renderStandings(){
@@ -1946,6 +2037,8 @@ function adminRenderAll(){
 }
 
 function refreshPublicPages(){
+  sortAllStandings();
+  saveAllData();
   renderHomeMatchups();
   renderStandings();
   renderTeams();
@@ -2022,6 +2115,7 @@ function adminDeleteTeam(ti){
 
 // ── ADMIN: STANDINGS ───────────────────────────────────────────────────────
 function adminRenderStandings(){
+  sortAllStandings();
   const wrap = document.getElementById("admin-standings-list"); wrap.innerHTML = "";
   ["Overworld","Underworld"].forEach(conf => {
     const title = document.createElement("div"); title.className = "admin-section-title"; title.textContent = conf + " Conference";
@@ -2063,6 +2157,7 @@ function adminRenderStandings(){
 function adminUpdateStanding(conf, ri, field, val){
   standings[conf][ri][field] = val;
   refreshPublicPages();
+  adminRenderStandings();
 }
 function adminAddStanding(conf){
   standings[conf].push({name:"New Team", w:0,l:0,cw:0,cl:0,pd:0,badge:""});
@@ -2605,6 +2700,7 @@ function adminSaveBoxscoreWeek(){
   }
 }
 
+sortAllStandings();
 renderHomeMatchups();
 renderStandings();
 renderTeams();
