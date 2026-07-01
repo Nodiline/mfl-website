@@ -145,16 +145,21 @@
         .standings-wrap{max-width:1200px;margin:0 auto 72px;padding:0 24px;display:flex;flex-direction:column;gap:32px;}
         .conf-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:10px;}
         .conf-title::after{content:"";flex:1;height:1px;background:var(--border);}
-        .standings-table{width:100%;border-collapse:collapse;background:var(--surface);backdrop-filter:blur(6px);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+        .standings-table{width:100%;border-collapse:collapse;background:var(--surface);backdrop-filter:blur(6px);border:1px solid var(--border);border-radius:12px;overflow:hidden;table-layout:fixed;}
         .standings-table thead tr{border-bottom:1px solid var(--border);background:rgba(0,0,0,0.15);}
         .standings-table th{padding:10px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);text-align:left;}
         .standings-table th:not(:first-child){text-align:center;}
-        .standings-table td{padding:11px 14px;font-size:14px;border-bottom:1px solid var(--border);}
+        .standings-table th:nth-child(1),.standings-table td:nth-child(1){width:44px;}
+        .standings-table th:nth-child(3),.standings-table td:nth-child(3){width:56px;}
+        .standings-table th:nth-child(4),.standings-table td:nth-child(4){width:56px;}
+        .standings-table th:nth-child(5),.standings-table td:nth-child(5){width:88px;}
+        .standings-table th:nth-child(6),.standings-table td:nth-child(6){width:88px;}
+        .standings-table td{padding:11px 14px;font-size:14px;border-bottom:1px solid var(--border);overflow:hidden;}
         .standings-table tbody tr:last-child td{border-bottom:none;}
         .standings-table tbody tr:hover{background:var(--surface2);}
         .standings-table td:not(:first-child){text-align:center;color:var(--muted);font-size:13px;}
         .standings-table td.wins{color:var(--text);font-weight:700;}
-        .td-team{display:flex;align-items:center;gap:10px;font-weight:600;}
+        .td-team{display:flex;align-items:center;gap:10px;font-weight:600;flex-wrap:wrap;}
         .seed-badge{width:18px;height:18px;border-radius:4px;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--surface2);color:var(--muted);}
         .seed-badge.z{background:color-mix(in srgb,var(--accent) 20%,transparent);color:var(--accent);}
         .seed-badge.x{background:color-mix(in srgb,#60a5fa 15%,transparent);color:#60a5fa;}
@@ -298,9 +303,12 @@
         .admin-input{padding:8px 10px;font-size:13px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--text);outline:none;font-family:inherit;min-width:0;}
         .admin-input:focus{border-color:var(--accent);}
         .admin-input.grow{flex:1;}
-        .admin-input.xs{width:54px;text-align:center;}
+        .admin-input.xs{width:68px;text-align:center;}
         .admin-input.sm{width:90px;}
         .admin-input.md{width:140px;}
+        .admin-input[type=number]::-webkit-inner-spin-button,
+        .admin-input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
+        .admin-input[type=number]{-moz-appearance:textfield;}
         .admin-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);white-space:nowrap;}
         .admin-btn-sm{background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:11px;font-weight:700;padding:7px 12px;border-radius:7px;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap;}
         .admin-btn-sm:hover{color:var(--text);border-color:var(--text);}
@@ -625,7 +633,8 @@
           <button class="stats-tab" onclick="switchAdminStatsTab('defense')">Defense</button>
           <button class="stats-tab" onclick="switchAdminStatsTab('fantasy')">Fantasy</button>
         </div>
-        <div class="admin-row" style="justify-content:flex-end;">
+        <div class="admin-row" style="justify-content:space-between;">
+          <input class="admin-input grow" id="admin-stats-search" placeholder="Search player name..." oninput="adminRenderStatsTable()" style="max-width:280px;">
           <button class="admin-btn-sm accent" id="admin-stats-addbtn" onclick="adminAddStatRow()">+ Add Player Row</button>
         </div>
         <div class="admin-table-wrap"><table class="admin-table" id="admin-stats-table"><thead></thead><tbody></tbody></table></div>
@@ -2500,17 +2509,28 @@ function adminRenderStatsTable(){
   const data = schema.arr();
   const thead = document.querySelector("#admin-stats-table thead");
   const tbody = document.querySelector("#admin-stats-table tbody");
+  const searchEl = document.getElementById("admin-stats-search");
+  const q = searchEl ? searchEl.value.trim().toLowerCase() : "";
   thead.innerHTML = `<tr>${schema.fields.map(f=>`<th>${f[1]}</th>`).join("")}<th></th></tr>`;
   tbody.innerHTML = "";
+  let shown = 0;
   data.forEach((row, ri) => {
+    if (q && !(row.name||"").toLowerCase().includes(q)) return;
+    shown++;
     const tr = document.createElement("tr");
     tr.innerHTML = schema.fields.map(([key,label,type]) => {
-      const w = type==="text" ? "sm" : "xs";
+      const w = type==="text" ? "md" : "xs";
       const val = row[key] !== undefined ? row[key] : (type==="number"?0:"");
       return `<td><input class="admin-input ${w}" type="${type}" ${type==='number'?'step="any"':''} value="${val}" onchange="adminUpdateStatRow(${ri},'${key}','${type}',this.value)"></td>`;
     }).join("") + `<td><button class="admin-btn-sm danger" onclick="adminDeleteStatRow(${ri})">✕</button></td>`;
     tbody.appendChild(tr);
   });
+  if (!shown) {
+    const tr = document.createElement("tr");
+    const colspan = schema.fields.length + 1;
+    tr.innerHTML = `<td colspan="${colspan}" style="text-align:center;color:var(--muted);padding:20px;">${q ? `No players matching "${q}"` : "No players yet"}</td>`;
+    tbody.appendChild(tr);
+  }
 }
 function adminUpdateStatRow(ri, key, type, val){
   const data = adminStatsSchemas[adminStatsCat].arr();
