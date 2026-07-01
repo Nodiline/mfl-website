@@ -163,6 +163,7 @@
         .legend{max-width:1200px;margin:-16px auto 40px;padding:0 24px;display:flex;gap:20px;flex-wrap:wrap;}
         .legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);}
         .stats-wrap{max-width:1200px;margin:0 auto 72px;padding:0 24px;}
+        .stats-qualify-note{color:var(--muted);font-size:12px;margin:-8px 0 16px;}
         .stats-tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:0;}
         .stats-tab{padding:8px 16px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s;}
         .stats-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
@@ -410,7 +411,7 @@
 <div id="page-stats" class="page">
   <div class="page-hdr">
     <h1>Stats</h1>
-    <p>Season 5 player statistics — Weeks 1–3 totals.</p>
+    <p>Season 5 Player Statistics</p>
   </div>
   <div class="stats-wrap">
     <div class="stats-tabs">
@@ -420,24 +421,25 @@
       <button class="stats-tab" onclick="switchStatsTab('defense')">Defense</button>
       <button class="stats-tab" onclick="switchStatsTab('fantasy')">Fantasy</button>
     </div>
+    <p class="stats-qualify-note" id="stats-qualify-note"></p>
 
     <div id="stats-passing" class="stats-panel active">
       <table class="data-table" id="table-passing">
-        <thead><tr><th class="rank">#</th><th>Player</th><th>Comp%</th><th>Pass YD</th><th>Pass TD</th><th>INT</th></tr></thead>
+        <thead><tr><th class="rank">#</th><th>Player</th><th>GP</th><th>Comp%</th><th>Pass YD</th><th>Pass TD</th><th>INT</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
 
     <div id="stats-rushing" class="stats-panel">
       <table class="data-table" id="table-rushing">
-        <thead><tr><th class="rank">#</th><th>Player</th><th>Carries</th><th>Rush YD</th><th>Rush TD</th></tr></thead>
+        <thead><tr><th class="rank">#</th><th>Player</th><th>GP</th><th>Carries</th><th>Rush YD</th><th>Rush TD</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
 
     <div id="stats-receiving" class="stats-panel">
       <table class="data-table" id="table-receiving">
-        <thead><tr><th class="rank">#</th><th>Player</th><th>Rec</th><th>Rec YD</th><th>Rec TD</th></tr></thead>
+        <thead><tr><th class="rank">#</th><th>Player</th><th>GP</th><th>Rec</th><th>Rec YD</th><th>Rec TD</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
@@ -452,28 +454,28 @@
         <button class="stats-tab" onclick="switchDefenseTab('safeties')">Safeties</button>
       </div>
       <div id="def-tackles" class="stats-panel active">
-        <table class="data-table"><thead><tr><th class="rank">#</th><th>Player</th><th>Tackles</th></tr></thead><tbody></tbody></table>
+        <table class="data-table"><thead><tr><th class="rank">#</th><th>Player</th><th>GP</th><th>Tackles</th></tr></thead><tbody></tbody></table>
       </div>
       <div id="def-interceptions" class="stats-panel">
-        <table class="data-table"><thead><tr><th class="rank">#</th><th>Player</th><th>Interceptions</th></tr></thead><tbody></tbody></table>
+        <table class="data-table"><thead><tr><th class="rank">#</th><th>Player</th><th>GP</th><th>Interceptions</th></tr></thead><tbody></tbody></table>
       </div>
       <div id="def-pressures" class="stats-panel">
-        <table class="data-table"><thead><tr><th class="rank">#</th><th>Player</th><th>Pressures</th></tr></thead><tbody></tbody></table>
+        <table class="data-table"><thead><tr><th class="rank">#</th><th>Player</th><th>GP</th><th>Pressures</th></tr></thead><tbody></tbody></table>
       </div>
       <div id="def-swats" class="stats-panel">
-        <table class="data-table"><thead><tr><th class="rank">#</th><th>Player</th><th>Swats</th></tr></thead><tbody></tbody></table>
+        <table class="data-table"><thead><tr><th class="rank">#</th><th>Player</th><th>GP</th><th>Swats</th></tr></thead><tbody></tbody></table>
       </div>
       <div id="def-sacks" class="stats-panel">
-        <table class="data-table"><thead><tr><th class="rank">#</th><th>Player</th><th>Sacks</th></tr></thead><tbody></tbody></table>
+        <table class="data-table"><thead><tr><th class="rank">#</th><th>Player</th><th>GP</th><th>Sacks</th></tr></thead><tbody></tbody></table>
       </div>
       <div id="def-safeties" class="stats-panel">
-        <table class="data-table"><thead><tr><th class="rank">#</th><th>Player</th><th>Safeties</th></tr></thead><tbody></tbody></table>
+        <table class="data-table"><thead><tr><th class="rank">#</th><th>Player</th><th>GP</th><th>Safeties</th></tr></thead><tbody></tbody></table>
       </div>
     </div>
 
     <div id="stats-fantasy" class="stats-panel">
       <table class="data-table" id="table-fantasy">
-        <thead><tr><th class="rank">#</th><th>Player</th><th>Fantasy Points</th></tr></thead>
+        <thead><tr><th class="rank">#</th><th>Player</th><th>GP</th><th>Fantasy Points</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
@@ -566,11 +568,15 @@
 
       <!-- IMPORT STATS -->
       <div id="admin-import" class="admin-panel active">
-        <p class="admin-help">Paste a full game recap — team header lines with the final score, followed by each player's stat line (Discord format, including <code>~~strikethrough~~</code> DNP notes, emoji, QBR/XP/2PT tags, and the 👑 top-performer marker) — and it will fill in the schedule, box score, stat leaders, and player pages automatically.</p>
+        <p class="admin-help">Paste a full game recap — team header lines with the final score, followed by each player's stat line (Discord format, including <code>~~strikethrough~~</code> DNP notes, emoji, QBR/XP/2PT tags, and the 👑 top-performer marker) — and it will fill in the schedule, box score, stat leaders, and player pages automatically. Pick the matchup from the schedule below so it's matched to the right game, or leave it on "Detect teams from pasted text" to have it guess from the team header lines.</p>
         <div class="admin-row">
           <span class="admin-label">Week</span>
-          <select id="admin-import-week" class="admin-input sm"></select>
+          <select id="admin-import-week" class="admin-input sm" onchange="adminRenderImportGameOptions()"></select>
           <button class="admin-btn-sm" onclick="adminAddWeekForImport()">+ New Week</button>
+        </div>
+        <div class="admin-row">
+          <span class="admin-label">Game</span>
+          <select id="admin-import-game" class="admin-input md"></select>
         </div>
         <textarea class="admin-textarea" id="admin-import-textarea" spellcheck="false" placeholder="Paste the game recap here, e.g.&#10;Dragons - 48&#10;xHqlo: 11 Rec, 233 Rec YD, 1 Rec TD, ..., FP: 55.8&#10;Penguins - 13&#10;Yaxal: 2 Tackles, 1 Sacks, 8 Pressures, FP: 46.0"></textarea>
         <div class="admin-row">
@@ -1792,24 +1798,47 @@ function fillTable(tableId, rows, rowFn){
   });
 }
 
+const STATS_MIN_GAMES = 2;
+function computeGamesPlayed(){
+  const gp = {};
+  Object.values(boxscores).forEach(weekGames => {
+    weekGames.forEach(game => {
+      game.players.forEach(p => {
+        // Only count it as a game played if they actually recorded a stat line
+        // (skips forfeited/0-stat entries with a blank or placeholder line)
+        if (p.line && /\d/.test(p.line)) {
+          gp[p.name] = (gp[p.name] || 0) + 1;
+        }
+      });
+    });
+  });
+  return gp;
+}
+
 function renderStatsTables(){
-  fillTable("table-passing", [...statsPassing].sort((a,b)=>b.yds-a.yds),
-    r=>`<td>${r.pct}%</td><td>${r.yds}</td><td>${r.td}</td><td>${r.int}</td>`);
+  const gp = computeGamesPlayed();
+  const qualifies = r => (gp[r.name] || 0) >= STATS_MIN_GAMES;
+  const note = document.getElementById("stats-qualify-note");
+  if (note) note.textContent = `Minimum ${STATS_MIN_GAMES} games played to qualify for stat leaderboards.`;
 
-  fillTable("table-rushing", [...statsRushing].sort((a,b)=>b.yds-a.yds),
-    r=>`<td>${r.car}</td><td>${r.yds}</td><td>${r.td}</td>`);
+  fillTable("table-passing", [...statsPassing].filter(qualifies).sort((a,b)=>b.yds-a.yds),
+    r=>`<td>${gp[r.name]||0}</td><td>${r.pct}%</td><td>${r.yds}</td><td>${r.td}</td><td>${r.int}</td>`);
 
-  fillTable("table-receiving", [...statsReceiving].sort((a,b)=>b.yds-a.yds),
-    r=>`<td>${r.rec}</td><td>${r.yds}</td><td>${r.td}</td>`);
+  fillTable("table-rushing", [...statsRushing].filter(qualifies).sort((a,b)=>b.yds-a.yds),
+    r=>`<td>${gp[r.name]||0}</td><td>${r.car}</td><td>${r.yds}</td><td>${r.td}</td>`);
 
-  fillTable("table-fantasy", [...statsFantasy].sort((a,b)=>b.fp-a.fp),
-    r=>`<td>${r.fp}</td>`);
+  fillTable("table-receiving", [...statsReceiving].filter(qualifies).sort((a,b)=>b.yds-a.yds),
+    r=>`<td>${gp[r.name]||0}</td><td>${r.rec}</td><td>${r.yds}</td><td>${r.td}</td>`);
+
+  fillTable("table-fantasy", [...statsFantasy].filter(qualifies).sort((a,b)=>b.fp-a.fp),
+    r=>`<td>${gp[r.name]||0}</td><td>${r.fp}</td>`);
 
   // Make all data-tables sortable
   document.querySelectorAll(".data-table").forEach(makeTableSortable);
 
   // Defense sub-tables, each sorted by its own stat, only including players with >0 in that stat
-  const defByTkl = statsDefense.filter(r=>r.tkl>0).sort((a,b)=>b.tkl-a.tkl);
+  const defQualified = statsDefense.filter(qualifies);
+  const defByTkl = defQualified.filter(r=>r.tkl>0).sort((a,b)=>b.tkl-a.tkl);
   function fillDefTable(selector, data, valKey) {
     const tbody = document.querySelector(selector + " table tbody");
     if (!tbody) return;
@@ -1823,7 +1852,7 @@ function renderStatsTables(){
       const nameTd = document.createElement("td");
       nameTd.className = "player-name player-cell" + (i===0?" lead":"");
       nameTd.appendChild(img); nameTd.appendChild(document.createTextNode(r.name));
-      tr.innerHTML = `<td class="rank">${i+1}</td><td></td><td>${r[valKey]}</td>`;
+      tr.innerHTML = `<td class="rank">${i+1}</td><td></td><td>${gp[r.name]||0}</td><td>${r[valKey]}</td>`;
       tr.cells[1].className = nameTd.className;
       tr.cells[1].appendChild(img); tr.cells[1].appendChild(document.createTextNode(r.name));
       tbody.appendChild(tr);
@@ -1832,19 +1861,19 @@ function renderStatsTables(){
   const tklTbody = document.querySelector("#def-tackles table tbody");
   fillDefTable("#def-tackles", defByTkl, "tkl");
 
-  const defByInt = statsDefense.filter(r=>r.int>0).sort((a,b)=>b.int-a.int);
+  const defByInt = defQualified.filter(r=>r.int>0).sort((a,b)=>b.int-a.int);
   fillDefTable("#def-interceptions", defByInt, "int");
 
-  const defByPrs = statsDefense.filter(r=>r.prs>0).sort((a,b)=>b.prs-a.prs);
+  const defByPrs = defQualified.filter(r=>r.prs>0).sort((a,b)=>b.prs-a.prs);
   fillDefTable("#def-pressures", defByPrs, "prs");
 
-  const defBySwt = statsDefense.filter(r=>r.swt>0).sort((a,b)=>b.swt-a.swt);
+  const defBySwt = defQualified.filter(r=>r.swt>0).sort((a,b)=>b.swt-a.swt);
   fillDefTable("#def-swats", defBySwt, "swt");
 
-  const defBySck = statsDefense.filter(r=>r.sck>0).sort((a,b)=>b.sck-a.sck);
+  const defBySck = defQualified.filter(r=>r.sck>0).sort((a,b)=>b.sck-a.sck);
   fillDefTable("#def-sacks", defBySck, "sck");
 
-  const defBySfty = statsDefense.filter(r=>r.sfty>0).sort((a,b)=>b.sfty-a.sfty);
+  const defBySfty = defQualified.filter(r=>r.sfty>0).sort((a,b)=>b.sfty-a.sfty);
   fillDefTable("#def-safeties", defBySfty, "sfty");
 }
 
@@ -2074,16 +2103,19 @@ function adminRenderSchedule(){
 }
 function adminUpdateGame(week, gi, val){
   schedule[week][gi] = val;
+  adminRenderImportGameOptions();
   refreshPublicPages();
 }
 function adminAddGame(week){
   schedule[week].push("Team A @ Team B");
   adminRenderSchedule();
+  adminRenderImportGameOptions();
   refreshPublicPages();
 }
 function adminDeleteGame(week, gi){
   schedule[week].splice(gi,1);
   adminRenderSchedule();
+  adminRenderImportGameOptions();
   refreshPublicPages();
 }
 function adminAddWeek(){
@@ -2092,6 +2124,7 @@ function adminAddWeek(){
   schedule[next] = [];
   adminRenderSchedule();
   adminRenderBoxscoreWeekOptions();
+  adminRenderImportWeekOptions();
   refreshPublicPages();
 }
 function adminDeleteWeek(week){
@@ -2099,6 +2132,7 @@ function adminDeleteWeek(week){
   delete schedule[week];
   adminRenderSchedule();
   adminRenderBoxscoreWeekOptions();
+  adminRenderImportWeekOptions();
   refreshPublicPages();
 }
 
@@ -2112,6 +2146,18 @@ function adminRenderImportWeekOptions(){
   const weeks = Array.from(new Set([...Object.keys(boxscores), ...Object.keys(schedule)])).map(Number).sort((a,b)=>a-b);
   sel.innerHTML = weeks.map(w => `<option value="${w}">Week ${w}</option>`).join("");
   if (cur && weeks.includes(Number(cur))) sel.value = cur;
+  adminRenderImportGameOptions();
+}
+function adminRenderImportGameOptions(){
+  const weekSel = document.getElementById("admin-import-week");
+  const gameSel = document.getElementById("admin-import-game");
+  if (!weekSel || !gameSel) return;
+  const week = weekSel.value;
+  const games = schedule[week] || [];
+  const cur = gameSel.value;
+  gameSel.innerHTML = `<option value="">— Detect teams from pasted text —</option>` +
+    games.map(g => `<option value="${g}">${g}</option>`).join("");
+  if (cur && games.includes(cur)) gameSel.value = cur;
 }
 function adminAddWeekForImport(){
   const nums = Object.keys(schedule).map(Number);
@@ -2119,6 +2165,7 @@ function adminAddWeekForImport(){
   schedule[next] = [];
   adminRenderImportWeekOptions();
   document.getElementById("admin-import-week").value = next;
+  adminRenderImportGameOptions();
   adminRenderSchedule();
   adminRenderBoxscoreWeekOptions();
   refreshPublicPages();
@@ -2176,10 +2223,19 @@ function adminParseImport(){
   if (!players.length) { errEl.textContent = "No player stat lines with an FP value were found."; return; }
 
   const away = teamBlocks[0], home = teamBlocks[1];
-  const awayTeamObj = findTeamByLooseName(away.rawName);
-  const homeTeamObj = findTeamByLooseName(home.rawName);
-  const awayName = awayTeamObj ? awayTeamObj.name : away.rawName;
-  const homeName = homeTeamObj ? homeTeamObj.name : home.rawName;
+  const gameSel = document.getElementById("admin-import-game");
+  const selectedGame = gameSel ? gameSel.value : "";
+  let awayName, homeName;
+  if (selectedGame) {
+    const g = parseGame(selectedGame);
+    awayName = g.away;
+    homeName = g.home;
+  } else {
+    const awayTeamObj = findTeamByLooseName(away.rawName);
+    const homeTeamObj = findTeamByLooseName(home.rawName);
+    awayName = awayTeamObj ? awayTeamObj.name : away.rawName;
+    homeName = homeTeamObj ? homeTeamObj.name : home.rawName;
+  }
 
   importParsed = {
     away: awayName, home: homeName,
