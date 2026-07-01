@@ -2511,7 +2511,7 @@ function adminRenderStatsTable(){
   const tbody = document.querySelector("#admin-stats-table tbody");
   const searchEl = document.getElementById("admin-stats-search");
   const q = searchEl ? searchEl.value.trim().toLowerCase() : "";
-  thead.innerHTML = `<tr>${schema.fields.map(f=>`<th>${f[1]}</th>`).join("")}<th></th></tr>`;
+  thead.innerHTML = `<tr>${schema.fields.map(f=>`<th>${f[1]}</th>`).join("")}<th></th><th></th></tr>`;
   tbody.innerHTML = "";
   let shown = 0;
   data.forEach((row, ri) => {
@@ -2522,15 +2522,30 @@ function adminRenderStatsTable(){
       const w = type==="text" ? "md" : "xs";
       const val = row[key] !== undefined ? row[key] : (type==="number"?0:"");
       return `<td><input class="admin-input ${w}" type="${type}" ${type==='number'?'step="any"':''} value="${val}" onchange="adminUpdateStatRow(${ri},'${key}','${type}',this.value)"></td>`;
-    }).join("") + `<td><button class="admin-btn-sm danger" onclick="adminDeleteStatRow(${ri})">✕</button></td>`;
+    }).join("")
+      + `<td><button class="admin-btn-sm danger" onclick="adminDeleteStatRow(${ri})" title="Remove just this ${adminStatsCat} row">✕</button></td>`
+      + `<td><button class="admin-btn-sm danger" onclick="adminRemovePlayerEverywhere(${ri})" title="Remove this player from all stat categories (passing, rushing, receiving, defense, fantasy)">Remove Player</button></td>`;
     tbody.appendChild(tr);
   });
   if (!shown) {
     const tr = document.createElement("tr");
-    const colspan = schema.fields.length + 1;
+    const colspan = schema.fields.length + 2;
     tr.innerHTML = `<td colspan="${colspan}" style="text-align:center;color:var(--muted);padding:20px;">${q ? `No players matching "${q}"` : "No players yet"}</td>`;
     tbody.appendChild(tr);
   }
+}
+function adminRemovePlayerEverywhere(ri){
+  const data = adminStatsSchemas[adminStatsCat].arr();
+  const row = data[ri];
+  if (!row) return;
+  const name = row.name;
+  if (!confirm(`Remove "${name}" from ALL stat categories (passing, rushing, receiving, defense, fantasy)? This cannot be undone.`)) return;
+  [statsPassing, statsRushing, statsReceiving, statsDefense, statsFantasy].forEach(arr => {
+    const idx = arr.findIndex(r => r.name === name);
+    if (idx >= 0) arr.splice(idx, 1);
+  });
+  adminRenderStatsTable();
+  refreshPublicPages();
 }
 function adminUpdateStatRow(ri, key, type, val){
   const data = adminStatsSchemas[adminStatsCat].arr();
