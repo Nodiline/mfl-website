@@ -267,6 +267,61 @@
         .modal-player-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border);}
         .modal-fp-badge{background:color-mix(in srgb,var(--accent) 15%,transparent);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);color:var(--accent);font-size:12px;font-weight:700;padding:4px 10px;border-radius:100px;}
 
+        /* ── ADMIN ── */
+        .admin-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:color .15s,background .15s,border-color .15s;flex-shrink:0;}
+        .admin-btn:hover{color:var(--text);background:var(--border);}
+        .admin-btn.unlocked{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 40%,transparent);}
+        #admin-gate-modal{display:none;position:fixed;inset:0;z-index:600;align-items:center;justify-content:center;padding:24px;}
+        #admin-gate-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);}
+        #admin-gate-box{position:relative;z-index:1;background:var(--bg);border:1px solid var(--border);border-radius:16px;max-width:360px;width:100%;padding:28px;text-align:center;}
+        #admin-gate-box i.fa-lock{font-size:22px;color:var(--accent);margin-bottom:10px;}
+        #admin-gate-box h3{font-size:18px;font-weight:800;margin-bottom:6px;}
+        #admin-gate-box p{font-size:13px;color:var(--muted);margin-bottom:18px;}
+        #admin-pass-input{width:100%;padding:11px 14px;font-size:14px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);outline:none;font-family:inherit;text-align:center;letter-spacing:2px;margin-bottom:10px;}
+        #admin-pass-input.shake{animation:shakeX .35s;border-color:#f87171;}
+        @keyframes shakeX{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+        #admin-gate-error{font-size:12px;color:#f87171;margin-bottom:10px;min-height:14px;}
+        .admin-wrap{max-width:1200px;margin:0 auto 72px;padding:0 24px;display:flex;gap:24px;align-items:flex-start;}
+        .admin-sidebar{width:200px;flex-shrink:0;display:flex;flex-direction:column;gap:3px;position:sticky;top:100px;}
+        .admin-tab{text-align:left;padding:10px 14px;font-size:13px;font-weight:600;color:var(--muted);background:transparent;border:1px solid transparent;border-radius:8px;cursor:pointer;transition:all .15s;font-family:inherit;}
+        .admin-tab:hover{background:var(--surface2);color:var(--text);}
+        .admin-tab.active{background:color-mix(in srgb,var(--accent) 12%,transparent);border-color:color-mix(in srgb,var(--accent) 30%,transparent);color:var(--accent);}
+        .admin-main{flex:1;min-width:0;}
+        .admin-panel{display:none;}
+        .admin-panel.active{display:block;animation:fadeInFast .25s ease;}
+        .admin-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin:24px 0 10px;}
+        .admin-section-title:first-child{margin-top:0;}
+        .admin-card{background:var(--surface);backdrop-filter:blur(6px);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:10px;}
+        .admin-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+        .admin-row:last-child{margin-bottom:0;}
+        .admin-input{padding:8px 10px;font-size:13px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--text);outline:none;font-family:inherit;min-width:0;}
+        .admin-input:focus{border-color:var(--accent);}
+        .admin-input.grow{flex:1;}
+        .admin-input.xs{width:54px;text-align:center;}
+        .admin-input.sm{width:90px;}
+        .admin-input.md{width:140px;}
+        .admin-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);white-space:nowrap;}
+        .admin-btn-sm{background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:11px;font-weight:700;padding:7px 12px;border-radius:7px;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap;}
+        .admin-btn-sm:hover{color:var(--text);border-color:var(--text);}
+        .admin-btn-sm.accent{background:var(--accent);color:#000;border-color:var(--accent);}
+        .admin-btn-sm.accent:hover{opacity:.85;color:#000;}
+        .admin-btn-sm.danger{color:#f87171;border-color:color-mix(in srgb,#f87171 35%,transparent);}
+        .admin-btn-sm.danger:hover{background:color-mix(in srgb,#f87171 15%,transparent);color:#f87171;border-color:#f87171;}
+        .admin-chip{display:inline-flex;align-items:center;gap:6px;background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:4px 6px 4px 12px;font-size:12px;}
+        .admin-chip button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+        .admin-chip button:hover{background:var(--border);color:#f87171;}
+        .admin-chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}
+        .admin-table-wrap{overflow-x:auto;}
+        .admin-table{width:100%;border-collapse:collapse;font-size:12px;}
+        .admin-table th{text-align:left;padding:6px 6px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);white-space:nowrap;}
+        .admin-table td{padding:4px 6px;border-top:1px solid var(--border);}
+        .admin-week-block{margin-bottom:18px;}
+        .admin-week-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+        .admin-save-note{font-size:12px;color:var(--accent);display:inline-flex;align-items:center;gap:6px;opacity:0;transition:opacity .2s;}
+        .admin-save-note.show{opacity:1;}
+        .admin-textarea{width:100%;min-height:220px;padding:12px;font-size:12px;font-family:'SF Mono',Consolas,monospace;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);outline:none;resize:vertical;}
+        .admin-help{font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.6;}
+        .admin-logout{margin-top:24px;width:100%;}
     </style>
 </head>
 <body>
@@ -285,11 +340,27 @@
       <li><a href="#" id="nav-schedule"  onclick="return navigate('schedule')"  >Schedule</a></li>
       <li><a href="#" id="nav-history"   onclick="return navigate('history')"      >League History</a></li>
     </ul>
+    <button class="admin-btn" id="admin-nav-btn" onclick="return handleAdminNav()" title="Admin panel">
+      <i class="fas fa-lock" id="admin-nav-icon"></i>
+    </button>
     <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme">
       <i class="fas fa-moon" id="theme-icon"></i>
     </button>
   </div>
 </nav>
+
+<!-- ADMIN PASSWORD GATE -->
+<div id="admin-gate-modal">
+  <div id="admin-gate-backdrop" onclick="closeAdminGate()"></div>
+  <div id="admin-gate-box">
+    <i class="fas fa-lock"></i>
+    <h3>Staff Admin</h3>
+    <p>Enter the staff password to manage league data.</p>
+    <input type="password" id="admin-pass-input" placeholder="Password" autocomplete="off" onkeydown="if(event.key==='Enter')checkAdminPassword()">
+    <div id="admin-gate-error"></div>
+    <button class="admin-btn-sm accent" style="width:100%;padding:11px;font-size:13px;" onclick="checkAdminPassword()">Unlock</button>
+  </div>
+</div>
 
 <!-- HOME -->
 <div id="page-home" class="page active">
@@ -468,31 +539,118 @@
     </div>
     <div id="hist-alltime" class="history-panel">
       <p style="color:var(--muted);font-size:14px;margin-bottom:20px;">Award winners across all MFL seasons.</p>
-      <table class="alltime-table">
-        <thead><tr><th>Award</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th></tr></thead>
-        <tbody>
-          <tr><td><strong>MVP</strong></td><td>HenryVZ</td><td>Ayvvri</td><td>Dhir</td><td>Pearledd</td></tr>
-          <tr><td><strong>OPOY</strong></td><td>L8 Knight</td><td>L8 Knight</td><td>L8 Knight</td><td>Beefour</td></tr>
-          <tr><td><strong>DPOY</strong></td><td>Spej</td><td>Aaden</td><td>Ari</td><td>Visai</td></tr>
-          <tr><td><strong>OROY</strong></td><td>Conl</td><td>Mablez</td><td>Beefour</td><td>Noodle</td></tr>
-          <tr><td><strong>DROY</strong></td><td>HenryVZ</td><td>Paprisun</td><td>Fish</td><td>Noodle</td></tr>
-          <tr><td><strong>LMOTY</strong></td><td>Yaxal</td><td>Ari</td><td>Ari</td><td>Ari</td></tr>
-          <tr><td><strong>MIP</strong></td><td>Ayvvri</td><td>FlameFarter</td><td>Mablez</td><td>Beefour</td></tr>
-          <tr><td><strong>CBPOTY</strong></td><td>Vizo</td><td>TomNotTom</td><td>Dhir</td><td>Dil</td></tr>
-          <tr><td><strong>TCOTY</strong></td><td>Bigham</td><td>L8 Knight</td><td>—</td><td>Mablez</td></tr>
-          <tr><td><strong>Sportsmanship</strong></td><td>—</td><td>—</td><td>—</td><td>Visai</td></tr>
-          <tr><td><strong>SB MVP</strong></td><td>Ari</td><td>Juadeep</td><td>Ari</td><td>Phosphane</td></tr>
-        </tbody>
-      </table>
-      <table class="alltime-table">
-        <thead><tr><th>Season</th><th>Super Bowl Champions</th><th>Score</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Season 1</strong> <span style="color:var(--muted);font-size:12px">Legacy</span></td><td>Ice Spike Polar Bears</td><td>36 – 6</td></tr>
-          <tr><td><strong>Season 2</strong> <span style="color:var(--muted);font-size:12px">Modern</span></td><td>Ice Spike Polar Bears</td><td>28 – 21</td></tr>
-          <tr><td><strong>Season 3</strong> <span style="color:var(--muted);font-size:12px">Modern</span></td><td>Deep Sea Dolphins</td><td>20 – 14</td></tr>
-          <tr><td><strong>Season 4</strong> <span style="color:var(--muted);font-size:12px">Modern</span></td><td>Ancient City Rams</td><td>54 – 47</td></tr>
-        </tbody>
-      </table>
+      <div id="alltime-awards-table"></div>
+      <div id="alltime-champs-table"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="page-admin" class="page">
+  <div class="page-hdr">
+    <h1>Staff Admin</h1>
+    <p>Manage rosters, schedule, stats, standings &amp; league history. Changes apply instantly to the live pages.</p>
+  </div>
+  <div class="admin-wrap">
+    <div class="admin-sidebar">
+      <button class="admin-tab active" onclick="switchAdminTab('import')"><i class="fas fa-paste" style="width:16px"></i> Import Stats</button>
+      <button class="admin-tab" onclick="switchAdminTab('teams')"><i class="fas fa-users" style="width:16px"></i> Teams &amp; Rosters</button>
+      <button class="admin-tab" onclick="switchAdminTab('standings')"><i class="fas fa-list-ol" style="width:16px"></i> Standings</button>
+      <button class="admin-tab" onclick="switchAdminTab('schedule')"><i class="fas fa-calendar" style="width:16px"></i> Schedule</button>
+      <button class="admin-tab" onclick="switchAdminTab('stats')"><i class="fas fa-chart-bar" style="width:16px"></i> Player Stats</button>
+      <button class="admin-tab" onclick="switchAdminTab('history')"><i class="fas fa-trophy" style="width:16px"></i> League History</button>
+      <button class="admin-tab" onclick="switchAdminTab('boxscores')"><i class="fas fa-code" style="width:16px"></i> Box Scores (Advanced)</button>
+      <button class="admin-btn-sm danger admin-logout" onclick="adminLogout()">Log Out</button>
+    </div>
+    <div class="admin-main">
+
+      <!-- IMPORT STATS -->
+      <div id="admin-import" class="admin-panel active">
+        <p class="admin-help">Paste a full game recap — team header lines with the final score, followed by each player's stat line (Discord format, including <code>~~strikethrough~~</code> DNP notes, emoji, QBR/XP/2PT tags, and the 👑 top-performer marker) — and it will fill in the schedule, box score, stat leaders, and player pages automatically.</p>
+        <div class="admin-row">
+          <span class="admin-label">Week</span>
+          <select id="admin-import-week" class="admin-input sm"></select>
+          <button class="admin-btn-sm" onclick="adminAddWeekForImport()">+ New Week</button>
+        </div>
+        <textarea class="admin-textarea" id="admin-import-textarea" spellcheck="false" placeholder="Paste the game recap here, e.g.&#10;Dragons - 48&#10;xHqlo: 11 Rec, 233 Rec YD, 1 Rec TD, ..., FP: 55.8&#10;Penguins - 13&#10;Yaxal: 2 Tackles, 1 Sacks, 8 Pressures, FP: 46.0"></textarea>
+        <div class="admin-row">
+          <button class="admin-btn-sm accent" onclick="adminParseImport()">Parse Recap</button>
+        </div>
+        <div id="admin-import-error" style="color:#f87171;font-size:12px;margin-top:8px;"></div>
+        <div id="admin-import-preview"></div>
+      </div>
+
+      <!-- TEAMS -->
+      <div id="admin-teams" class="admin-panel">
+        <div class="admin-row" style="justify-content:space-between;">
+          <span class="admin-help" style="margin:0;">Edit team info, conference, Discord emoji ID for the logo, and roster players.</span>
+          <button class="admin-btn-sm accent" onclick="adminAddTeam()">+ Add Team</button>
+        </div>
+        <div id="admin-teams-list"></div>
+      </div>
+
+      <!-- STANDINGS -->
+      <div id="admin-standings" class="admin-panel">
+        <p class="admin-help">Edit win/loss records, conference records, point differential, and seed badges (z = #1 seed, x = clinched, e = eliminated, blank = none) for each conference.</p>
+        <div id="admin-standings-list"></div>
+      </div>
+
+      <!-- SCHEDULE -->
+      <div id="admin-schedule" class="admin-panel">
+        <div class="admin-row" style="justify-content:space-between;">
+          <span class="admin-help" style="margin:0;">Edit matchups as "Away Team @ Home Team". Add or remove games and weeks.</span>
+          <button class="admin-btn-sm accent" onclick="adminAddWeek()">+ Add Week</button>
+        </div>
+        <div id="admin-schedule-list"></div>
+      </div>
+
+      <!-- STATS -->
+      <div id="admin-stats" class="admin-panel">
+        <div class="stats-tabs" id="admin-stats-tabs" style="margin-bottom:16px;">
+          <button class="stats-tab active" onclick="switchAdminStatsTab('passing')">Passing</button>
+          <button class="stats-tab" onclick="switchAdminStatsTab('rushing')">Rushing</button>
+          <button class="stats-tab" onclick="switchAdminStatsTab('receiving')">Receiving</button>
+          <button class="stats-tab" onclick="switchAdminStatsTab('defense')">Defense</button>
+          <button class="stats-tab" onclick="switchAdminStatsTab('fantasy')">Fantasy</button>
+        </div>
+        <div class="admin-row" style="justify-content:flex-end;">
+          <button class="admin-btn-sm accent" id="admin-stats-addbtn" onclick="adminAddStatRow()">+ Add Player Row</button>
+        </div>
+        <div class="admin-table-wrap"><table class="admin-table" id="admin-stats-table"><thead></thead><tbody></tbody></table></div>
+      </div>
+
+      <!-- HISTORY -->
+      <div id="admin-history" class="admin-panel">
+        <div class="admin-section-title">Seasonal Awards</div>
+        <div class="admin-row">
+          <span class="admin-label">Season</span>
+          <select id="admin-season-select" class="admin-input" onchange="adminRenderSeasonHistory()"></select>
+          <button class="admin-btn-sm accent" onclick="adminAddSeason()">+ Add New Season</button>
+        </div>
+        <div id="admin-history-content"></div>
+
+        <div class="admin-section-title">All-Time Awards Table</div>
+        <div id="admin-alltime-awards"></div>
+        <button class="admin-btn-sm accent" onclick="adminAddAllTimeAward()">+ Add Award Row</button>
+
+        <div class="admin-section-title">All-Time Super Bowl Champions</div>
+        <div id="admin-alltime-champs"></div>
+        <button class="admin-btn-sm accent" onclick="adminAddChampion()">+ Add Season Champion</button>
+      </div>
+
+      <!-- BOX SCORES (raw JSON) -->
+      <div id="admin-boxscores" class="admin-panel">
+        <p class="admin-help">Advanced: edit the raw box score data for a week as JSON. Each game needs <code>away</code>, <code>awayScore</code>, <code>home</code>, <code>homeScore</code>, and a <code>players</code> array of stat lines. Click "Validate &amp; Save" to apply — invalid JSON will not be saved.</p>
+        <div class="admin-row">
+          <span class="admin-label">Week</span>
+          <select id="admin-bs-week-select" class="admin-input" onchange="adminLoadBoxscoreWeek()"></select>
+          <button class="admin-btn-sm accent" onclick="adminSaveBoxscoreWeek()">Validate &amp; Save</button>
+          <span class="admin-save-note" id="admin-bs-save-note"><i class="fas fa-check"></i> Saved</span>
+        </div>
+        <textarea class="admin-textarea" id="admin-bs-textarea" spellcheck="false"></textarea>
+        <div id="admin-bs-error" style="color:#f87171;font-size:12px;margin-top:8px;"></div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1045,6 +1203,26 @@ const seasonHistory = {
   }
 };
 
+const allTimeAwards = [
+  {award:"MVP",          values:["HenryVZ","Ayvvri","Dhir","Pearledd"]},
+  {award:"OPOY",         values:["L8 Knight","L8 Knight","L8 Knight","Beefour"]},
+  {award:"DPOY",         values:["Spej","Aaden","Ari","Visai"]},
+  {award:"OROY",         values:["Conl","Mablez","Beefour","Noodle"]},
+  {award:"DROY",         values:["HenryVZ","Paprisun","Fish","Noodle"]},
+  {award:"LMOTY",        values:["Yaxal","Ari","Ari","Ari"]},
+  {award:"MIP",          values:["Ayvvri","FlameFarter","Mablez","Beefour"]},
+  {award:"CBPOTY",       values:["Vizo","TomNotTom","Dhir","Dil"]},
+  {award:"TCOTY",        values:["Bigham","L8 Knight","—","Mablez"]},
+  {award:"Sportsmanship",values:["—","—","—","Visai"]},
+  {award:"SB MVP",       values:["Ari","Juadeep","Ari","Phosphane"]},
+];
+const allTimeChampions = [
+  {season:"Season 1", tag:"Legacy", champ:"Ice Spike Polar Bears", score:"36 – 6"},
+  {season:"Season 2", tag:"Modern", champ:"Ice Spike Polar Bears", score:"28 – 21"},
+  {season:"Season 3", tag:"Modern", champ:"Deep Sea Dolphins",     score:"20 – 14"},
+  {season:"Season 4", tag:"Modern", champ:"Ancient City Rams",     score:"54 – 47"},
+];
+
 const palette = ["#166534","#1e40af","#7c3aed","#9a3412","#064e3b","#1e3a5f","#5b21b6","#78350f","#134e4a","#1e3a8a","#6b21a8","#92400e"];
 function getTeam(name){return teams.find(t=>t.name===name);}
 function parseGame(s){const[a,h]=s.split(" @ ");return{away:a.trim(),home:h.trim()};}
@@ -1157,7 +1335,9 @@ function renderSchedule(){
 let activeSeason=4;
 function renderSeasonSelect(){
   const wrap=document.getElementById("season-select"); wrap.innerHTML="";
-  [1,2,3,4].forEach(s=>{
+  const seasonKeys = Object.keys(seasonHistory).map(Number).sort((a,b)=>a-b);
+  if (!seasonKeys.includes(activeSeason)) activeSeason = seasonKeys[seasonKeys.length-1];
+  seasonKeys.forEach(s=>{
     const btn=document.createElement("button");
     btn.className="season-btn"+(s===activeSeason?" active":"");
     btn.textContent=seasonHistory[s].label;
@@ -1182,6 +1362,28 @@ function renderSeasonAwards(){
     grid.appendChild(card);
   });
   wrap.append(sb,grid);
+}
+
+function renderAllTimeTables(){
+  const seasonCols = allTimeAwards.length ? allTimeAwards[0].values.length : 0;
+  const awardsWrap = document.getElementById("alltime-awards-table");
+  if (awardsWrap) {
+    let thead = `<tr><th>Award</th>`;
+    for (let i=0;i<seasonCols;i++) thead += `<th>S${i+1}</th>`;
+    thead += `</tr>`;
+    let rows = allTimeAwards.map(a => {
+      let cells = a.values.map(v => `<td>${v}</td>`).join("");
+      return `<tr><td><strong>${a.award}</strong></td>${cells}</tr>`;
+    }).join("");
+    awardsWrap.innerHTML = `<table class="alltime-table"><thead>${thead}</thead><tbody>${rows}</tbody></table>`;
+  }
+  const champsWrap = document.getElementById("alltime-champs-table");
+  if (champsWrap) {
+    let rows = allTimeChampions.map(c =>
+      `<tr><td><strong>${c.season}</strong> <span style="color:var(--muted);font-size:12px">${c.tag}</span></td><td>${c.champ}</td><td>${c.score}</td></tr>`
+    ).join("");
+    champsWrap.innerHTML = `<table class="alltime-table"><thead><tr><th>Season</th><th>Super Bowl Champions</th><th>Score</th></tr></thead><tbody>${rows}</tbody></table>`;
+  }
 }
 
 function switchStatsTab(id){
@@ -1646,12 +1848,714 @@ function renderStatsTables(){
   fillDefTable("#def-safeties", defBySfty, "sfty");
 }
 
+// ════════════════════════════════════════════════════════════════════════
+// ── ADMIN PANEL ────────────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════════════
+const ADMIN_PASSWORD = "MFLSTAFF1234";
+let adminUnlocked = false;
+
+function handleAdminNav(){
+  if (adminUnlocked) {
+    navigate('admin');
+  } else {
+    openAdminGate();
+  }
+  return false;
+}
+function openAdminGate(){
+  document.getElementById("admin-gate-modal").style.display = "flex";
+  document.getElementById("admin-gate-error").textContent = "";
+  const input = document.getElementById("admin-pass-input");
+  input.value = "";
+  setTimeout(()=>input.focus(), 50);
+}
+function closeAdminGate(){
+  document.getElementById("admin-gate-modal").style.display = "none";
+}
+function checkAdminPassword(){
+  const input = document.getElementById("admin-pass-input");
+  if (input.value === ADMIN_PASSWORD) {
+    adminUnlocked = true;
+    document.getElementById("admin-nav-btn").classList.add("unlocked");
+    document.getElementById("admin-nav-icon").className = "fas fa-lock-open";
+    closeAdminGate();
+    adminRenderAll();
+    navigate('admin');
+  } else {
+    document.getElementById("admin-gate-error").textContent = "Incorrect password.";
+    input.classList.remove("shake"); void input.offsetWidth; input.classList.add("shake");
+  }
+}
+function adminLogout(){
+  adminUnlocked = false;
+  document.getElementById("admin-nav-btn").classList.remove("unlocked");
+  document.getElementById("admin-nav-icon").className = "fas fa-lock";
+  navigate('home');
+}
+document.addEventListener("keydown", e => { if(e.key==="Escape") closeAdminGate(); });
+
+function switchAdminTab(id){
+  document.querySelectorAll(".admin-sidebar > .admin-tab").forEach((t,i)=>{
+    t.classList.toggle("active", ["import","teams","standings","schedule","stats","history","boxscores"][i]===id);
+  });
+  document.querySelectorAll(".admin-main > .admin-panel").forEach(p=>{
+    p.classList.toggle("active", p.id==="admin-"+id);
+  });
+}
+
+function adminRenderAll(){
+  adminRenderImportWeekOptions();
+  adminRenderTeams();
+  adminRenderStandings();
+  adminRenderSchedule();
+  adminRenderSeasonOptions();
+  adminRenderSeasonHistory();
+  adminRenderAllTimeAwards();
+  adminRenderAllTimeChamps();
+  adminRenderBoxscoreWeekOptions();
+  switchAdminStatsTab(adminStatsCat);
+}
+
+function refreshPublicPages(){
+  renderHomeMatchups();
+  renderStandings();
+  renderTeams();
+  renderScheduleWithBoxscores();
+  renderSeasonAwards();
+  renderAllTimeTables();
+  renderStatsTables();
+  renderPlayersPage();
+}
+
+// ── ADMIN: TEAMS & ROSTERS ────────────────────────────────────────────────
+function adminRenderTeams(){
+  const wrap = document.getElementById("admin-teams-list"); wrap.innerHTML = "";
+  teams.forEach((t, ti) => {
+    const card = document.createElement("div"); card.className = "admin-card";
+    const row1 = document.createElement("div"); row1.className = "admin-row";
+    row1.innerHTML = `
+      <span class="admin-label">Name</span>
+      <input class="admin-input md" value="${t.name}" onchange="adminUpdateTeam(${ti},'name',this.value)">
+      <span class="admin-label">Conference</span>
+      <select class="admin-input sm" onchange="adminUpdateTeam(${ti},'conf',this.value)">
+        <option value="Overworld" ${t.conf==='Overworld'?'selected':''}>Overworld</option>
+        <option value="Underworld" ${t.conf==='Underworld'?'selected':''}>Underworld</option>
+      </select>
+      <span class="admin-label">Logo Emoji ID</span>
+      <input class="admin-input md" value="${t.eid||''}" placeholder="Discord emoji ID" onchange="adminUpdateTeam(${ti},'eid',this.value)">
+      <button class="admin-btn-sm danger" onclick="adminDeleteTeam(${ti})">Delete Team</button>
+    `;
+    const rosterLbl = document.createElement("div"); rosterLbl.className = "admin-label"; rosterLbl.style.marginTop = "10px"; rosterLbl.textContent = "Roster";
+    const chips = document.createElement("div"); chips.className = "admin-chips";
+    t.players.forEach((p, pi) => {
+      const chip = document.createElement("span"); chip.className = "admin-chip";
+      chip.innerHTML = `${p} <button onclick="adminRemovePlayer(${ti},${pi})">✕</button>`;
+      chips.appendChild(chip);
+    });
+    const addRow = document.createElement("div"); addRow.className = "admin-row"; addRow.style.marginTop="6px";
+    addRow.innerHTML = `
+      <input class="admin-input grow" placeholder="Add player name..." id="add-player-${ti}" onkeydown="if(event.key==='Enter'){adminAddPlayer(${ti});}">
+      <button class="admin-btn-sm" onclick="adminAddPlayer(${ti})">+ Add Player</button>
+    `;
+    card.append(row1, rosterLbl, chips, addRow);
+    wrap.appendChild(card);
+  });
+}
+function adminUpdateTeam(ti, field, val){
+  teams[ti][field] = val;
+  adminRenderTeams();
+  refreshPublicPages();
+}
+function adminAddPlayer(ti){
+  const input = document.getElementById("add-player-"+ti);
+  const val = input.value.trim();
+  if (!val) return;
+  teams[ti].players.push(val);
+  adminRenderTeams();
+  refreshPublicPages();
+}
+function adminRemovePlayer(ti, pi){
+  teams[ti].players.splice(pi, 1);
+  adminRenderTeams();
+  refreshPublicPages();
+}
+function adminAddTeam(){
+  teams.push({ name:"New Team", eid:"", conf:"Overworld", players:[] });
+  adminRenderTeams();
+  refreshPublicPages();
+}
+function adminDeleteTeam(ti){
+  if (!confirm(`Delete team "${teams[ti].name}"? This cannot be undone.`)) return;
+  teams.splice(ti, 1);
+  adminRenderTeams();
+  refreshPublicPages();
+}
+
+// ── ADMIN: STANDINGS ───────────────────────────────────────────────────────
+function adminRenderStandings(){
+  const wrap = document.getElementById("admin-standings-list"); wrap.innerHTML = "";
+  ["Overworld","Underworld"].forEach(conf => {
+    const title = document.createElement("div"); title.className = "admin-section-title"; title.textContent = conf + " Conference";
+    wrap.appendChild(title);
+    const card = document.createElement("div"); card.className = "admin-card";
+    const tableWrap = document.createElement("div"); tableWrap.className = "admin-table-wrap";
+    const table = document.createElement("table"); table.className = "admin-table";
+    table.innerHTML = `<thead><tr><th>Team</th><th>W</th><th>L</th><th>Conf W</th><th>Conf L</th><th>Point Diff</th><th>Badge</th><th>Note</th><th></th></tr></thead>`;
+    const tbody = document.createElement("tbody");
+    standings[conf].forEach((row, ri) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><input class="admin-input sm" value="${row.name}" onchange="adminUpdateStanding('${conf}',${ri},'name',this.value)"></td>
+        <td><input class="admin-input xs" type="number" value="${row.w}" onchange="adminUpdateStanding('${conf}',${ri},'w',parseInt(this.value)||0)"></td>
+        <td><input class="admin-input xs" type="number" value="${row.l}" onchange="adminUpdateStanding('${conf}',${ri},'l',parseInt(this.value)||0)"></td>
+        <td><input class="admin-input xs" type="number" value="${row.cw}" onchange="adminUpdateStanding('${conf}',${ri},'cw',parseInt(this.value)||0)"></td>
+        <td><input class="admin-input xs" type="number" value="${row.cl}" onchange="adminUpdateStanding('${conf}',${ri},'cl',parseInt(this.value)||0)"></td>
+        <td><input class="admin-input xs" type="number" value="${row.pd}" onchange="adminUpdateStanding('${conf}',${ri},'pd',parseInt(this.value)||0)"></td>
+        <td><select class="admin-input xs" onchange="adminUpdateStanding('${conf}',${ri},'badge',this.value)">
+          <option value="" ${!row.badge?'selected':''}>—</option>
+          <option value="z" ${row.badge==='z'?'selected':''}>Z</option>
+          <option value="x" ${row.badge==='x'?'selected':''}>X</option>
+          <option value="e" ${row.badge==='e'?'selected':''}>E</option>
+        </select></td>
+        <td><input class="admin-input sm" value="${row.note||''}" onchange="adminUpdateStanding('${conf}',${ri},'note',this.value)"></td>
+        <td><button class="admin-btn-sm danger" onclick="adminDeleteStanding('${conf}',${ri})">✕</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    tableWrap.appendChild(table);
+    card.appendChild(tableWrap);
+    const addBtn = document.createElement("button"); addBtn.className = "admin-btn-sm accent"; addBtn.style.marginTop = "10px";
+    addBtn.textContent = "+ Add Team Row"; addBtn.onclick = () => adminAddStanding(conf);
+    card.appendChild(addBtn);
+    wrap.appendChild(card);
+  });
+}
+function adminUpdateStanding(conf, ri, field, val){
+  standings[conf][ri][field] = val;
+  refreshPublicPages();
+}
+function adminAddStanding(conf){
+  standings[conf].push({name:"New Team", w:0,l:0,cw:0,cl:0,pd:0,badge:""});
+  adminRenderStandings();
+  refreshPublicPages();
+}
+function adminDeleteStanding(conf, ri){
+  standings[conf].splice(ri,1);
+  adminRenderStandings();
+  refreshPublicPages();
+}
+
+// ── ADMIN: SCHEDULE ────────────────────────────────────────────────────────
+function adminRenderSchedule(){
+  const wrap = document.getElementById("admin-schedule-list"); wrap.innerHTML = "";
+  Object.keys(schedule).map(Number).sort((a,b)=>a-b).forEach(week => {
+    const block = document.createElement("div"); block.className = "admin-week-block";
+    const hdr = document.createElement("div"); hdr.className = "admin-week-hdr";
+    hdr.innerHTML = `<span class="admin-section-title" style="margin:0;">Week ${week}</span>`;
+    const delWeekBtn = document.createElement("button"); delWeekBtn.className="admin-btn-sm danger"; delWeekBtn.textContent="Delete Week";
+    delWeekBtn.onclick = () => adminDeleteWeek(week);
+    hdr.appendChild(delWeekBtn);
+    const card = document.createElement("div"); card.className = "admin-card";
+    schedule[week].forEach((game, gi) => {
+      const row = document.createElement("div"); row.className = "admin-row";
+      row.innerHTML = `
+        <input class="admin-input grow" value="${game}" placeholder="Away Team @ Home Team" onchange="adminUpdateGame(${week},${gi},this.value)">
+        <button class="admin-btn-sm danger" onclick="adminDeleteGame(${week},${gi})">✕</button>
+      `;
+      card.appendChild(row);
+    });
+    const addBtn = document.createElement("button"); addBtn.className = "admin-btn-sm accent"; addBtn.style.marginTop="6px";
+    addBtn.textContent = "+ Add Game"; addBtn.onclick = () => adminAddGame(week);
+    card.appendChild(addBtn);
+    block.append(hdr, card);
+    wrap.appendChild(block);
+  });
+}
+function adminUpdateGame(week, gi, val){
+  schedule[week][gi] = val;
+  refreshPublicPages();
+}
+function adminAddGame(week){
+  schedule[week].push("Team A @ Team B");
+  adminRenderSchedule();
+  refreshPublicPages();
+}
+function adminDeleteGame(week, gi){
+  schedule[week].splice(gi,1);
+  adminRenderSchedule();
+  refreshPublicPages();
+}
+function adminAddWeek(){
+  const nums = Object.keys(schedule).map(Number);
+  const next = nums.length ? Math.max(...nums)+1 : 1;
+  schedule[next] = [];
+  adminRenderSchedule();
+  adminRenderBoxscoreWeekOptions();
+  refreshPublicPages();
+}
+function adminDeleteWeek(week){
+  if (!confirm(`Delete Week ${week} and all its games?`)) return;
+  delete schedule[week];
+  adminRenderSchedule();
+  adminRenderBoxscoreWeekOptions();
+  refreshPublicPages();
+}
+
+// ── ADMIN: IMPORT STATS (paste a game recap) ───────────────────────────────
+let importParsed = null;
+
+function adminRenderImportWeekOptions(){
+  const sel = document.getElementById("admin-import-week");
+  if (!sel) return;
+  const cur = sel.value;
+  const weeks = Array.from(new Set([...Object.keys(boxscores), ...Object.keys(schedule)])).map(Number).sort((a,b)=>a-b);
+  sel.innerHTML = weeks.map(w => `<option value="${w}">Week ${w}</option>`).join("");
+  if (cur && weeks.includes(Number(cur))) sel.value = cur;
+}
+function adminAddWeekForImport(){
+  const nums = Object.keys(schedule).map(Number);
+  const next = nums.length ? Math.max(...nums)+1 : 1;
+  schedule[next] = [];
+  adminRenderImportWeekOptions();
+  document.getElementById("admin-import-week").value = next;
+  adminRenderSchedule();
+  adminRenderBoxscoreWeekOptions();
+  refreshPublicPages();
+}
+function findTeamByLooseName(name){
+  const clean = (name||"").trim().toLowerCase();
+  return teams.find(t => t.name.toLowerCase() === clean);
+}
+function adminParseImport(){
+  const ta = document.getElementById("admin-import-textarea");
+  const errEl = document.getElementById("admin-import-error");
+  const previewEl = document.getElementById("admin-import-preview");
+  errEl.textContent = "";
+  previewEl.innerHTML = "";
+  importParsed = null;
+
+  const rawLines = ta.value.split("\n").map(l=>l.trim()).filter(l=>l.length>0);
+  if (!rawLines.length) { errEl.textContent = "Paste a game recap first."; return; }
+
+  const headerRe = /^(.+?)\s*-\s*\*{0,2}(-?\d+)\*{0,2}\s*$/;
+  const teamBlocks = [];
+  const players = [];
+  const skipped = [];
+  let curTeamIdx = -1;
+
+  rawLines.forEach(line => {
+    const noEmoji = line.replace(/<a?:\w+:\d+>/g, "").trim();
+    const hMatch = noEmoji.match(headerRe);
+    if (hMatch && !/FP:/i.test(line)) {
+      teamBlocks.push({ rawName: hMatch[1].trim(), score: parseInt(hMatch[2]) });
+      curTeamIdx = teamBlocks.length - 1;
+      return;
+    }
+    let clean = line.replace(/~~/g, "").trim();
+    const pMatch = clean.match(/^([^:]+):\s*(.+)$/);
+    if (!pMatch) { skipped.push(line); return; }
+    const name = pMatch[1].trim();
+    let statsText = pMatch[2].trim();
+    statsText = statsText.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}]/gu, "").trim();
+    const fpMatch = statsText.match(/FP:\s*(-?[\d.]+)/i);
+    if (!fpMatch) { skipped.push(line); return; }
+    const fp = parseFloat(fpMatch[1]);
+    let cleanLine = statsText
+      .replace(/QBR:\s*-?[\d.]+,?\s*/i, "")
+      .replace(/XP:\s*\d+\/\d+,?\s*/i, "")
+      .replace(/2PT:\s*\d+\/\d+,?\s*/i, "")
+      .replace(/FP:\s*-?[\d.]+/i, "")
+      .replace(/,\s*,/g, ",")
+      .replace(/,\s*$/, "")
+      .trim();
+    players.push({ teamIdx: curTeamIdx, name, raw: statsText, line: cleanLine, fp });
+  });
+
+  if (teamBlocks.length < 2) { errEl.textContent = 'Couldn\'t detect two team header lines (e.g. "Dragons - 48"). Check the formatting and try again.'; return; }
+  if (!players.length) { errEl.textContent = "No player stat lines with an FP value were found."; return; }
+
+  const away = teamBlocks[0], home = teamBlocks[1];
+  const awayTeamObj = findTeamByLooseName(away.rawName);
+  const homeTeamObj = findTeamByLooseName(home.rawName);
+  const awayName = awayTeamObj ? awayTeamObj.name : away.rawName;
+  const homeName = homeTeamObj ? homeTeamObj.name : home.rawName;
+
+  importParsed = {
+    away: awayName, home: homeName,
+    awayScore: away.score, homeScore: home.score,
+    players: players.map(p => ({
+      team: p.teamIdx === 0 ? awayName : homeName,
+      name: p.name, line: p.line, fp: p.fp, raw: p.raw
+    })),
+    skipped
+  };
+  renderImportPreview();
+}
+function renderImportPreview(){
+  const previewEl = document.getElementById("admin-import-preview");
+  if (!importParsed) { previewEl.innerHTML = ""; return; }
+  const d = importParsed;
+  const teamOptions = sel => teams.map(t=>`<option value="${t.name}" ${t.name===sel?'selected':''}>${t.name}</option>`).join("");
+  let html = `<div class="admin-card">
+    <div class="admin-row">
+      <span class="admin-label">Away</span>
+      <select class="admin-input sm" onchange="importParsed.away=this.value;renderImportPreview();">${teamOptions(d.away)}</select>
+      <input class="admin-input xs" type="number" value="${d.awayScore}" onchange="importParsed.awayScore=parseInt(this.value)||0">
+      <span class="admin-label">@ Home</span>
+      <select class="admin-input sm" onchange="importParsed.home=this.value;renderImportPreview();">${teamOptions(d.home)}</select>
+      <input class="admin-input xs" type="number" value="${d.homeScore}" onchange="importParsed.homeScore=parseInt(this.value)||0">
+    </div>
+  </div>`;
+  html += `<div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Team</th><th>Player</th><th>Stat Line</th><th>FP</th><th></th></tr></thead><tbody>`;
+  d.players.forEach((p, pi) => {
+    html += `<tr>
+      <td>
+        <select class="admin-input xs" onchange="importParsed.players[${pi}].team=this.value">
+          <option value="${d.away}" ${p.team===d.away?'selected':''}>${d.away}</option>
+          <option value="${d.home}" ${p.team===d.home?'selected':''}>${d.home}</option>
+        </select>
+      </td>
+      <td><input class="admin-input sm" value="${p.name}" onchange="importParsed.players[${pi}].name=this.value"></td>
+      <td><input class="admin-input grow" value="${p.line.replace(/"/g,'&quot;')}" onchange="importParsed.players[${pi}].line=this.value"></td>
+      <td><input class="admin-input xs" type="number" step="any" value="${p.fp}" onchange="importParsed.players[${pi}].fp=parseFloat(this.value)||0"></td>
+      <td><button class="admin-btn-sm danger" onclick="adminRemoveImportPlayer(${pi})">✕</button></td>
+    </tr>`;
+  });
+  html += `</tbody></table></div>`;
+  if (d.skipped.length) {
+    html += `<p class="admin-help" style="margin-top:10px;">Skipped ${d.skipped.length} line(s) with no FP value (e.g. DNP notes):</p><ul style="margin:0 0 10px 18px;color:var(--muted);font-size:12px;">${d.skipped.map(s=>`<li>${s.replace(/</g,'&lt;')}</li>`).join("")}</ul>`;
+  }
+  html += `<div class="admin-row" style="margin-top:6px;">
+    <button class="admin-btn-sm accent" onclick="adminCommitImport()">Add To League</button>
+  </div>`;
+  previewEl.innerHTML = html;
+}
+function adminRemoveImportPlayer(pi){
+  importParsed.players.splice(pi,1);
+  renderImportPreview();
+}
+function adminApplyStatLineToAggregates(name, raw, fp){
+  const get = (pat) => { const m = raw.match(pat); return m ? m[1] : null; };
+  const compAtt = raw.match(/(\d+)\/(\d+)\s*\(([\d.]+)%\)/);
+  const passYd = get(/(\d+)\s+Passing YD/);
+  const passTd = get(/(\d+)\s+Passing TD/);
+  const intO = get(/(\d+)\s+INT \(O\)/);
+  if (compAtt || passYd || passTd || intO) {
+    let row = statsPassing.find(r=>r.name===name);
+    if (!row) { row = {name, comp:0, att:0, pct:0, yds:0, td:0, int:0}; statsPassing.push(row); }
+    if (compAtt) { row.comp += parseInt(compAtt[1]); row.att += parseInt(compAtt[2]); row.pct = row.att ? Math.round(1000*row.comp/row.att)/10 : 0; }
+    if (passYd) row.yds += parseInt(passYd);
+    if (passTd) row.td += parseInt(passTd);
+    if (intO) row.int += parseInt(intO);
+  }
+  const rushCar = get(/(\d+)\s+Rush\b/);
+  const rushYd = raw.match(/(-?\d+)\s+Rushing YD/);
+  const rushTd = get(/(\d+)\s+Rushing TD/);
+  if (rushCar || rushYd || rushTd) {
+    let row = statsRushing.find(r=>r.name===name);
+    if (!row) { row = {name, car:0, yds:0, td:0}; statsRushing.push(row); }
+    if (rushCar) row.car += parseInt(rushCar);
+    if (rushYd) row.yds += parseInt(rushYd[1]);
+    if (rushTd) row.td += parseInt(rushTd);
+  }
+  const rec = get(/(\d+)\s+Rec\b/);
+  const recYd = get(/(\d+)\s+Rec YD/);
+  const recTd = get(/(\d+)\s+Rec TD/);
+  if (rec || recYd || recTd) {
+    let row = statsReceiving.find(r=>r.name===name);
+    if (!row) { row = {name, rec:0, yds:0, td:0}; statsReceiving.push(row); }
+    if (rec) row.rec += parseInt(rec);
+    if (recYd) row.yds += parseInt(recYd);
+    if (recTd) row.td += parseInt(recTd);
+  }
+  const tkl = get(/(\d+)\s+Tackles/);
+  const sck = get(/(\d+)\s+Sacks/);
+  const prs = get(/(\d+)\s+Pressures/);
+  const intD = get(/(\d+)\s+INT \(D\)/);
+  const swt = get(/(\d+)\s+Swats/);
+  const sfty = get(/(\d+)\s+Safeties/);
+  if (tkl || sck || prs || intD || swt || sfty) {
+    let row = statsDefense.find(r=>r.name===name);
+    if (!row) { row = {name, tkl:0, int:0, prs:0, swt:0, sck:0, sfty:0}; statsDefense.push(row); }
+    if (tkl) row.tkl += parseInt(tkl);
+    if (sck) row.sck += parseInt(sck);
+    if (prs) row.prs += parseInt(prs);
+    if (intD) row.int += parseInt(intD);
+    if (swt) row.swt += parseInt(swt);
+    if (sfty) row.sfty += parseInt(sfty);
+  }
+  let fRow = statsFantasy.find(r=>r.name===name);
+  if (!fRow) { fRow = {name, fp:0}; statsFantasy.push(fRow); }
+  fRow.fp = Math.round((fRow.fp + fp)*10)/10;
+}
+function adminCommitImport(){
+  if (!importParsed) return;
+  const week = document.getElementById("admin-import-week").value;
+  const errEl = document.getElementById("admin-import-error");
+  if (!week) { errEl.textContent = "Select a week first."; return; }
+  const d = importParsed;
+  if (!d.players.length) { errEl.textContent = "No player stat lines to import."; return; }
+
+  if (!schedule[week]) schedule[week] = [];
+  const hasMatchup = schedule[week].some(g => {
+    const {away, home} = parseGame(g);
+    return away === d.away && home === d.home;
+  });
+  if (!hasMatchup) schedule[week].push(`${d.away} @ ${d.home}`);
+
+  const gameEntry = {
+    away: d.away, awayScore: d.awayScore,
+    home: d.home, homeScore: d.homeScore,
+    players: d.players.map(p => ({ team: p.team, name: p.name, line: p.line, fp: p.fp }))
+  };
+  if (!boxscores[week]) boxscores[week] = [];
+  const existingIdx = boxscores[week].findIndex(g => g.away === d.away && g.home === d.home);
+  if (existingIdx >= 0) boxscores[week][existingIdx] = gameEntry;
+  else boxscores[week].push(gameEntry);
+
+  d.players.forEach(p => adminApplyStatLineToAggregates(p.name, p.raw, p.fp));
+
+  const summary = `Imported ${d.away} ${d.awayScore} @ ${d.home} ${d.homeScore} (Week ${week}) — ${d.players.length} player stat line(s) added to the schedule, box score, and stat leaders.`;
+  document.getElementById("admin-import-textarea").value = "";
+  importParsed = null;
+  document.getElementById("admin-import-preview").innerHTML = `<p class="admin-help" style="color:var(--accent);">${summary}</p>`;
+  errEl.textContent = "";
+
+  adminRenderImportWeekOptions();
+  adminRenderSchedule();
+  adminRenderBoxscoreWeekOptions();
+  switchAdminStatsTab(adminStatsCat);
+  refreshPublicPages();
+}
+
+// ── ADMIN: PLAYER STATS ────────────────────────────────────────────────────
+const adminStatsSchemas = {
+  passing:   { arr: () => statsPassing,   fields: [["name","Player","text"],["comp","Comp","number"],["att","Att","number"],["pct","Pct%","number"],["yds","Pass YD","number"],["td","Pass TD","number"],["int","INT","number"]] },
+  rushing:   { arr: () => statsRushing,   fields: [["name","Player","text"],["car","Carries","number"],["yds","Rush YD","number"],["td","Rush TD","number"]] },
+  receiving: { arr: () => statsReceiving, fields: [["name","Player","text"],["rec","Rec","number"],["yds","Rec YD","number"],["td","Rec TD","number"]] },
+  defense:   { arr: () => statsDefense,   fields: [["name","Player","text"],["tkl","Tackles","number"],["int","INT","number"],["prs","Pressures","number"],["swt","Swats","number"],["sck","Sacks","number"],["sfty","Safeties","number"]] },
+  fantasy:   { arr: () => statsFantasy,   fields: [["name","Player","text"],["fp","Fantasy Pts","number"]] },
+};
+let adminStatsCat = "passing";
+function switchAdminStatsTab(cat){
+  adminStatsCat = cat;
+  const cats = ["passing","rushing","receiving","defense","fantasy"];
+  document.querySelectorAll("#admin-stats-tabs > .stats-tab").forEach((t,i)=>t.classList.toggle("active", cats[i]===cat));
+  adminRenderStatsTable();
+}
+function adminRenderStatsTable(){
+  const schema = adminStatsSchemas[adminStatsCat];
+  const data = schema.arr();
+  const thead = document.querySelector("#admin-stats-table thead");
+  const tbody = document.querySelector("#admin-stats-table tbody");
+  thead.innerHTML = `<tr>${schema.fields.map(f=>`<th>${f[1]}</th>`).join("")}<th></th></tr>`;
+  tbody.innerHTML = "";
+  data.forEach((row, ri) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = schema.fields.map(([key,label,type]) => {
+      const w = type==="text" ? "sm" : "xs";
+      const val = row[key] !== undefined ? row[key] : (type==="number"?0:"");
+      return `<td><input class="admin-input ${w}" type="${type}" ${type==='number'?'step="any"':''} value="${val}" onchange="adminUpdateStatRow(${ri},'${key}','${type}',this.value)"></td>`;
+    }).join("") + `<td><button class="admin-btn-sm danger" onclick="adminDeleteStatRow(${ri})">✕</button></td>`;
+    tbody.appendChild(tr);
+  });
+}
+function adminUpdateStatRow(ri, key, type, val){
+  const data = adminStatsSchemas[adminStatsCat].arr();
+  data[ri][key] = type==="number" ? (parseFloat(val)||0) : val;
+  refreshPublicPages();
+}
+function adminAddStatRow(){
+  const schema = adminStatsSchemas[adminStatsCat];
+  const data = schema.arr();
+  const newRow = {};
+  schema.fields.forEach(([key,label,type]) => { newRow[key] = type==="number" ? 0 : ""; });
+  data.push(newRow);
+  adminRenderStatsTable();
+  refreshPublicPages();
+}
+function adminDeleteStatRow(ri){
+  const data = adminStatsSchemas[adminStatsCat].arr();
+  data.splice(ri,1);
+  adminRenderStatsTable();
+  refreshPublicPages();
+}
+
+// ── ADMIN: LEAGUE HISTORY ──────────────────────────────────────────────────
+function adminRenderSeasonOptions(){
+  const sel = document.getElementById("admin-season-select");
+  const cur = sel.value;
+  sel.innerHTML = Object.keys(seasonHistory).sort((a,b)=>a-b).map(s =>
+    `<option value="${s}">${seasonHistory[s].label}</option>`).join("");
+  if (cur && seasonHistory[cur]) sel.value = cur;
+}
+function adminRenderSeasonHistory(){
+  const sel = document.getElementById("admin-season-select");
+  const s = sel.value || Object.keys(seasonHistory)[0];
+  if (!s) { document.getElementById("admin-history-content").innerHTML = "<p class='admin-help'>No seasons yet.</p>"; return; }
+  sel.value = s;
+  const h = seasonHistory[s];
+  const wrap = document.getElementById("admin-history-content"); wrap.innerHTML = "";
+  const card = document.createElement("div"); card.className = "admin-card";
+  card.innerHTML = `
+    <div class="admin-row">
+      <span class="admin-label">Label</span>
+      <input class="admin-input md" value="${h.label}" onchange="adminUpdateSeasonField('${s}','label',this.value)">
+      <button class="admin-btn-sm danger" onclick="adminDeleteSeason('${s}')">Delete Season</button>
+    </div>
+    <div class="admin-row">
+      <span class="admin-label">SB Champion</span>
+      <input class="admin-input md" value="${h.sb.champ}" onchange="adminUpdateSeasonSb('${s}','champ',this.value)">
+      <span class="admin-label">Score</span>
+      <input class="admin-input sm" value="${h.sb.score}" onchange="adminUpdateSeasonSb('${s}','score',this.value)">
+      <span class="admin-label">SB MVP</span>
+      <input class="admin-input sm" value="${h.sb.mvp}" onchange="adminUpdateSeasonSb('${s}','mvp',this.value)">
+    </div>
+  `;
+  const awardsLbl = document.createElement("div"); awardsLbl.className = "admin-label"; awardsLbl.style.margin = "10px 0 6px"; awardsLbl.textContent = "Awards";
+  const awardsWrap = document.createElement("div");
+  h.awards.forEach((a, ai) => {
+    const row = document.createElement("div"); row.className = "admin-row";
+    row.innerHTML = `
+      <input class="admin-input sm" value="${a.name}" placeholder="Award name" onchange="adminUpdateSeasonAward('${s}',${ai},'name',this.value)">
+      <input class="admin-input sm" value="${a.winner}" placeholder="Winner" onchange="adminUpdateSeasonAward('${s}',${ai},'winner',this.value)">
+      <button class="admin-btn-sm danger" onclick="adminDeleteSeasonAward('${s}',${ai})">✕</button>
+    `;
+    awardsWrap.appendChild(row);
+  });
+  const addAwardBtn = document.createElement("button"); addAwardBtn.className = "admin-btn-sm accent"; addAwardBtn.style.marginTop="6px";
+  addAwardBtn.textContent = "+ Add Award"; addAwardBtn.onclick = () => adminAddSeasonAward(s);
+  card.append(awardsLbl, awardsWrap, addAwardBtn);
+  wrap.appendChild(card);
+}
+function adminUpdateSeasonField(s, field, val){ seasonHistory[s][field] = val; renderSeasonSelect(); refreshPublicPages(); }
+function adminUpdateSeasonSb(s, field, val){ seasonHistory[s].sb[field] = val; refreshPublicPages(); }
+function adminUpdateSeasonAward(s, ai, field, val){ seasonHistory[s].awards[ai][field] = val; refreshPublicPages(); }
+function adminAddSeasonAward(s){ seasonHistory[s].awards.push({name:"New Award", winner:""}); adminRenderSeasonHistory(); refreshPublicPages(); }
+function adminDeleteSeasonAward(s, ai){ seasonHistory[s].awards.splice(ai,1); adminRenderSeasonHistory(); refreshPublicPages(); }
+function adminAddSeason(){
+  const nums = Object.keys(seasonHistory).map(Number).filter(n=>!isNaN(n));
+  const next = nums.length ? Math.max(...nums)+1 : 1;
+  seasonHistory[next] = { label:`Season ${next} (Modern)`, sb:{champ:"",score:"",mvp:""}, awards:[] };
+  adminRenderSeasonOptions();
+  document.getElementById("admin-season-select").value = next;
+  adminRenderSeasonHistory();
+  renderSeasonSelect();
+  refreshPublicPages();
+}
+function adminDeleteSeason(s){
+  if (Object.keys(seasonHistory).length <= 1) { alert("At least one season must remain."); return; }
+  if (!confirm(`Delete ${seasonHistory[s].label}?`)) return;
+  delete seasonHistory[s];
+  adminRenderSeasonOptions();
+  adminRenderSeasonHistory();
+  activeSeason = Object.keys(seasonHistory).map(Number)[0];
+  renderSeasonSelect();
+  refreshPublicPages();
+}
+
+function adminRenderAllTimeAwards(){
+  const wrap = document.getElementById("admin-alltime-awards"); wrap.innerHTML = "";
+  const card = document.createElement("div"); card.className = "admin-card";
+  allTimeAwards.forEach((a, ai) => {
+    const row = document.createElement("div"); row.className = "admin-row";
+    let inputs = `<input class="admin-input sm" value="${a.award}" placeholder="Award" onchange="adminUpdateAllTimeAward(${ai},-1,this.value)">`;
+    a.values.forEach((v, vi) => {
+      inputs += `<input class="admin-input xs" value="${v}" onchange="adminUpdateAllTimeAward(${ai},${vi},this.value)">`;
+    });
+    row.innerHTML = inputs + `<button class="admin-btn-sm danger" onclick="adminDeleteAllTimeAward(${ai})">✕</button>`;
+    card.appendChild(row);
+  });
+  wrap.appendChild(card);
+}
+function adminUpdateAllTimeAward(ai, vi, val){
+  if (vi === -1) allTimeAwards[ai].award = val;
+  else allTimeAwards[ai].values[vi] = val;
+  refreshPublicPages();
+}
+function adminAddAllTimeAward(){
+  const seasonCols = allTimeAwards.length ? allTimeAwards[0].values.length : allTimeChampions.length;
+  allTimeAwards.push({ award:"New Award", values: Array(seasonCols).fill("—") });
+  adminRenderAllTimeAwards();
+  refreshPublicPages();
+}
+function adminDeleteAllTimeAward(ai){
+  allTimeAwards.splice(ai,1);
+  adminRenderAllTimeAwards();
+  refreshPublicPages();
+}
+
+function adminRenderAllTimeChamps(){
+  const wrap = document.getElementById("admin-alltime-champs"); wrap.innerHTML = "";
+  const card = document.createElement("div"); card.className = "admin-card";
+  allTimeChampions.forEach((c, ci) => {
+    const row = document.createElement("div"); row.className = "admin-row";
+    row.innerHTML = `
+      <input class="admin-input sm" value="${c.season}" placeholder="Season" onchange="adminUpdateAllTimeChamp(${ci},'season',this.value)">
+      <input class="admin-input xs" value="${c.tag}" placeholder="Tag" onchange="adminUpdateAllTimeChamp(${ci},'tag',this.value)">
+      <input class="admin-input md" value="${c.champ}" placeholder="Champion team" onchange="adminUpdateAllTimeChamp(${ci},'champ',this.value)">
+      <input class="admin-input sm" value="${c.score}" placeholder="Score" onchange="adminUpdateAllTimeChamp(${ci},'score',this.value)">
+      <button class="admin-btn-sm danger" onclick="adminDeleteAllTimeChamp(${ci})">✕</button>
+    `;
+    card.appendChild(row);
+  });
+  wrap.appendChild(card);
+}
+function adminUpdateAllTimeChamp(ci, field, val){ allTimeChampions[ci][field] = val; refreshPublicPages(); }
+function adminAddChampion(){
+  allTimeChampions.push({season:`Season ${allTimeChampions.length+1}`, tag:"Modern", champ:"", score:""});
+  adminRenderAllTimeChamps();
+  refreshPublicPages();
+}
+function adminDeleteAllTimeChamp(ci){
+  allTimeChampions.splice(ci,1);
+  adminRenderAllTimeChamps();
+  refreshPublicPages();
+}
+
+// ── ADMIN: BOX SCORES (raw JSON, advanced) ─────────────────────────────────
+function adminRenderBoxscoreWeekOptions(){
+  const sel = document.getElementById("admin-bs-week-select");
+  const cur = sel.value;
+  const weeks = Array.from(new Set([...Object.keys(boxscores), ...Object.keys(schedule)])).map(Number).sort((a,b)=>a-b);
+  sel.innerHTML = weeks.map(w => `<option value="${w}">Week ${w}</option>`).join("");
+  if (cur && weeks.includes(Number(cur))) sel.value = cur;
+  adminLoadBoxscoreWeek();
+}
+function adminLoadBoxscoreWeek(){
+  const sel = document.getElementById("admin-bs-week-select");
+  const week = sel.value;
+  const data = boxscores[week] || [];
+  document.getElementById("admin-bs-textarea").value = JSON.stringify(data, null, 2);
+  document.getElementById("admin-bs-error").textContent = "";
+}
+function adminSaveBoxscoreWeek(){
+  const sel = document.getElementById("admin-bs-week-select");
+  const week = sel.value;
+  const ta = document.getElementById("admin-bs-textarea");
+  const errEl = document.getElementById("admin-bs-error");
+  try {
+    const parsed = JSON.parse(ta.value);
+    if (!Array.isArray(parsed)) throw new Error("Top-level JSON must be an array of games.");
+    boxscores[week] = parsed;
+    errEl.textContent = "";
+    const note = document.getElementById("admin-bs-save-note");
+    note.classList.add("show");
+    setTimeout(()=>note.classList.remove("show"), 1800);
+    refreshPublicPages();
+  } catch (e) {
+    errEl.textContent = "Invalid JSON: " + e.message;
+  }
+}
+
 renderHomeMatchups();
 renderStandings();
 renderTeams();
 renderScheduleWithBoxscores();
 renderSeasonSelect();
 renderSeasonAwards();
+renderAllTimeTables();
 renderStatsTables();
 renderPlayersPage();
 document.getElementById("nav-logo").appendChild(logoEl("MFL","1245791095019929651","sm"));
